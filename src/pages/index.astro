@@ -1,0 +1,41 @@
+---
+import { defaultLang, languages } from '@/i18n/utils';
+import type { Lang } from '@/i18n/ui';
+
+export const prerender = false;
+
+const supported = Object.keys(languages) as Lang[];
+
+function pickLangFromAcceptLanguage(header: string | null): Lang | null {
+  if (!header) return null;
+  const candidates = header
+    .split(',')
+    .map((part) => {
+      const [tag, ...params] = part.trim().split(';');
+      const q = params
+        .map((p) => p.trim().split('='))
+        .find(([k]) => k === 'q');
+      const quality = q ? parseFloat(q[1]) : 1;
+      return { tag: tag.toLowerCase(), quality: isNaN(quality) ? 1 : quality };
+    })
+    .sort((a, b) => b.quality - a.quality);
+  for (const { tag } of candidates) {
+    const primary = tag.split('-')[0];
+    if (supported.includes(primary as Lang)) return primary as Lang;
+  }
+  return null;
+}
+
+const cookieLang = Astro.cookies.get('preferred-lang')?.value;
+const fromCookie = supported.includes(cookieLang as Lang) ? (cookieLang as Lang) : null;
+const fromHeader = pickLangFromAcceptLanguage(Astro.request.headers.get('accept-language'));
+const target: Lang = fromCookie ?? fromHeader ?? defaultLang;
+
+Astro.cookies.set('preferred-lang', target, {
+  path: '/',
+  maxAge: 60 * 60 * 24 * 365,
+  sameSite: 'lax',
+});
+
+return Astro.redirect(`/${target}/`);
+---
