@@ -1,13 +1,14 @@
 ---
-import { Image } from 'astro:assets';
-import { getCollection, render, type CollectionEntry } from 'astro:content';
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import { useTranslations, splitEntryId, getTranslatedEntry, filterByLang } from '@/i18n/utils';
-import { sectionPath, entryPath } from '@/i18n/routes';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import ArticleLayout from '@/layouts/ArticleLayout.astro';
+import { splitEntryId, getTranslatedEntry, filterByLang } from '@/i18n/utils';
+import { entryPath } from '@/i18n/routes';
 
 export async function getStaticPaths() {
   const lang = 'es' as const;
-  const posts = filterByLang(await getCollection('blog'), lang).filter((p) => !p.data.draft);
+  const posts = filterByLang(await getCollection('blog'), lang).filter(
+    (p) => !p.data.draft,
+  );
   return posts.map((post) => ({
     params: { slug: splitEntryId(post.id).slug },
     props: { post },
@@ -16,13 +17,6 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props as { post: CollectionEntry<'blog'> };
 const lang = 'es' as const;
-const t = useTranslations(lang);
-const { Content } = await render(post);
-const key = post.data.translationKey;
-
-const dateFormat = new Intl.DateTimeFormat('es-ES', {
-  year: 'numeric', month: 'long', day: 'numeric',
-});
 
 const translated = await getTranslatedEntry('blog', post, 'en');
 const altUrl = translated
@@ -30,49 +24,4 @@ const altUrl = translated
   : null;
 ---
 
-<BaseLayout
-  title={`${post.data.title} — Elías Ablán`}
-  description={post.data.description}
-  altLangHref={altUrl}
->
-  <article class="mx-auto max-w-3xl px-4 py-12">
-    <a href={sectionPath(lang, 'blog')} class="text-sm text-muted-foreground hover:text-foreground">
-      {t('blog.back')}
-    </a>
-
-    <header class="mt-6 space-y-4">
-      <h1 class="text-4xl font-bold tracking-tight" transition:name={`post-${key}-title`}>
-        {post.data.title}
-      </h1>
-      <p class="text-lg text-muted-foreground">
-        <span transition:name={`post-${key}-description`}>{post.data.description}</span>
-      </p>
-      <time
-        class="block text-xs uppercase tracking-wider text-muted-foreground"
-        datetime={post.data.publishedAt.toISOString()}
-        transition:name={`post-${key}-date`}
-      >
-        {dateFormat.format(post.data.publishedAt)}
-      </time>
-    </header>
-
-    {
-      post.data.cover && (
-        <div class="mt-8 aspect-video w-full overflow-hidden rounded-lg bg-muted">
-          <Image
-            src={post.data.cover}
-            alt={post.data.coverAlt ?? post.data.title}
-            widths={[600, 1200]}
-            sizes="(max-width: 768px) 100vw, 800px"
-            class="h-full w-full object-cover"
-            transition:name={`post-${key}-cover`}
-          />
-        </div>
-      )
-    }
-
-    <div class="prose prose-neutral dark:prose-invert mt-10 max-w-none">
-      <Content />
-    </div>
-  </article>
-</BaseLayout>
+<ArticleLayout post={post} lang={lang} altLangHref={altUrl} />
