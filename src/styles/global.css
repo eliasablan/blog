@@ -67,13 +67,6 @@
   --on-accent: var(--black);
 }
 
-@theme {
-  --font-serif: "IBM Plex Serif", "Iowan Old Style", Georgia, serif;
-  --font-mono: "IBM Plex Mono", "SF Mono", Menlo, Consolas, "Liberation Mono",
-    monospace;
-  --font-sans: "IBM Plex Serif", "Iowan Old Style", Georgia, serif;
-}
-
 @theme inline {
   /* Flexoki raw */
   --color-paper: var(--paper);
