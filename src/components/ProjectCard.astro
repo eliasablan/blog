@@ -1,0 +1,60 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import type { Lang } from '@/i18n/ui';
+import { splitEntryId } from '@/i18n/utils';
+import { sectionPath } from '@/i18n/routes';
+import Card from '@/components/starwind/Card.astro';
+
+interface Props {
+  project: CollectionEntry<'portfolio'>;
+  lang: Lang;
+}
+
+const { project, lang } = Astro.props;
+const { slug } = splitEntryId(project.id);
+const href = `${sectionPath(lang, 'portfolio')}/${slug}`;
+const key = project.data.translationKey;
+---
+
+<Card hover>
+  <a href={href} class="block">
+    <div class="aspect-video w-full overflow-hidden bg-muted">
+      <Image
+        src={project.data.cover}
+        alt={project.data.coverAlt ?? project.data.title}
+        widths={[400, 800]}
+        sizes="(max-width: 768px) 100vw, 50vw"
+        class="h-full w-full object-cover"
+        transition:name={`project-${key}-cover`}
+      />
+    </div>
+    <div class="p-5 space-y-3">
+      <div class="flex items-baseline justify-between gap-3">
+        <h3 class="text-lg font-semibold leading-tight" transition:name={`project-${key}-title`}>
+          {project.data.title}
+        </h3>
+        <span
+          class="text-xs uppercase tracking-wider text-muted-foreground"
+          transition:name={`project-${key}-year`}
+        >
+          {project.data.year}
+        </span>
+      </div>
+      <p class="text-sm text-muted-foreground line-clamp-2">
+        <span transition:name={`project-${key}-description`}>{project.data.description}</span>
+      </p>
+      {
+        project.data.tech.length > 0 && (
+          <ul class="flex flex-wrap gap-1.5 pt-1">
+            {project.data.tech.slice(0, 4).map((t) => (
+              <li class="rounded-full bg-accent px-2 py-0.5 text-[10px] uppercase tracking-wider text-accent-foreground">
+                {t}
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </a>
+</Card>

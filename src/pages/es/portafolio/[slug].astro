@@ -1,0 +1,101 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Button from '@/components/starwind/Button.astro';
+import {
+  useTranslations,
+  splitEntryId,
+  getTranslatedEntry,
+  filterByLang,
+} from '@/i18n/utils';
+import { sectionPath, entryPath } from '@/i18n/routes';
+
+export async function getStaticPaths() {
+  const lang = 'es' as const;
+  const projects = filterByLang(await getCollection('portfolio'), lang);
+  return projects.map((project) => ({
+    params: { slug: splitEntryId(project.id).slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props as { project: CollectionEntry<'portfolio'> };
+const lang = 'es' as const;
+const t = useTranslations(lang);
+const { Content } = await render(project);
+const key = project.data.translationKey;
+
+const translated = await getTranslatedEntry('portfolio', project, 'en');
+const altUrl = translated
+  ? entryPath('en', 'portfolio', splitEntryId(translated.id).slug)
+  : null;
+---
+
+<BaseLayout
+  title={`${project.data.title} — Elías Ablán`}
+  description={project.data.description}
+  altLangHref={altUrl}
+>
+  <article class="mx-auto max-w-3xl px-4 py-12">
+    <a href={sectionPath(lang, 'portfolio')} class="text-sm text-muted-foreground hover:text-foreground">
+      {t('portfolio.back')}
+    </a>
+
+    <header class="mt-6 space-y-4">
+      <div class="flex items-baseline justify-between gap-3">
+        <h1 class="text-4xl font-bold tracking-tight" transition:name={`project-${key}-title`}>
+          {project.data.title}
+        </h1>
+        <span class="text-sm text-muted-foreground" transition:name={`project-${key}-year`}>
+          {project.data.year}
+        </span>
+      </div>
+      <p class="text-lg text-muted-foreground">
+        <span transition:name={`project-${key}-description`}>{project.data.description}</span>
+      </p>
+      {
+        project.data.tech.length > 0 && (
+          <ul class="flex flex-wrap gap-2 pt-2">
+            {project.data.tech.map((tech) => (
+              <li class="rounded-full bg-accent px-2.5 py-1 text-xs uppercase tracking-wider text-accent-foreground">
+                {tech}
+              </li>
+            ))}
+          </ul>
+        )
+      }
+      {
+        (project.data.demo || project.data.repo) && (
+          <div class="flex flex-wrap gap-3 pt-2">
+            {project.data.demo && (
+              <Button href={project.data.demo} variant="primary" size="sm">
+                {t('portfolio.demo')}
+              </Button>
+            )}
+            {project.data.repo && (
+              <Button href={project.data.repo} variant="outline" size="sm">
+                {t('portfolio.repo')}
+              </Button>
+            )}
+          </div>
+        )
+      }
+    </header>
+
+    <div class="mt-8 aspect-video w-full overflow-hidden rounded-lg bg-muted">
+      <Image
+        src={project.data.cover}
+        alt={project.data.coverAlt ?? project.data.title}
+        widths={[600, 1200]}
+        sizes="(max-width: 768px) 100vw, 800px"
+        class="h-full w-full object-cover"
+        transition:name={`project-${key}-cover`}
+      />
+    </div>
+
+    <div class="prose prose-neutral dark:prose-invert mt-10 max-w-none">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
