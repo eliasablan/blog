@@ -1,7 +1,7 @@
 ---
 import type { Lang } from '@/i18n/ui';
-import AboutEs, { frontmatter as fmEs } from '@/content/home/about.es.mdx';
-import AboutEn, { frontmatter as fmEn } from '@/content/home/about.en.mdx';
+import AboutEs from '@/content/home/about.es.mdx';
+import AboutEn from '@/content/home/about.en.mdx';
 
 interface Props {
   lang: Lang;
@@ -9,12 +9,49 @@ interface Props {
 
 const { lang } = Astro.props;
 const Content = lang === 'es' ? AboutEs : AboutEn;
-const { headline } = lang === 'es' ? fmEs : fmEn;
 ---
 
-<section id="about" class="mx-auto max-w-3xl px-4 py-16">
-  <h2 class="mb-4 text-3xl font-bold tracking-tight">{headline}</h2>
-  <div class="prose prose-neutral dark:prose-invert max-w-none">
+<section id="about" class="about">
+  <div class="prose">
     <Content />
   </div>
+  <hr class="intro-rule" />
 </section>
+
+<style>
+  .about {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .about .prose :global(p) {
+    font-size: 18px;
+    line-height: 1.7;
+    margin: 0 0 24px;
+    color: var(--tx);
+  }
+  .about .prose :global(p:last-child) {
+    margin-bottom: 0;
+  }
+  .about .prose :global(strong) {
+    font-weight: 600;
+  }
+  .about .prose :global(em) {
+    font-style: italic;
+  }
+  .about .prose :global(a) {
+    color: var(--accent);
+  }
+  .intro-rule {
+    border: 0;
+    height: 1px;
+    background: var(--rule);
+    width: 60px;
+    margin: 48px auto 0;
+  }
+  @media (max-width: 600px) {
+    .about {
+      padding: 0 20px;
+    }
+  }
+</style>

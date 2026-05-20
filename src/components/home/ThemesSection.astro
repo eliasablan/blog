@@ -1,0 +1,79 @@
+---
+import type { Lang } from '@/i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const themesEs = [
+  'Desarrollo web',
+  'Redes e infraestructura',
+  'Inteligencia artificial',
+  'Workflows y automatización',
+  'Self-hosting',
+  'Hardware',
+  'Herramientas de pensamiento',
+];
+const themesEn = [
+  'Web development',
+  'Networks & infrastructure',
+  'Artificial intelligence',
+  'Workflows & automation',
+  'Self-hosting',
+  'Hardware',
+  'Thinking tools',
+];
+
+const themes = lang === 'es' ? themesEs : themesEn;
+const intro =
+  lang === 'es'
+    ? 'Lo que escribo cae en uno de estos siete temas. Cada enlace lleva al archivo correspondiente.'
+    : 'Everything I write lands in one of these seven themes. Each link leads to its archive.';
+const title = lang === 'es' ? 'Temas' : 'Themes';
+---
+
+<section class="section-shell">
+  <h2 class="section">{title}</h2>
+  <p class="themes-intro">{intro}</p>
+  <p class="tag-list">
+    {
+      themes.map((theme, i) => (
+        <>
+          <a href="#">{theme}</a>
+          {i < themes.length - 1 && <span class="sep">·</span>}
+        </>
+      ))
+    }
+  </p>
+</section>
+
+<style>
+  .themes-intro {
+    font-size: 18px;
+    margin: 0 0 24px;
+    color: var(--tx);
+  }
+  .tag-list {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 2;
+    color: var(--tx-secondary);
+    margin: 0;
+  }
+  .tag-list a {
+    color: var(--tx);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--tx) 25%, transparent);
+  }
+  .tag-list a:hover {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
+  }
+  .tag-list .sep {
+    color: var(--tx-muted);
+    margin: 0 8px;
+    user-select: none;
+  }
+</style>

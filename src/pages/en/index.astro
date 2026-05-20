@@ -2,20 +2,34 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Hero from '@/components/home/Hero.astro';
 import AboutSection from '@/components/home/AboutSection.astro';
-import FeaturedPosts from '@/components/home/FeaturedPosts.astro';
+import ThemesSection from '@/components/home/ThemesSection.astro';
 import FeaturedProjects from '@/components/home/FeaturedProjects.astro';
+import FeaturedPosts from '@/components/home/FeaturedPosts.astro';
 import ContactSection from '@/components/home/ContactSection.astro';
 
 const lang = 'en' as const;
 ---
 
 <BaseLayout
-  title="Elías Ablán — Full-stack developer"
-  description="Personal blog and portfolio of Elías Ablán. Notes on web development, projects, and lessons learned."
+  title="Elías Ablán — Developer and network consultant in Caracas"
+  description="Personal blog and portfolio of Elías Ablán. Notes on web development, networking, automation, and thinking tools."
 >
   <Hero lang={lang} />
   <AboutSection lang={lang} />
-  <FeaturedPosts lang={lang} />
+  <ThemesSection lang={lang} />
   <FeaturedProjects lang={lang} />
+  <FeaturedPosts lang={lang} />
   <ContactSection lang={lang} />
+  <div class="bottom-spacer"></div>
 </BaseLayout>
+
+<style>
+  .bottom-spacer {
+    height: 96px;
+  }
+  @media (max-width: 600px) {
+    .bottom-spacer {
+      height: 64px;
+    }
+  }
+</style>

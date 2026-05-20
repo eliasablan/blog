@@ -1,37 +1,52 @@
 ---
 import type { Lang } from '@/i18n/ui';
-import { useTranslations } from '@/i18n/utils';
-import { sectionPath } from '@/i18n/routes';
-import Button from '@/components/starwind/Button.astro';
 
 interface Props {
   lang: Lang;
 }
 
 const { lang } = Astro.props;
-const t = useTranslations(lang);
+const lede =
+  lang === 'es'
+    ? 'Desarrollador freelance y consultor de redes en Caracas. Construyo software, configuro redes y a veces mezclo las dos cosas con hardware.'
+    : 'Freelance developer and network consultant in Caracas. I build software, set up networks, and sometimes mix the two with hardware.';
 ---
 
-<section class="mx-auto max-w-3xl px-4 pb-12 pt-20">
-  <p class="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-    {t('home.hero.eyebrow')}
-  </p>
-  <h1 class="mt-3 text-5xl font-bold tracking-tight sm:text-6xl">
-    Elías Ablán
-  </h1>
-  <p class="mt-6 max-w-xl text-lg text-muted-foreground">
-    {
-      lang === 'es'
-        ? 'Construyo productos web rápidos y bien diseñados. Aquí escribo sobre lo que aprendo y muestro proyectos en los que trabajo.'
-        : 'I build fast, well-designed web products. I write here about what I learn and showcase the projects I work on.'
-    }
-  </p>
-  <div class="mt-8 flex flex-wrap gap-3">
-    <Button href={sectionPath(lang, 'blog')} variant="primary">
-      {t('home.hero.cta.posts')}
-    </Button>
-    <Button href={sectionPath(lang, 'portfolio')} variant="outline">
-      {t('home.hero.cta.portfolio')}
-    </Button>
-  </div>
+<section class="hero">
+  <h1>Elias Ablan</h1>
+  <p class="lede">{lede}</p>
 </section>
+
+<style>
+  .hero {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 64px 32px 0;
+  }
+  .hero h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(36px, 5vw, 52px);
+    font-weight: 600;
+    letter-spacing: -0.018em;
+    line-height: 1.08;
+    margin: 0 0 24px;
+    color: var(--tx);
+    text-wrap: balance;
+  }
+  .hero .lede {
+    font-size: 22px;
+    line-height: 1.4;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--tx-secondary);
+    margin: 0 0 32px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--rule);
+    text-wrap: pretty;
+  }
+  @media (max-width: 600px) {
+    .hero {
+      padding: 40px 20px 0;
+    }
+  }
+</style>
