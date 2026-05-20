@@ -3,6 +3,7 @@ import { render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import type { Lang } from '@/i18n/ui';
 import { useTranslations } from '@/i18n/utils';
+import { sectionPath } from '@/i18n/routes';
 
 interface Props {
   post: CollectionEntry<'blog'>;
@@ -44,7 +45,7 @@ const tags = post.data.tags ?? [];
       {
         tags[0] && (
           <>
-            <span>{tags[0]}</span>
+            <a href={`${sectionPath(lang, 'blog')}/tags/${tags[0]}`} class="tag-link">{tags[0]}</a>
             <span class="sep">·</span>
           </>
         )
@@ -81,7 +82,7 @@ const tags = post.data.tags ?? [];
         <div class="article-footer">
           <div class="tags">
             {tags.map((tg) => (
-              <a class="tag" href="#">
+              <a class="tag" href={`${sectionPath(lang, 'blog')}/tags/${tg}`}>
                 {tg}
               </a>
             ))}
@@ -121,6 +122,13 @@ const tags = post.data.tags ?? [];
   .eyebrow .sep {
     opacity: 0.5;
     margin: 0 8px;
+  }
+  .eyebrow .tag-link {
+    color: inherit;
+    text-decoration: none;
+  }
+  .eyebrow .tag-link:hover {
+    color: var(--accent);
   }
 
   .article-h1 {
