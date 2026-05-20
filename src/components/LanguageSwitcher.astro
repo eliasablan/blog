@@ -14,16 +14,13 @@ const { lang, altUrl, available = true } = Astro.props;
 const t = useTranslations(lang);
 const target: Lang = lang === 'es' ? 'en' : 'es';
 const href = altUrl ?? altLangUrl(Astro.url, target);
-
-const baseClasses =
-  'inline-flex h-9 items-center justify-center rounded-md px-3 text-xs font-medium uppercase tracking-wider transition-colors';
 ---
 
 {
   available ? (
     <a
       href={href}
-      class={`${baseClasses} text-muted-foreground hover:bg-accent hover:text-foreground`}
+      class="lang-switch"
       aria-label={t('lang.switch')}
       hreflang={target}
     >
@@ -31,7 +28,7 @@ const baseClasses =
     </a>
   ) : (
     <span
-      class={`${baseClasses} cursor-not-allowed text-muted-foreground/50`}
+      class="lang-switch is-disabled"
       aria-disabled="true"
       title={t('lang.notAvailable')}
     >
@@ -39,3 +36,30 @@ const baseClasses =
     </span>
   )
 }
+
+<style>
+  .lang-switch {
+    display: inline-flex;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    border-radius: 999px;
+    border: 1px solid var(--rule);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--tx-secondary);
+    text-decoration: none;
+  }
+  .lang-switch:hover {
+    color: var(--tx);
+    border-color: var(--accent);
+  }
+  .lang-switch.is-disabled {
+    color: var(--tx-muted);
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+</style>

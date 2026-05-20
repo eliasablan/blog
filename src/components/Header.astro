@@ -23,31 +23,83 @@ const links = [
 ];
 ---
 
-<header class="sticky top-0 z-40 w-full border-b border-border bg-background/80 backdrop-blur">
-  <div class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3">
-    <a
-      href={`/${lang}/`}
-      class="font-mono text-sm font-semibold tracking-tight hover:text-primary"
-    >
-      eliasablan.dev
-    </a>
+<header
+  class="topbar sticky top-0 z-50 flex items-center justify-between gap-4 border-b border-rule px-5 py-[14px] sm:px-8"
+>
+  <a href={`/${lang}/`} class="brand">
+    <span class="dot" aria-hidden="true"></span>
+    <span>ELIAS ABLAN</span>
+  </a>
 
-    <nav class="flex items-center gap-1 text-sm">
-      {
-        links.map((link) => (
-          <a
-            href={link.href}
-            class="rounded-md px-3 py-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-          >
-            {link.label}
-          </a>
-        ))
-      }
-    </nav>
+  <nav class="nav">
+    {
+      links.map((link) => (
+        <a href={link.href} class="nav-link">
+          {link.label}
+        </a>
+      ))
+    }
+  </nav>
 
-    <div class="flex items-center gap-1">
-      <LanguageSwitcher lang={lang} altUrl={altLangHref} available={altLangAvailable} />
-      <ThemeToggle lang={lang} />
-    </div>
+  <div class="flex items-center gap-2">
+    <LanguageSwitcher
+      lang={lang}
+      altUrl={altLangHref}
+      available={altLangAvailable}
+    />
+    <ThemeToggle lang={lang} />
   </div>
 </header>
+
+<style>
+  .topbar {
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--tx);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .brand .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: inline-block;
+  }
+
+  .nav {
+    display: none;
+    gap: 22px;
+    align-items: center;
+  }
+  @media (min-width: 640px) {
+    .nav {
+      display: inline-flex;
+    }
+  }
+  .nav-link {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--tx-secondary);
+    text-decoration: none;
+  }
+  .nav-link:hover {
+    color: var(--tx);
+    text-decoration-color: transparent;
+  }
+</style>
