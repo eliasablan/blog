@@ -23,7 +23,7 @@ const posts = filterByLang(await getCollection('blog'), lang)
       posts.length === 0 ? (
         <p class="text-muted-foreground">{t('blog.empty')}</p>
       ) : (
-        <ul class="grid gap-6 sm:grid-cols-2">
+        <ul class="flex flex-col gap-6">
           {posts.map((post) => (
             <li>
               <PostCard post={post} lang={lang} />
