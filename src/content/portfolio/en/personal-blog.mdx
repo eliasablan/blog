@@ -1,0 +1,21 @@
+---
+title: "Personal blog"
+description: "The site you're reading right now — Astro, Tailwind, view transitions, and bilingual MDX."
+translationKey: "personal-blog"
+year: 2026
+cover: ../../../assets/portfolio/placeholder.svg
+coverAlt: "Screenshot of the personal blog"
+repo: "https://github.com/eliasablan/blog"
+demo: "https://eliasablan.com"
+tech: ["Astro", "Tailwind CSS", "MDX", "TypeScript", "Vercel"]
+featured: true
+---
+
+I built this blog so I'd have a space of my own to write and showcase my work. The architecture is the interesting part: native i18n with per-language slugs linked by a `translationKey` in frontmatter, morph-style view transitions between the post list and detail page, and a serverless endpoint behind the contact form.
+
+## Key technical decisions
+
+- **Astro + MDX:** content lives in the repo, versioned with git, zero external CMS.
+- **i18n with prefix in both languages:** no language is a second-class citizen.
+- **Native view transitions:** no framework JS — just the browser API and Astro's `ClientRouter`.
+- **Starwind UI:** accessible components with no React runtime.
