@@ -1,0 +1,35 @@
+---
+import type { Lang } from '@/i18n/ui';
+import { useTranslations } from '@/i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-16 border-t border-border">
+  <div class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-3 px-4 py-6 text-sm text-muted-foreground sm:flex-row">
+    <p>© {year} Elías Ablán. {t('footer.rights')}</p>
+    <nav class="flex items-center gap-4">
+      <a
+        href={`/${lang}/rss.xml`}
+        class="hover:text-foreground"
+        aria-label="RSS"
+      >
+        RSS
+      </a>
+      <a
+        href="https://github.com/eliasablan"
+        class="hover:text-foreground"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        GitHub
+      </a>
+    </nav>
+  </div>
+</footer>

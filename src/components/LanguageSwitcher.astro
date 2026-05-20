@@ -1,0 +1,41 @@
+---
+import type { Lang } from '@/i18n/ui';
+import { useTranslations, altLangUrl } from '@/i18n/utils';
+
+interface Props {
+  lang: Lang;
+  /** Optional explicit URL to switch to (used by entry pages with translationKey). */
+  altUrl?: string;
+  /** When false, render disabled (no translation in target lang). */
+  available?: boolean;
+}
+
+const { lang, altUrl, available = true } = Astro.props;
+const t = useTranslations(lang);
+const target: Lang = lang === 'es' ? 'en' : 'es';
+const href = altUrl ?? altLangUrl(Astro.url, target);
+
+const baseClasses =
+  'inline-flex h-9 items-center justify-center rounded-md px-3 text-xs font-medium uppercase tracking-wider transition-colors';
+---
+
+{
+  available ? (
+    <a
+      href={href}
+      class={`${baseClasses} text-muted-foreground hover:bg-accent hover:text-foreground`}
+      aria-label={t('lang.switch')}
+      hreflang={target}
+    >
+      {target}
+    </a>
+  ) : (
+    <span
+      class={`${baseClasses} cursor-not-allowed text-muted-foreground/50`}
+      aria-disabled="true"
+      title={t('lang.notAvailable')}
+    >
+      {target}
+    </span>
+  )
+}

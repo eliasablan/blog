@@ -1,0 +1,69 @@
+/* View Transitions — slide effect for root, replicating the slideInOut
+   pattern from ~/Developer/Personal/web/frontend/src/lib/transitions.ts */
+
+@keyframes vt-slide-out-left {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(-150px, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes vt-slide-in-right {
+  from {
+    transform: translate(150px, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes vt-slide-out-right {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(150px, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes vt-slide-in-left {
+  from {
+    transform: translate(-150px, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+}
+
+/* Forward navigation (default) */
+::view-transition-old(root) {
+  animation: 400ms ease both vt-slide-out-left;
+}
+::view-transition-new(root) {
+  animation: 400ms ease both vt-slide-in-right;
+}
+
+/* Back navigation — applied by adding [data-vt-direction="back"] on <html>
+   via the astro:before-preparation event listener in BaseLayout */
+html[data-vt-direction="back"]::view-transition-old(root) {
+  animation: 400ms ease both vt-slide-out-right;
+}
+html[data-vt-direction="back"]::view-transition-new(root) {
+  animation: 400ms ease both vt-slide-in-left;
+}
+
+/* Reduced motion: disable slide, keep instant swap */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}

@@ -1,0 +1,92 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+@theme inline {
+  --color-background: var(--color-background-raw);
+  --color-foreground: var(--color-foreground-raw);
+  --color-muted: var(--color-muted-raw);
+  --color-muted-foreground: var(--color-muted-foreground-raw);
+  --color-border: var(--color-border-raw);
+  --color-card: var(--color-card-raw);
+  --color-card-foreground: var(--color-card-foreground-raw);
+  --color-primary: var(--color-primary-raw);
+  --color-primary-foreground: var(--color-primary-foreground-raw);
+  --color-accent: var(--color-accent-raw);
+  --color-accent-foreground: var(--color-accent-foreground-raw);
+  --color-destructive: var(--color-destructive-raw);
+  --color-destructive-foreground: var(--color-destructive-foreground-raw);
+  --color-ring: var(--color-ring-raw);
+}
+
+:root {
+  --color-background-raw: oklch(0.99 0.005 95);
+  --color-foreground-raw: oklch(0.18 0.01 270);
+  --color-muted-raw: oklch(0.96 0.01 95);
+  --color-muted-foreground-raw: oklch(0.5 0.02 270);
+  --color-border-raw: oklch(0.9 0.01 270);
+  --color-card-raw: oklch(1 0 0);
+  --color-card-foreground-raw: oklch(0.18 0.01 270);
+  --color-primary-raw: oklch(0.55 0.18 265);
+  --color-primary-foreground-raw: oklch(0.99 0.005 95);
+  --color-accent-raw: oklch(0.94 0.02 95);
+  --color-accent-foreground-raw: oklch(0.18 0.01 270);
+  --color-destructive-raw: oklch(0.55 0.22 25);
+  --color-destructive-foreground-raw: oklch(0.99 0.005 95);
+  --color-ring-raw: oklch(0.55 0.18 265);
+}
+
+.dark {
+  --color-background-raw: oklch(0.16 0.01 270);
+  --color-foreground-raw: oklch(0.96 0.005 95);
+  --color-muted-raw: oklch(0.22 0.015 270);
+  --color-muted-foreground-raw: oklch(0.7 0.02 270);
+  --color-border-raw: oklch(0.28 0.015 270);
+  --color-card-raw: oklch(0.2 0.012 270);
+  --color-card-foreground-raw: oklch(0.96 0.005 95);
+  --color-primary-raw: oklch(0.72 0.15 265);
+  --color-primary-foreground-raw: oklch(0.16 0.01 270);
+  --color-accent-raw: oklch(0.26 0.02 270);
+  --color-accent-foreground-raw: oklch(0.96 0.005 95);
+  --color-destructive-raw: oklch(0.65 0.22 25);
+  --color-destructive-foreground-raw: oklch(0.16 0.01 270);
+  --color-ring-raw: oklch(0.72 0.15 265);
+}
+
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--color-border);
+  }
+
+  html {
+    color-scheme: light dark;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  ::selection {
+    background: var(--color-primary);
+    color: var(--color-primary-foreground);
+  }
+}

@@ -1,0 +1,114 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '@/styles/global.css';
+import '@/styles/transitions.css';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import { getLangFromUrl, altLangUrl } from '@/i18n/utils';
+import type { Lang } from '@/i18n/ui';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Override the lang detected from URL (rarely needed). */
+  lang?: Lang;
+  /** Open Graph image absolute path under /public, e.g. "/og/default.png". */
+  ogImage?: string;
+  /**
+   * URL of the translated counterpart.
+   * - string: explicit URL (entry pages with a translated entry).
+   * - null: no translation exists for this entry — switcher renders disabled.
+   * - undefined (default): static page, switcher infers URL by swapping lang prefix.
+   */
+  altLangHref?: string | null;
+  /** Optional override for canonical URL. */
+  canonical?: string;
+}
+
+const { title, description, ogImage = '/favicon.svg', altLangHref, canonical } = Astro.props;
+const lang = Astro.props.lang ?? getLangFromUrl(Astro.url);
+
+const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString();
+const altLang: Lang = lang === 'es' ? 'en' : 'es';
+const altAvailable = altLangHref !== null;
+const altUrl = altLangHref ?? altLangUrl(Astro.url, altLang);
+const absoluteAltUrl = new URL(altUrl, Astro.site ?? Astro.url.origin).toString();
+
+const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin).toString();
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <link rel="alternate" hreflang={lang} href={canonicalUrl} />
+    {altAvailable && <link rel="alternate" hreflang={altLang} href={absoluteAltUrl} />}
+    <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_US'} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    {/* Anti-FOUC theme script — runs synchronously before paint.
+        Only 'light' / 'dark' are ever stored; absence means "follow system". */}
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = stored === 'dark' || (!stored && prefersDark);
+          if (isDark) document.documentElement.classList.add('dark');
+        } catch (_) {}
+      })();
+    </script>
+
+    <ClientRouter />
+  </head>
+
+  <body class="min-h-screen flex flex-col">
+    <Header lang={lang} altLangHref={altUrl} altLangAvailable={altAvailable} />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+
+    {/* View transitions: detect back/forward direction and tag <html> for CSS */}
+    <script is:inline>
+      document.addEventListener('astro:before-preparation', function (event) {
+        var dir = event.direction || 'forward';
+        document.documentElement.dataset.vtDirection = dir;
+      });
+      document.addEventListener('astro:after-swap', function () {
+        // Reapply theme class after SPA-like swaps reset <html> classes if needed
+        var stored = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var isDark = stored === 'dark' || (!stored && prefersDark);
+        document.documentElement.classList.toggle('dark', isDark);
+      });
+    </script>
+  </body>
+</html>
+<style is:global>
+  /* Smoothly fade between page swaps too */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    mix-blend-mode: normal;
+  }
+</style>
