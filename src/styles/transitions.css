@@ -60,6 +60,15 @@ html[data-vt-direction="back"]::view-transition-new(root) {
   animation: 400ms ease both vt-slide-in-left;
 }
 
+/* Header and footer stay visually static — excluded from the root slide */
+::view-transition-old(site-header),
+::view-transition-new(site-header),
+::view-transition-old(site-footer),
+::view-transition-new(site-footer) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
 /* Reduced motion: disable slide, keep instant swap */
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(root),
