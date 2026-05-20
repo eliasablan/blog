@@ -1,0 +1,61 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import type { Lang } from '@/i18n/ui';
+import { splitEntryId } from '@/i18n/utils';
+import { sectionPath } from '@/i18n/routes';
+import Card from '@/components/starwind/Card.astro';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+  lang: Lang;
+}
+
+const { post, lang } = Astro.props;
+const { slug } = splitEntryId(post.id);
+const href = `${sectionPath(lang, 'blog')}/${slug}`;
+const key = post.data.translationKey;
+
+const dateFormat = new Intl.DateTimeFormat(lang === 'es' ? 'es-ES' : 'en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<Card hover>
+  <a href={href} class="block">
+    {
+      post.data.cover && (
+        <div class="aspect-video w-full overflow-hidden bg-muted">
+          <Image
+            src={post.data.cover}
+            alt={post.data.coverAlt ?? post.data.title}
+            widths={[400, 800]}
+            sizes="(max-width: 768px) 100vw, 50vw"
+            class="h-full w-full object-cover"
+            transition:name={`post-${key}-cover`}
+          />
+        </div>
+      )
+    }
+    <div class="p-5 space-y-3">
+      <h3
+        class="text-lg font-semibold leading-tight"
+        transition:name={`post-${key}-title`}
+      >
+        {post.data.title}
+      </h3>
+      <p class="text-sm text-muted-foreground line-clamp-2">
+        <span transition:name={`post-${key}-description`}>{post.data.description}</span>
+      </p>
+      <time
+        class="block text-xs uppercase tracking-wider text-muted-foreground"
+        datetime={post.data.publishedAt.toISOString()}
+        transition:name={`post-${key}-date`}
+      >
+        {dateFormat.format(post.data.publishedAt)}
+      </time>
+    </div>
+  </a>
+</Card>
