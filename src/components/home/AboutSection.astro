@@ -1,0 +1,20 @@
+---
+import type { Lang } from '@/i18n/ui';
+import AboutEs, { frontmatter as fmEs } from '@/content/home/about.es.mdx';
+import AboutEn, { frontmatter as fmEn } from '@/content/home/about.en.mdx';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const Content = lang === 'es' ? AboutEs : AboutEn;
+const { headline } = lang === 'es' ? fmEs : fmEn;
+---
+
+<section id="about" class="mx-auto max-w-3xl px-4 py-16">
+  <h2 class="mb-4 text-3xl font-bold tracking-tight">{headline}</h2>
+  <div class="prose prose-neutral dark:prose-invert max-w-none">
+    <Content />
+  </div>
+</section>

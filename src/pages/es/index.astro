@@ -1,0 +1,21 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Hero from '@/components/home/Hero.astro';
+import AboutSection from '@/components/home/AboutSection.astro';
+import FeaturedPosts from '@/components/home/FeaturedPosts.astro';
+import FeaturedProjects from '@/components/home/FeaturedProjects.astro';
+import ContactSection from '@/components/home/ContactSection.astro';
+
+const lang = 'es' as const;
+---
+
+<BaseLayout
+  title="Elías Ablán — Desarrollador full-stack"
+  description="Blog personal y portafolio de Elías Ablán. Notas sobre desarrollo web, proyectos y aprendizajes."
+>
+  <Hero lang={lang} />
+  <AboutSection lang={lang} />
+  <FeaturedPosts lang={lang} />
+  <FeaturedProjects lang={lang} />
+  <ContactSection lang={lang} />
+</BaseLayout>

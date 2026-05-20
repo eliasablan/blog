@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import type { Lang } from '@/i18n/ui';
+import { useTranslations, filterByLang } from '@/i18n/utils';
+import { sectionPath } from '@/i18n/routes';
+import PostCard from '@/components/PostCard.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const posts = filterByLang(await getCollection('blog'), lang)
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
+  .slice(0, 3);
+---
+
+{
+  posts.length > 0 && (
+    <section class="mx-auto max-w-3xl px-4 py-16">
+      <div class="mb-8 flex items-baseline justify-between gap-4">
+        <h2 class="text-3xl font-bold tracking-tight">{t('home.featured.posts.title')}</h2>
+        <a
+          href={sectionPath(lang, 'blog')}
+          class="text-sm text-muted-foreground hover:text-foreground"
+        >
+          {t('home.featured.posts.cta')} →
+        </a>
+      </div>
+      <ul class="grid gap-6 sm:grid-cols-2">
+        {posts.map((post) => (
+          <li>
+            <PostCard post={post} lang={lang} />
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}

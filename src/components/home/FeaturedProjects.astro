@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import type { Lang } from '@/i18n/ui';
+import { useTranslations, filterByLang } from '@/i18n/utils';
+import { sectionPath } from '@/i18n/routes';
+import ProjectCard from '@/components/ProjectCard.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const projects = filterByLang(await getCollection('portfolio'), lang)
+  .filter((p) => p.data.featured)
+  .sort((a, b) => b.data.year - a.data.year)
+  .slice(0, 3);
+---
+
+{
+  projects.length > 0 && (
+    <section class="mx-auto max-w-3xl px-4 py-16">
+      <div class="mb-8 flex items-baseline justify-between gap-4">
+        <h2 class="text-3xl font-bold tracking-tight">
+          {t('home.featured.portfolio.title')}
+        </h2>
+        <a
+          href={sectionPath(lang, 'portfolio')}
+          class="text-sm text-muted-foreground hover:text-foreground"
+        >
+          {t('home.featured.portfolio.cta')} →
+        </a>
+      </div>
+      <ul class="grid gap-6 sm:grid-cols-2">
+        {projects.map((project) => (
+          <li>
+            <ProjectCard project={project} lang={lang} />
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}

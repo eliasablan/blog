@@ -1,0 +1,150 @@
+---
+import type { Lang } from '@/i18n/ui';
+import { useTranslations } from '@/i18n/utils';
+import Button from '@/components/starwind/Button.astro';
+import Input from '@/components/starwind/Input.astro';
+import Textarea from '@/components/starwind/Textarea.astro';
+import Label from '@/components/starwind/Label.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<form id="contact-form" class="space-y-4" novalidate>
+  <div class="grid gap-4 sm:grid-cols-2">
+    <div class="space-y-1.5">
+      <Label for="contact-name">
+        {t('contact.form.name')} <span class="text-destructive">*</span>
+      </Label>
+      <Input id="contact-name" name="name" type="text" required autocomplete="name" />
+      <p data-error-for="name" class="hidden text-xs text-destructive"></p>
+    </div>
+    <div class="space-y-1.5">
+      <Label for="contact-email">
+        {t('contact.form.email')} <span class="text-destructive">*</span>
+      </Label>
+      <Input id="contact-email" name="email" type="email" required autocomplete="email" />
+      <p data-error-for="email" class="hidden text-xs text-destructive"></p>
+    </div>
+  </div>
+
+  <div class="space-y-1.5">
+    <Label for="contact-subject">{t('contact.form.subject')}</Label>
+    <Input id="contact-subject" name="subject" type="text" />
+  </div>
+
+  <div class="space-y-1.5">
+    <Label for="contact-message">
+      {t('contact.form.message')} <span class="text-destructive">*</span>
+    </Label>
+    <Textarea id="contact-message" name="message" required rows="6" minlength="10" />
+    <p data-error-for="message" class="hidden text-xs text-destructive"></p>
+  </div>
+
+  {/* Honeypot — visually hidden but technically present */}
+  <div aria-hidden="true" class="absolute -left-[9999px] h-0 w-0 overflow-hidden" tabindex="-1">
+    <label>
+      Website (do not fill)
+      <input type="text" name="website" tabindex="-1" autocomplete="off" />
+    </label>
+  </div>
+
+  <div class="flex items-center gap-3 pt-2">
+    <Button type="submit" variant="primary">
+      <span data-submit-label>{t('contact.form.submit')}</span>
+      <span data-submitting-label class="hidden">{t('contact.form.submitting')}</span>
+    </Button>
+    <p data-status="success" class="hidden text-sm text-primary">{t('contact.form.success')}</p>
+    <p data-status="error" class="hidden text-sm text-destructive">{t('contact.form.error')}</p>
+  </div>
+</form>
+
+<script
+  is:inline
+  define:vars={{
+    required: t('contact.form.required'),
+    invalidEmail: t('contact.form.invalidEmail'),
+  }}
+>
+  function wireContactForm() {
+    const form = document.getElementById('contact-form');
+    if (!form || form.dataset.wired === '1') return;
+    form.dataset.wired = '1';
+
+    const submitLabel = form.querySelector('[data-submit-label]');
+    const submittingLabel = form.querySelector('[data-submitting-label]');
+    const successMsg = form.querySelector('[data-status="success"]');
+    const errorMsg = form.querySelector('[data-status="error"]');
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    function setError(name, msg) {
+      const target = form.querySelector(`[data-error-for="${name}"]`);
+      const field = form.querySelector(`[name="${name}"]`);
+      if (target) {
+        target.textContent = msg || '';
+        target.classList.toggle('hidden', !msg);
+      }
+      if (field) field.setAttribute('aria-invalid', msg ? 'true' : 'false');
+    }
+
+    function clearErrors() {
+      ['name', 'email', 'message'].forEach((n) => setError(n, ''));
+      successMsg?.classList.add('hidden');
+      errorMsg?.classList.add('hidden');
+    }
+
+    function validate(data) {
+      let ok = true;
+      if (!data.name?.trim()) { setError('name', required); ok = false; }
+      if (!data.email?.trim()) { setError('email', required); ok = false; }
+      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email.trim())) {
+        setError('email', invalidEmail); ok = false;
+      }
+      if (!data.message?.trim() || data.message.trim().length < 10) {
+        setError('message', required); ok = false;
+      }
+      return ok;
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearErrors();
+
+      const fd = new FormData(form);
+      const payload = Object.fromEntries(fd);
+      if (!validate(payload)) return;
+
+      submitBtn?.setAttribute('disabled', 'true');
+      submitLabel?.classList.add('hidden');
+      submittingLabel?.classList.remove('hidden');
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const body = await res.json().catch(() => ({ ok: false }));
+        if (res.ok && body.ok) {
+          successMsg?.classList.remove('hidden');
+          form.reset();
+        } else {
+          errorMsg?.classList.remove('hidden');
+        }
+      } catch {
+        errorMsg?.classList.remove('hidden');
+      } finally {
+        submitBtn?.removeAttribute('disabled');
+        submitLabel?.classList.remove('hidden');
+        submittingLabel?.classList.add('hidden');
+      }
+    });
+  }
+
+  wireContactForm();
+  document.addEventListener('astro:page-load', wireContactForm);
+</script>
