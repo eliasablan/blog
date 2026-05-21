@@ -1,67 +1,36 @@
 ---
-import type { Lang } from '@/i18n/ui';
+import type { Lang } from "@/i18n/ui";
 
 interface Props {
-  lang: Lang;
+    lang: Lang;
 }
 
 const { lang } = Astro.props;
 const year = new Date().getFullYear();
 ---
 
-<footer class="site-footer">
-  <div class="left">
-    © {year} Elias Ablan <span class="sep">·</span> Caracas
-  </div>
-  <div class="right">
-    <a href={`/${lang}/rss.xml`} aria-label="RSS">RSS</a>
-    <span class="sep">·</span>
-    <a
-      href="https://github.com/eliasablan"
-      target="_blank"
-      rel="noopener noreferrer">GitHub</a
-    >
-    <span class="sep">·</span>
-    <a href={`/${lang}/`}>{lang === 'es' ? 'Inicio' : 'Home'}</a>
-  </div>
+<footer
+    class="mx-auto w-full flex max-w-170 flex-col flex-wrap items-center justify-between gap-3 px-8 pb-12 font-mono text-xs tracking-[0.02em] text-tx-muted [view-transition-name:site-footer] max-[600px]:px-5 max-[600px]:py-8 [&_a]:text-tx-secondary [&_a]:no-underline [&_a:hover]:text-primary"
+>
+    <hr class="mb-6 w-full border-0 border-t border-rule" />
+    <div class="inline-flex items-center gap-2">
+        <a href="https://www.linkedin.com/in/eliasablan" aria-label="LinkedIn"
+            >LinkedIn</a
+        >
+        <span class="text-tx-muted opacity-60">·</span>
+        <a
+            href="https://github.com/eliasablan"
+            target="_blank"
+            rel="noopener noreferrer">GitHub</a
+        >
+        <span class="text-tx-muted opacity-60">·</span>
+        <a href="https://wa.me/584242728990" aria-label="WhatsApp">WhatsApp</a>
+        <span class="text-tx-muted opacity-60">·</span>
+        <a href="mailto:eliasablan93@gmail.com" aria-label="Email">Email</a>
+        <span class="text-tx-muted opacity-60">·</span>
+        <a href={`/${lang}/rss.xml`} aria-label="RSS">RSS</a>
+    </div>
+    <div>
+        © {year} Elias Ablan <span class="text-tx-muted opacity-60">·</span> Caracas
+    </div>
 </footer>
-
-<style>
-  .site-footer {
-    view-transition-name: site-footer;
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 32px 32px 48px;
-    border-top: 1px solid var(--rule);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--tx-muted);
-    letter-spacing: 0.02em;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .site-footer a {
-    color: var(--tx-secondary);
-    text-decoration: none;
-  }
-  .site-footer a:hover {
-    color: var(--accent);
-  }
-  .site-footer .right {
-    display: inline-flex;
-    gap: 8px;
-    align-items: center;
-  }
-  .site-footer .sep {
-    color: var(--tx-muted);
-    opacity: 0.6;
-  }
-  @media (max-width: 600px) {
-    .site-footer {
-      padding: 32px 20px;
-    }
-  }
-</style>
