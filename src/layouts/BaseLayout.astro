@@ -1,6 +1,7 @@
 ---
 import { ClientRouter } from 'astro:transitions';
 import { Font } from 'astro:assets';
+import Analytics from '@vercel/analytics/astro';
 import '@/styles/global.css';
 import '@/styles/transitions.css';
 import Header from '@/components/Header.astro';
@@ -84,6 +85,7 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin).toString();
     </script>
 
     <ClientRouter />
+    <Analytics />
   </head>
 
   <body class="min-h-screen flex flex-col">
