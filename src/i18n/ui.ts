@@ -41,6 +41,16 @@ export const ui = {
     'portfolio.repo': 'Repositorio',
     'portfolio.demo': 'Ver demo',
 
+    'topics.title': 'Temas',
+    'topics.intro':
+      'Lo que escribo y construyo cae en uno de estos siete temas. Cada enlace lleva al archivo correspondiente.',
+
+    'tags.eyebrow': 'Tema',
+    'tags.empty': 'Aún no hay contenido bajo este tema.',
+    'tags.back': '← Volver al inicio',
+    'tags.articles': 'Artículos',
+    'tags.projects': 'Proyectos',
+
     'contact.form.name': 'Nombre',
     'contact.form.email': 'Email',
     'contact.form.subject': 'Asunto',
@@ -95,6 +105,16 @@ export const ui = {
     'portfolio.back': '← Back to portfolio',
     'portfolio.repo': 'Repository',
     'portfolio.demo': 'View demo',
+
+    'topics.title': 'Topics',
+    'topics.intro':
+      'Everything I write and build lands in one of these seven topics. Each link leads to its archive.',
+
+    'tags.eyebrow': 'Topic',
+    'tags.empty': "Nothing under this topic yet.",
+    'tags.back': '← Back to home',
+    'tags.articles': 'Articles',
+    'tags.projects': 'Projects',
 
     'contact.form.name': 'Name',
     'contact.form.email': 'Email',

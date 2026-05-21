@@ -1,48 +1,25 @@
 ---
 import type { Lang } from '@/i18n/ui';
+import { useTranslations } from '@/i18n/utils';
+import { tagSlugs, tagLabels, tagPath } from '@/i18n/tags';
 
 interface Props {
   lang: Lang;
 }
 
 const { lang } = Astro.props;
-
-const themesEs = [
-  'Desarrollo web',
-  'Redes e infraestructura',
-  'Inteligencia artificial',
-  'Workflows y automatización',
-  'Self-hosting',
-  'Hardware',
-  'Herramientas de pensamiento',
-];
-const themesEn = [
-  'Web development',
-  'Networks & infrastructure',
-  'Artificial intelligence',
-  'Workflows & automation',
-  'Self-hosting',
-  'Hardware',
-  'Thinking tools',
-];
-
-const themes = lang === 'es' ? themesEs : themesEn;
-const intro =
-  lang === 'es'
-    ? 'Lo que escribo cae en uno de estos siete temas. Cada enlace lleva al archivo correspondiente.'
-    : 'Everything I write lands in one of these seven themes. Each link leads to its archive.';
-const title = lang === 'es' ? 'Temas' : 'Themes';
+const t = useTranslations(lang);
 ---
 
 <section class="section-shell">
-  <h2 class="section">{title}</h2>
-  <p class="themes-intro">{intro}</p>
+  <h2 class="section">{t('topics.title')}</h2>
+  <p class="themes-intro">{t('topics.intro')}</p>
   <p class="tag-list">
     {
-      themes.map((theme, i) => (
+      tagSlugs.map((slug, i) => (
         <>
-          <a href="#">{theme}</a>
-          {i < themes.length - 1 && <span class="sep">·</span>}
+          <a href={tagPath(lang, slug)}>{tagLabels[slug][lang]}</a>
+          {i < tagSlugs.length - 1 && <span class="sep">·</span>}
         </>
       ))
     }

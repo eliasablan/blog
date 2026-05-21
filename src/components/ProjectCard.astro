@@ -3,6 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 import type { Lang } from '@/i18n/ui';
 import { splitEntryId } from '@/i18n/utils';
 import { sectionPath } from '@/i18n/routes';
+import { tagLabels, tagPath } from '@/i18n/tags';
 
 interface Props {
   project: CollectionEntry<'portfolio'>;
@@ -32,12 +33,12 @@ const demoLabel = lang === 'es' ? 'visitar' : 'visit';
       >
     </p>
     {
-      project.data.tech.length > 0 && (
+      project.data.tags.length > 0 && (
         <p class="stack">
-          {project.data.tech.map((t, i) => (
+          {project.data.tags.map((tag, i) => (
             <>
-              <span>{t}</span>
-              {i < project.data.tech.length - 1 && <span class="sep">·</span>}
+              <a href={tagPath(lang, tag)}>{tagLabels[tag][lang]}</a>
+              {i < project.data.tags.length - 1 && <span class="sep">·</span>}
             </>
           ))}
         </p>
@@ -121,6 +122,15 @@ const demoLabel = lang === 'es' ? 'visitar' : 'visit';
     color: var(--tx-muted);
     line-height: 1.5;
     margin: 0;
+  }
+  .stack a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--tx-muted) 30%, transparent);
+  }
+  .stack a:hover {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
   }
   .stack .sep {
     margin: 0 6px;

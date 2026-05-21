@@ -1,6 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro:schema';
+import { tagSlugs } from './i18n/tags';
 
 const blog = defineCollection({
   loader: glob({ pattern: '**/*.mdx', base: './src/content/blog' }),
@@ -13,7 +14,7 @@ const blog = defineCollection({
       updatedAt: z.coerce.date().optional(),
       cover: image().optional(),
       coverAlt: z.string().optional(),
-      tags: z.array(z.string()).default([]),
+      tags: z.array(z.enum(tagSlugs)).default([]),
       draft: z.boolean().default(false),
     }),
 });
@@ -30,7 +31,7 @@ const portfolio = defineCollection({
       coverAlt: z.string().optional(),
       repo: z.string().url().optional(),
       demo: z.string().url().optional(),
-      tech: z.array(z.string()).default([]),
+      tags: z.array(z.enum(tagSlugs)).default([]),
       featured: z.boolean().default(false),
     }),
 });

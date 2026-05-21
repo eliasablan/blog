@@ -3,7 +3,7 @@ import { render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import type { Lang } from '@/i18n/ui';
 import { useTranslations } from '@/i18n/utils';
-import { sectionPath } from '@/i18n/routes';
+import { tagLabels, tagPath } from '@/i18n/tags';
 
 interface Props {
   post: CollectionEntry<'blog'>;
@@ -45,7 +45,7 @@ const tags = post.data.tags ?? [];
       {
         tags[0] && (
           <>
-            <a href={`${sectionPath(lang, 'blog')}/tags/${tags[0]}`} class="tag-link">{tags[0]}</a>
+            <a href={tagPath(lang, tags[0])} class="tag-link">{tagLabels[tags[0]][lang]}</a>
             <span class="sep">·</span>
           </>
         )
@@ -82,8 +82,8 @@ const tags = post.data.tags ?? [];
         <div class="article-footer">
           <div class="tags">
             {tags.map((tg) => (
-              <a class="tag" href={`${sectionPath(lang, 'blog')}/tags/${tg}`}>
-                {tg}
+              <a class="tag" href={tagPath(lang, tg)}>
+                {tagLabels[tg][lang]}
               </a>
             ))}
           </div>
