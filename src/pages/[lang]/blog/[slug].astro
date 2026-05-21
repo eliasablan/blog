@@ -1,0 +1,32 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import ArticleLayout from '@/layouts/ArticleLayout.astro';
+import {
+  splitEntryId,
+  getTranslatedEntry,
+  type Lang,
+} from '@/i18n/utils';
+import { entryPath } from '@/i18n/routes';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
+  return posts.map((post) => {
+    const { lang, slug } = splitEntryId(post.id);
+    return {
+      params: { lang, slug },
+      props: { post },
+    };
+  });
+}
+
+const { post } = Astro.props as { post: CollectionEntry<'blog'> };
+const lang = Astro.params.lang as Lang;
+const targetLang: Lang = lang === 'en' ? 'es' : 'en';
+
+const translated = await getTranslatedEntry('blog', post, targetLang);
+const altUrl = translated
+  ? entryPath(targetLang, 'blog', splitEntryId(translated.id).slug)
+  : null;
+---
+
+<ArticleLayout post={post} lang={lang} altLangHref={altUrl} />

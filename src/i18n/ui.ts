@@ -14,6 +14,10 @@ export const ui = {
     'nav.about': 'Sobre mí',
     'nav.contact': 'Contacto',
 
+    'home.title': 'Elías Ablán — Desarrollador y consultor de redes en Caracas',
+    'home.description':
+      'Blog personal y portafolio de Elías Ablán. Notas sobre desarrollo web, redes, automatización y herramientas de pensamiento.',
+
     'home.hero.eyebrow': 'Desarrollador full-stack',
     'home.hero.cta.posts': 'Ver el blog',
     'home.hero.cta.portfolio': 'Ver el portafolio',
@@ -28,6 +32,7 @@ export const ui = {
     'blog.empty': 'Todavía no hay artículos publicados.',
     'blog.back': '← Volver al blog',
     'blog.readingTime': 'min de lectura',
+    'blog.rss.description': 'Notas sobre desarrollo web, proyectos y aprendizajes.',
 
     'portfolio.title': 'Portafolio',
     'portfolio.intro': 'Proyectos en los que he trabajado.',
@@ -64,6 +69,10 @@ export const ui = {
     'nav.about': 'About',
     'nav.contact': 'Contact',
 
+    'home.title': 'Elías Ablán — Developer and network consultant in Caracas',
+    'home.description':
+      'Personal blog and portfolio of Elías Ablán. Notes on web development, networking, automation, and thinking tools.',
+
     'home.hero.eyebrow': 'Full-stack developer',
     'home.hero.cta.posts': 'Read the blog',
     'home.hero.cta.portfolio': 'See the portfolio',
@@ -78,6 +87,7 @@ export const ui = {
     'blog.empty': 'No articles published yet.',
     'blog.back': '← Back to blog',
     'blog.readingTime': 'min read',
+    'blog.rss.description': 'Notes on web development, projects, and lessons learned.',
 
     'portfolio.title': 'Portfolio',
     'portfolio.intro': 'Projects I have worked on.',

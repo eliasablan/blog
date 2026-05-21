@@ -6,14 +6,17 @@ import ThemesSection from '@/components/home/ThemesSection.astro';
 import FeaturedProjects from '@/components/home/FeaturedProjects.astro';
 import FeaturedPosts from '@/components/home/FeaturedPosts.astro';
 import ContactSection from '@/components/home/ContactSection.astro';
+import { useTranslations, type Lang } from '@/i18n/utils';
 
-const lang = 'es' as const;
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
 ---
 
-<BaseLayout
-  title="Elías Ablán — Desarrollador y consultor de redes en Caracas"
-  description="Blog personal y portafolio de Elías Ablán. Notas sobre desarrollo web, redes, automatización y herramientas de pensamiento."
->
+<BaseLayout title={t('home.title')} description={t('home.description')}>
   <Hero lang={lang} />
   <AboutSection lang={lang} />
   <ThemesSection lang={lang} />

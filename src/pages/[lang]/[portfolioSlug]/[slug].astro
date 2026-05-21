@@ -7,28 +7,31 @@ import {
   useTranslations,
   splitEntryId,
   getTranslatedEntry,
-  filterByLang,
+  type Lang,
 } from '@/i18n/utils';
-import { sectionPath, entryPath } from '@/i18n/routes';
+import { sectionSlugs, sectionPath, entryPath } from '@/i18n/routes';
 
 export async function getStaticPaths() {
-  const lang = 'en' as const;
-  const projects = filterByLang(await getCollection('portfolio'), lang);
-  return projects.map((project) => ({
-    params: { slug: splitEntryId(project.id).slug },
-    props: { project },
-  }));
+  const projects = await getCollection('portfolio');
+  return projects.map((project) => {
+    const { lang, slug } = splitEntryId(project.id);
+    return {
+      params: { lang, portfolioSlug: sectionSlugs[lang].portfolio, slug },
+      props: { project },
+    };
+  });
 }
 
 const { project } = Astro.props as { project: CollectionEntry<'portfolio'> };
-const lang = 'en' as const;
+const lang = Astro.params.lang as Lang;
 const t = useTranslations(lang);
 const { Content } = await render(project);
 const key = project.data.translationKey;
 
-const translated = await getTranslatedEntry('portfolio', project, 'es');
+const targetLang: Lang = lang === 'en' ? 'es' : 'en';
+const translated = await getTranslatedEntry('portfolio', project, targetLang);
 const altUrl = translated
-  ? entryPath('es', 'portfolio', splitEntryId(translated.id).slug)
+  ? entryPath(targetLang, 'portfolio', splitEntryId(translated.id).slug)
   : null;
 ---
 
