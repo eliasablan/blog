@@ -1,7 +1,8 @@
 ---
 import { ClientRouter } from 'astro:transitions';
 import { Font } from 'astro:assets';
-import Analytics from '@vercel/analytics/astro';
+// [DEBUG-fouc] disabled to bisect view-transition FOUC — restore once cause confirmed
+// import Analytics from '@vercel/analytics/astro';
 import '@/styles/global.css';
 import '@/styles/transitions.css';
 import Header from '@/components/Header.astro';
@@ -85,7 +86,7 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin).toString();
     </script>
 
     <ClientRouter />
-    <Analytics />
+    {/* [DEBUG-fouc] <Analytics /> */}
   </head>
 
   <body class="min-h-screen flex flex-col">
