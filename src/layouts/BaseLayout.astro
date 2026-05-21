@@ -1,8 +1,6 @@
 ---
 import { ClientRouter } from 'astro:transitions';
 import { Font } from 'astro:assets';
-// [DEBUG-fouc] disabled to bisect view-transition FOUC — restore once cause confirmed
-// import Analytics from '@vercel/analytics/astro';
 import '@/styles/global.css';
 import '@/styles/transitions.css';
 import Header from '@/components/Header.astro';
@@ -86,7 +84,6 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin).toString();
     </script>
 
     <ClientRouter />
-    {/* [DEBUG-fouc] <Analytics /> */}
   </head>
 
   <body class="min-h-screen flex flex-col">
@@ -108,6 +105,25 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin).toString();
         var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         var isDark = stored === 'dark' || (!stored && prefersDark);
         document.documentElement.classList.toggle('dark', isDark);
+      });
+    </script>
+
+    {/* Vercel Web Analytics — hoisted script, bundled by Astro and not
+        re-executed across ClientRouter navs. Replaces the official <Analytics />
+        component, whose inline customElements.define re-fires on head swaps and
+        causes a FOUC on the new view-transition snapshot. */}
+    <script>
+      import { inject } from '@vercel/analytics';
+      // Bundled module scripts run once across ClientRouter navs (per Astro
+      // docs), so this initialises analytics exactly once. Auto-tracking is
+      // disabled and pageviews fire manually on astro:page-load to avoid
+      // double-counting client-side transitions.
+      inject({
+        mode: import.meta.env.PROD ? 'production' : 'development',
+        disableAutoTrack: true,
+      });
+      document.addEventListener('astro:page-load', () => {
+        window.va?.('pageview', { path: location.pathname });
       });
     </script>
   </body>
