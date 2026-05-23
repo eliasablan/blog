@@ -1,68 +1,35 @@
-/* View Transitions — slide effect for root, replicating the slideInOut
-   pattern from ~/Developer/Personal/web/frontend/src/lib/transitions.ts */
+/* View Transitions — crossfade on root with a smooth shared-element morph
+   (post title/description/date, project cover, etc). Direction-agnostic. */
 
-@keyframes vt-slide-out-left {
-  from {
-    transform: translate(0, 0);
-  }
+@keyframes vt-fade-out {
   to {
-    transform: translate(-150px, 0);
     opacity: 0;
   }
 }
 
-@keyframes vt-slide-in-right {
+@keyframes vt-fade-in {
   from {
-    transform: translate(150px, 0);
-    opacity: 0;
-  }
-  to {
-    transform: translate(0, 0);
-    opacity: 1;
-  }
-}
-
-@keyframes vt-slide-out-right {
-  from {
-    transform: translate(0, 0);
-  }
-  to {
-    transform: translate(150px, 0);
     opacity: 0;
   }
 }
 
-@keyframes vt-slide-in-left {
-  from {
-    transform: translate(-150px, 0);
-    opacity: 0;
-  }
-  to {
-    transform: translate(0, 0);
-    opacity: 1;
-  }
-}
-
-/* Forward navigation (default) */
 ::view-transition-old(root) {
-  animation: 400ms ease both vt-slide-out-left;
+  animation: 260ms ease-out both vt-fade-out;
   mix-blend-mode: normal;
 }
 ::view-transition-new(root) {
-  animation: 400ms ease both vt-slide-in-right;
+  animation: 320ms 80ms ease-out both vt-fade-in;
   mix-blend-mode: normal;
 }
 
-/* Back navigation — applied by adding [data-vt-direction="back"] on <html>
-   via the astro:before-preparation event listener in BaseLayout */
-html[data-vt-direction="back"]::view-transition-old(root) {
-  animation: 400ms ease both vt-slide-out-right;
-}
-html[data-vt-direction="back"]::view-transition-new(root) {
-  animation: 400ms ease both vt-slide-in-left;
+/* Shared elements (post-*-title, project-*-cover, …) morph with a slower,
+   smoother curve than the browser default. */
+::view-transition-group(*) {
+  animation-duration: 520ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Header and footer stay visually static — excluded from the root slide */
+/* Header and footer stay visually static — excluded from the root crossfade */
 ::view-transition-old(site-header),
 ::view-transition-new(site-header),
 ::view-transition-old(site-footer),
@@ -71,10 +38,10 @@ html[data-vt-direction="back"]::view-transition-new(root) {
   mix-blend-mode: normal;
 }
 
-/* Reduced motion: disable slide, keep instant swap */
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(root),
-  ::view-transition-new(root) {
+  ::view-transition-new(root),
+  ::view-transition-group(*) {
     animation: none !important;
   }
 }
