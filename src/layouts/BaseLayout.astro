@@ -128,10 +128,3 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin).toString();
     </script>
   </body>
 </html>
-<style is:global>
-  /* Smoothly fade between page swaps too */
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
-    mix-blend-mode: normal;
-  }
-</style>

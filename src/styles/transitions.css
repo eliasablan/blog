@@ -46,9 +46,11 @@
 /* Forward navigation (default) */
 ::view-transition-old(root) {
   animation: 400ms ease both vt-slide-out-left;
+  mix-blend-mode: normal;
 }
 ::view-transition-new(root) {
   animation: 400ms ease both vt-slide-in-right;
+  mix-blend-mode: normal;
 }
 
 /* Back navigation — applied by adding [data-vt-direction="back"] on <html>

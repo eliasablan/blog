@@ -13,13 +13,13 @@ const t = useTranslations(lang);
 <button
   type="button"
   id="theme-toggle"
-  class="theme-toggle"
+  class="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-rule bg-transparent p-0 text-tx-secondary hover:border-primary hover:text-foreground"
   aria-label={t('theme.toggle')}
   title={t('theme.toggle')}
 >
   {/* Moon (visible in light → click to go dark) */}
   <svg
-    class="icon-moon"
+    class="block h-4 w-4 dark:hidden"
     viewBox="0 0 24 24"
     aria-hidden="true"
   >
@@ -32,7 +32,11 @@ const t = useTranslations(lang);
       stroke-linejoin="round"></path>
   </svg>
   {/* Sun (visible in dark → click to go light) */}
-  <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+  <svg
+    class="hidden h-4 w-4 dark:block"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
     <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.6"></circle>
     <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
       <line x1="12" y1="2.5" x2="12" y2="5"></line>
@@ -46,43 +50,6 @@ const t = useTranslations(lang);
     </g>
   </svg>
 </button>
-
-<style>
-  .theme-toggle {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: 1px solid var(--rule);
-    background: transparent;
-    color: var(--tx-secondary);
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-  }
-  .theme-toggle:hover {
-    border-color: var(--accent);
-    color: var(--tx);
-  }
-  .theme-toggle svg {
-    width: 16px;
-    height: 16px;
-    display: block;
-  }
-  .theme-toggle .icon-sun {
-    display: none;
-  }
-  .theme-toggle .icon-moon {
-    display: block;
-  }
-  :global(.dark) .theme-toggle .icon-sun {
-    display: block;
-  }
-  :global(.dark) .theme-toggle .icon-moon {
-    display: none;
-  }
-</style>
 
 <script>
   function applyTheme(theme: 'light' | 'dark') {

@@ -1,34 +1,28 @@
 ---
-import type { Lang } from '@/i18n/ui';
-import ContactEs from '@/content/home/contact.es.mdx';
-import ContactEn from '@/content/home/contact.en.mdx';
-import ContactForm from '@/components/ContactForm.astro';
+import type { Lang } from "@/i18n/ui";
+import ContactEs from "@/content/home/contact.es.mdx";
+import ContactEn from "@/content/home/contact.en.mdx";
+import ContactForm from "@/components/ContactForm.astro";
 
 interface Props {
-  lang: Lang;
+    lang: Lang;
 }
 
 const { lang } = Astro.props;
-const Content = lang === 'es' ? ContactEs : ContactEn;
-const title = lang === 'es' ? 'Contacto' : 'Contact';
+const Content = lang === "es" ? ContactEs : ContactEn;
+const title = lang === "es" ? "Contacto" : "Contact";
 ---
 
-<section id="contact" class="section-shell">
-  <h2 class="section">{title}</h2>
-  <div class="contact-prose">
-    <Content />
-  </div>
-  <ContactForm lang={lang} />
+<section id="contact" class="mx-auto max-w-170 px-8 max-[600px]:px-5">
+    <h2
+        class="mt-16 mb-5 font-serif text-[32px] leading-[1.2] font-semibold tracking-[-0.012em] text-foreground scroll-mt-20 before:mr-3 before:font-normal before:not-italic before:text-primary before:opacity-85 before:content-['§']"
+    >
+        {title}
+    </h2>
+    <div
+        class="[&_p]:m-0 [&_p]:mb-12 [&_p]:text-lg [&_p]:leading-[1.7] [&_p]:text-foreground [&_a]:text-primary"
+    >
+        <Content />
+    </div>
+    <ContactForm lang={lang} />
 </section>
-
-<style>
-  .contact-prose :global(p) {
-    font-size: 18px;
-    line-height: 1.7;
-    margin: 0 0 48px;
-    color: var(--tx);
-  }
-  .contact-prose :global(a) {
-    color: var(--accent);
-  }
-</style>

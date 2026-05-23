@@ -23,16 +23,5 @@ const t = useTranslations(lang);
   <FeaturedProjects lang={lang} />
   <FeaturedPosts lang={lang} />
   <ContactSection lang={lang} />
-  <div class="bottom-spacer"></div>
+  <div class="h-24 max-[600px]:h-16"></div>
 </BaseLayout>
-
-<style>
-  .bottom-spacer {
-    height: 96px;
-  }
-  @media (max-width: 600px) {
-    .bottom-spacer {
-      height: 64px;
-    }
-  }
-</style>

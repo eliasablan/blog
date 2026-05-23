@@ -113,6 +113,10 @@
   --color-destructive: var(--red);
   --color-destructive-foreground: var(--on-accent);
   --color-ring: var(--accent);
+
+  /* Fonts — variables come from Astro's <Font> integration in BaseLayout */
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
 }
 
 @layer base {
@@ -191,37 +195,12 @@
 }
 
 @layer components {
-  .section-shell {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 0 32px;
-  }
-  @media (max-width: 600px) {
-    .section-shell {
-      padding: 0 20px;
-    }
-  }
-
-  h2.section {
-    font-family: var(--font-serif);
-    font-size: 32px;
-    font-weight: 600;
-    letter-spacing: -0.012em;
-    line-height: 1.2;
-    margin: 64px 0 20px;
-    color: var(--tx);
-    scroll-margin-top: 80px;
-  }
-  h2.section::before {
-    content: "§";
-    color: var(--accent);
-    font-style: italic;
-    font-weight: 400;
-    margin-right: 12px;
-    opacity: 0.85;
-  }
-
-  /* ---------- Article body (rendered MDX) ---------- */
+  /* ---------- Article body (rendered MDX) ----------
+     Kept as raw CSS because it targets MDX-rendered HTML where
+     elements receive no classes — Tailwind utilities cannot be applied
+     inline. Prose plugin would require extensive overrides for the §
+     heading marker, accent list-markers, custom hr width, and custom
+     code/blockquote styling. */
   .article-body {
     font-family: var(--font-serif);
     font-size: 18px;

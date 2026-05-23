@@ -30,12 +30,15 @@ const projects = filterByLang(await getCollection('portfolio'), lang)
   .sort((a, b) => b.data.year - a.data.year);
 
 const isEmpty = posts.length === 0 && projects.length === 0;
+
+const eyebrowClasses =
+  'font-mono text-xs tracking-[0.08em] text-tx-muted uppercase';
 ---
 
 <BaseLayout title={`${label} — Elías Ablán`} description={label}>
   <section class="mx-auto max-w-3xl px-4 py-12">
     <header class="mb-10 space-y-2">
-      <p class="tag-eyebrow">{t('tags.eyebrow')}</p>
+      <p class={eyebrowClasses}>{t('tags.eyebrow')}</p>
       <h1 class="text-4xl font-bold tracking-tight">{label}</h1>
     </header>
 
@@ -43,8 +46,8 @@ const isEmpty = posts.length === 0 && projects.length === 0;
 
     {
       posts.length > 0 && (
-        <div class="group">
-          <h2 class="group-title">{t('tags.articles')}</h2>
+        <div class="mt-10">
+          <h2 class={`${eyebrowClasses} m-0 mb-4`}>{t('tags.articles')}</h2>
           <ul class="flex flex-col gap-6">
             {posts.map((post) => (
               <li>
@@ -58,8 +61,8 @@ const isEmpty = posts.length === 0 && projects.length === 0;
 
     {
       projects.length > 0 && (
-        <div class="group">
-          <h2 class="group-title">{t('tags.projects')}</h2>
+        <div class="mt-10">
+          <h2 class={`${eyebrowClasses} m-0 mb-4`}>{t('tags.projects')}</h2>
           <ul class="flex flex-col gap-6">
             {projects.map((project) => (
               <li>
@@ -71,34 +74,8 @@ const isEmpty = posts.length === 0 && projects.length === 0;
       )
     }
 
-    <p class="back">
+    <p class="mt-12 font-serif text-base">
       <a href={`/${lang}/`}>{t('tags.back')}</a>
     </p>
   </section>
 </BaseLayout>
-
-<style>
-  .tag-eyebrow {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--tx-muted);
-  }
-  .group {
-    margin-top: 40px;
-  }
-  .group-title {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--tx-muted);
-    margin: 0 0 16px;
-  }
-  .back {
-    margin-top: 48px;
-    font-family: var(--font-serif);
-    font-size: 16px;
-  }
-</style>

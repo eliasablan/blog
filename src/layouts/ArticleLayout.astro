@@ -1,14 +1,14 @@
 ---
-import { render, type CollectionEntry } from 'astro:content';
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import type { Lang } from '@/i18n/ui';
-import { useTranslations } from '@/i18n/utils';
-import { tagLabels, tagPath } from '@/i18n/tags';
+import { render, type CollectionEntry } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import type { Lang } from "@/i18n/ui";
+import { useTranslations } from "@/i18n/utils";
+import { tagLabels, tagPath } from "@/i18n/tags";
 
 interface Props {
-  post: CollectionEntry<'blog'>;
-  lang: Lang;
-  altLangHref?: string | null;
+    post: CollectionEntry<"blog">;
+    lang: Lang;
+    altLangHref?: string | null;
 }
 
 const { post, lang, altLangHref } = Astro.props;
@@ -16,216 +16,108 @@ const t = useTranslations(lang);
 const { Content } = await render(post);
 const key = post.data.translationKey;
 
-const locale = lang === 'es' ? 'es-ES' : 'en-US';
+const locale = lang === "es" ? "es-ES" : "en-US";
 const dateLabel = new Intl.DateTimeFormat(locale, {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
+    year: "numeric",
+    month: "long",
+    day: "numeric",
 }).format(post.data.publishedAt);
 
 const words = post.body?.trim().split(/\s+/).length ?? 0;
 const minutes = Math.max(1, Math.round(words / 200));
 const readingLabel =
-  lang === 'es' ? `${minutes} min de lectura` : `${minutes} min read`;
+    lang === "es" ? `${minutes} min de lectura` : `${minutes} min read`;
 
-const initial = 'E';
-const bylineAuthor =
-  lang === 'es' ? 'Por Elias Ablan' : 'By Elias Ablan';
-const bylineCity = 'Caracas';
+const initial = "E";
+const bylineAuthor = lang === "es" ? "Por Elias Ablan" : "By Elias Ablan";
+const bylineCity = "Caracas";
 const tags = post.data.tags ?? [];
 ---
 
 <BaseLayout
-  title={`${post.data.title} — Elias Ablan`}
-  description={post.data.description}
-  altLangHref={altLangHref}
+    title={`${post.data.title} — Elias Ablan`}
+    description={post.data.description}
+    altLangHref={altLangHref}
 >
-  <article class="article">
-    <p class="eyebrow">
-      {
-        tags[0] && (
-          <>
-            <a href={tagPath(lang, tags[0])} class="tag-link">{tagLabels[tags[0]][lang]}</a>
-            <span class="sep">·</span>
-          </>
-        )
-      }
-      <span>{readingLabel}</span>
-      <span class="sep">·</span>
-      <time datetime={post.data.publishedAt.toISOString()}>{dateLabel}</time>
-    </p>
+    <article
+        class="mx-auto max-w-170 px-8 pt-16 pb-24 max-[600px]:px-5 max-[600px]:pt-10 max-[600px]:pb-16"
+    >
+        <p
+            class="m-0 mb-6 font-mono text-xs leading-[1.4] tracking-[0.08em] text-tx-secondary uppercase"
+        >
+            {
+                tags[0] && (
+                    <>
+                        <a
+                            href={tagPath(lang, tags[0])}
+                            class="text-inherit no-underline hover:text-primary"
+                        >
+                            {tagLabels[tags[0]][lang]}
+                        </a>
+                        <span class="mx-2 opacity-50">·</span>
+                    </>
+                )
+            }
+            <span>{readingLabel}</span>
+            <span class="mx-2 opacity-50">·</span>
+            <time datetime={post.data.publishedAt.toISOString()}
+                >{dateLabel}</time
+            >
+        </p>
 
-    <h1 class="article-h1" transition:name={`post-${key}-title`}>
-      {post.data.title}
-    </h1>
+        <h1
+            class="m-0 mb-6 font-serif text-[clamp(36px,5vw,52px)] leading-[1.08] font-semibold tracking-[-0.018em] text-balance text-foreground"
+            transition:name={`post-${key}-title`}
+        >
+            {post.data.title}
+        </h1>
 
-    <p class="lede">
-      <span transition:name={`post-${key}-description`}
-        >{post.data.description}</span
-      >
-    </p>
+        <p
+            class="m-0 mb-8 border-b border-rule pb-8 text-[22px] leading-[1.4] font-normal italic text-pretty text-tx-secondary"
+        >
+            <span transition:name={`post-${key}-description`}
+                >{post.data.description}</span
+            >
+        </p>
 
-    <div class="byline">
-      <span class="avatar" aria-hidden="true">{initial}</span>
-      <span class="meta">
-        {bylineAuthor} <span class="dot-sep">·</span>
-        {bylineCity}
-      </span>
-    </div>
-
-    <div class="article-body">
-      <Content />
-    </div>
-
-    {
-      tags.length > 0 && (
-        <div class="article-footer">
-          <div class="tags">
-            {tags.map((tg) => (
-              <a class="tag" href={tagPath(lang, tg)}>
-                {tagLabels[tg][lang]}
-              </a>
-            ))}
-          </div>
-          <div class="fin">~ {lang === 'es' ? 'FIN' : 'END'} ~</div>
+        <div class="mb-12 flex items-center gap-3">
+            <span
+                class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary font-serif text-sm font-semibold italic text-primary-foreground"
+                aria-hidden="true">{initial}</span
+            >
+            <span class="font-mono text-xs tracking-[0.04em] text-tx-secondary">
+                {bylineAuthor}
+                <span class="mx-1.5 opacity-50">·</span>
+                {bylineCity}
+            </span>
         </div>
-      )
-    }
 
-    <p class="back">
-      <a href={`/${lang}/blog`}>{t('blog.back')}</a>
-    </p>
-  </article>
+        <div class="article-body">
+            <Content />
+        </div>
+
+        {
+            tags.length > 0 && (
+                <div class="mt-12 flex flex-wrap items-center justify-between gap-6 border-t border-rule pt-8">
+                    <div class="inline-flex flex-wrap gap-1.5">
+                        {tags.map((tg) => (
+                            <a
+                                class="rounded-full border border-rule bg-muted px-2.5 py-0.75 font-mono text-xs tracking-[0.02em] text-tx-secondary no-underline hover:border-primary hover:text-primary"
+                                href={tagPath(lang, tg)}
+                            >
+                                {tagLabels[tg][lang]}
+                            </a>
+                        ))}
+                    </div>
+                    <div class="font-mono text-xs tracking-widest text-tx-muted">
+                        ~ {lang === "es" ? "FIN" : "END"} ~
+                    </div>
+                </div>
+            )
+        }
+
+        <p class="mt-12 font-serif text-base">
+            <a href={`/${lang}/blog`}>{t("blog.back")}</a>
+        </p>
+    </article>
 </BaseLayout>
-
-<style>
-  .article {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 64px 32px 96px;
-  }
-  @media (max-width: 600px) {
-    .article {
-      padding: 40px 20px 64px;
-    }
-  }
-
-  .eyebrow {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--tx-secondary);
-    margin: 0 0 24px;
-    line-height: 1.4;
-  }
-  .eyebrow .sep {
-    opacity: 0.5;
-    margin: 0 8px;
-  }
-  .eyebrow .tag-link {
-    color: inherit;
-    text-decoration: none;
-  }
-  .eyebrow .tag-link:hover {
-    color: var(--accent);
-  }
-
-  .article-h1 {
-    font-family: var(--font-serif);
-    font-size: clamp(36px, 5vw, 52px);
-    font-weight: 600;
-    letter-spacing: -0.018em;
-    line-height: 1.08;
-    margin: 0 0 24px;
-    color: var(--tx);
-    text-wrap: balance;
-  }
-
-  .lede {
-    font-size: 22px;
-    line-height: 1.4;
-    font-style: italic;
-    font-weight: 400;
-    color: var(--tx-secondary);
-    margin: 0 0 32px;
-    padding-bottom: 32px;
-    border-bottom: 1px solid var(--rule);
-    text-wrap: pretty;
-  }
-
-  .byline {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 48px;
-  }
-  .byline .avatar {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: var(--accent);
-    color: var(--on-accent);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: 14px;
-    font-weight: 600;
-    flex-shrink: 0;
-  }
-  .byline .meta {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.04em;
-    color: var(--tx-secondary);
-  }
-  .byline .dot-sep {
-    opacity: 0.5;
-    margin: 0 6px;
-  }
-
-  .article-footer {
-    margin-top: 48px;
-    padding-top: 32px;
-    border-top: 1px solid var(--rule);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 24px;
-    flex-wrap: wrap;
-  }
-  .tags {
-    display: inline-flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-  .tag {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.02em;
-    background: var(--bg-secondary);
-    border: 1px solid var(--rule);
-    border-radius: 999px;
-    padding: 3px 10px;
-    color: var(--tx-secondary);
-    text-decoration: none;
-  }
-  .tag:hover {
-    color: var(--accent);
-    border-color: var(--accent);
-  }
-  .fin {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.1em;
-    color: var(--tx-muted);
-  }
-
-  .back {
-    margin-top: 48px;
-    font-family: var(--font-serif);
-    font-size: 16px;
-  }
-</style>
