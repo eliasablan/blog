@@ -1,0 +1,21 @@
+---
+title: "Building a Visual Page Builder with Sanity and Next.js 15"
+description: "A technical guide on transforming Sanity into a modular visual page builder using Next.js 15 and Portable Text."
+translationKey: "visual-builder-sanity-nextjs"
+publishedAt: 2026-03-10
+tags: ["web-development"]
+---
+
+Developing a high-fidelity visual builder with Sanity v3 and Next.js 15 is about shifting from static templates to a dynamic, component-driven architecture. This system leverages Sanity's powerful Portable Text to map CMS blocks directly to React components.
+
+## 1. The Schema: blockContent
+
+At the heart of the Visual Builder is the blockContent schema. Instead of a single text field, we define an array of modular blocks (Hero, Features, Pricing) that editors can reorder freely. This provides the flexibility of a traditional page builder with the structural integrity of a structured CMS.
+
+## 2. Next.js Implementation: CustomPortableText
+
+Using @portabletext/react, we create a mapping between Sanity _type and React components. This project uses server-side syntax highlighting with Shiki and optimized image rendering. By combining this with Sanity's Stega (Content Source Maps), we enable one-click editing directly from the frontend.
+
+## Conclusion
+
+This architecture ensures high performance (ISR/SSG) while maintaining a seamless DX for both developers and content editors. Using Bun as a runtime accelerates the development and type-generation lifecycle.
