@@ -156,7 +156,17 @@
   }
 
   .dark body {
-    background-image: none;
+    background-image: radial-gradient(
+        circle at 25% 30%,
+        rgba(255, 252, 240, 0.03) 0.5px,
+        transparent 1.2px
+      ),
+      radial-gradient(
+        circle at 75% 70%,
+        rgba(255, 252, 240, 0.02) 0.6px,
+        transparent 1.6px
+      );
+    background-size: 3px 3px, 7px 7px;
   }
 
   html,
