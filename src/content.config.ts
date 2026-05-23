@@ -1,10 +1,10 @@
-import { defineCollection } from 'astro:content';
-import { glob } from 'astro/loaders';
-import { z } from 'astro:schema';
-import { tagSlugs } from './i18n/tags';
+import { defineCollection } from "astro:content";
+import { glob } from "astro/loaders";
+import { z } from "astro/zod";
+import { tagSlugs } from "./i18n/tags";
 
 const blog = defineCollection({
-  loader: glob({ pattern: '**/*.mdx', base: './src/content/blog' }),
+  loader: glob({ pattern: "**/*.mdx", base: "./src/content/blog" }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
@@ -20,7 +20,7 @@ const blog = defineCollection({
 });
 
 const portfolio = defineCollection({
-  loader: glob({ pattern: '**/*.mdx', base: './src/content/portfolio' }),
+  loader: glob({ pattern: "**/*.mdx", base: "./src/content/portfolio" }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
@@ -29,8 +29,8 @@ const portfolio = defineCollection({
       year: z.number(),
       cover: image(),
       coverAlt: z.string().optional(),
-      repo: z.string().url().optional(),
-      demo: z.string().url().optional(),
+      repo: z.string().optional(),
+      demo: z.string().optional(),
       tags: z.array(z.enum(tagSlugs)).default([]),
       featured: z.boolean().default(false),
     }),
