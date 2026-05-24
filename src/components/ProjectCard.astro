@@ -72,12 +72,12 @@ const demoLabel = lang === "es" ? "visitar" : "visit";
                     href={project.data.demo}
                     target="_blank"
                     rel="noopener"
-                    class="inline-flex items-center gap-1.25 font-mono text-xs tracking-[0.02em] whitespace-nowrap text-tx-secondary no-underline hover:text-primary"
+                    class="inline-flex items-center gap-1.5 font-mono text-xs leading-none tracking-[0.02em] whitespace-nowrap text-tx-secondary no-underline hover:text-primary"
                 >
                     <svg
                         viewBox="0 0 16 16"
                         aria-hidden="true"
-                        class="block h-2.75 w-2.75 fill-none stroke-current stroke-[1.5]"
+                        class="block h-3 w-3 translate-y-px fill-none stroke-current stroke-[1.5]"
                     >
                         <path
                             d="M5 11L11 5M11 5H6.5M11 5V9.5"
@@ -95,16 +95,17 @@ const demoLabel = lang === "es" ? "visitar" : "visit";
                     href={project.data.repo}
                     target="_blank"
                     rel="noopener"
-                    class="inline-flex items-center gap-1.25 font-mono text-xs tracking-[0.02em] whitespace-nowrap text-tx-secondary no-underline hover:text-primary"
+                    class="inline-flex items-center gap-1.5 font-mono text-xs leading-none tracking-[0.02em] whitespace-nowrap text-tx-secondary no-underline hover:text-primary"
                 >
                     <svg
                         viewBox="0 0 16 16"
                         aria-hidden="true"
-                        class="block h-2.75 w-2.75 fill-none stroke-current stroke-[1.5]"
+                        class="block h-3 w-3 translate-y-px fill-none stroke-current stroke-[1.5]"
                     >
                         <path
-                            d="M3.5 8c0-1.66 1.34-3 3-3h1m4 6c0 1.66-1.34 3-3 3h-1M6.5 8h5"
+                            d="M5.5 5L2.5 8L5.5 11M10.5 5L13.5 8L10.5 11M9.5 4L6.5 12"
                             stroke-linecap="round"
+                            stroke-linejoin="round"
                         />
                     </svg>
                     {repoLabel}
