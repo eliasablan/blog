@@ -10,7 +10,7 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 ---
 
-<form id="contact-form" class="flex flex-col gap-6" novalidate>
+<form id="contact-form" class="flex flex-col gap-6" novalidate data-lang={lang}>
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div class="flex flex-col">
             <label
@@ -202,6 +202,7 @@ const t = useTranslations(lang);
 
             const fd = new FormData(form);
             const payload = Object.fromEntries(fd);
+            payload.lang = form.dataset.lang || "es";
             if (!validate(payload)) return;
 
             submitBtn?.setAttribute("disabled", "true");

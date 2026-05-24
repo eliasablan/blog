@@ -9,9 +9,25 @@ const schema = z.object({
   email: z.email().max(200),
   subject: z.string().trim().max(160).optional().default(""),
   message: z.string().trim().min(10).max(5000),
+  lang: z.enum(["es", "en"]).optional().default("es"),
   /** Honeypot: must accept any value so spam is swallowed silently (a 400 would reveal the trap). */
   website: z.string().optional().default(""),
 });
+
+const copy = {
+  es: {
+    heading: "Nuevo mensaje del formulario de contacto",
+    from: "De",
+    subject: "Asunto",
+    defaultSubject: (name: string) => `Mensaje de ${name}`,
+  },
+  en: {
+    heading: "New message from the contact form",
+    from: "From",
+    subject: "Subject",
+    defaultSubject: (name: string) => `Message from ${name}`,
+  },
+} as const;
 
 function escapeHtml(s: string): string {
   return s
@@ -48,11 +64,13 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
-  const { name, email, subject, message, website } = parsed.data;
+  const { name, email, subject, message, website, lang } = parsed.data;
 
   if (website && website.length > 0) {
     return Response.json({ ok: true });
   }
+
+  const c = copy[lang];
 
   const apiKey = import.meta.env.RESEND_API_KEY;
   const from = import.meta.env.RESEND_FROM;
@@ -69,17 +87,17 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const resend = new Resend(apiKey);
-  const finalSubject = subject
-    ? `[Blog] ${subject}`
-    : `[Blog] Mensaje de ${name}`;
+  const finalSubject = `[Blog] ${subject || c.defaultSubject(name)}`;
 
   const html = `
-    <h2>Nuevo mensaje del formulario de contacto</h2>
-    <p><strong>De:</strong> ${escapeHtml(name)} &lt;${escapeHtml(email)}&gt;</p>
-    ${subject ? `<p><strong>Asunto:</strong> ${escapeHtml(subject)}</p>` : ""}
+    <h2>${c.heading}</h2>
+    <p><strong>${c.from}:</strong> ${escapeHtml(name)} &lt;${escapeHtml(email)}&gt;</p>
+    ${subject ? `<p><strong>${c.subject}:</strong> ${escapeHtml(subject)}</p>` : ""}
     <hr>
     <pre style="font-family: inherit; white-space: pre-wrap;">${escapeHtml(message)}</pre>
   `;
+
+  const text = `${c.from}: ${name} <${email}>\n${subject ? `${c.subject}: ${subject}\n` : ""}\n${message}`;
 
   try {
     const { error } = await resend.emails.send({
@@ -88,7 +106,7 @@ export const POST: APIRoute = async ({ request }) => {
       subject: finalSubject,
       replyTo: email,
       html,
-      text: `De: ${name} <${email}>\n${subject ? `Asunto: ${subject}\n` : ""}\n${message}`,
+      text,
     });
 
     if (error) {
