@@ -1,15 +1,13 @@
 ---
 import type { Lang } from "@/i18n/ui";
+import { useTranslations } from "@/i18n/utils";
 
 interface Props {
     lang: Lang;
 }
 
 const { lang } = Astro.props;
-const lede =
-    lang === "es"
-        ? "Desarrollador freelance y consultor de redes en Caracas. Construyo software, configuro redes y a veces mezclo las dos cosas con hardware."
-        : "Freelance developer and network consultant in Caracas. I build software, set up networks, and sometimes mix the two with hardware.";
+const t = useTranslations(lang);
 ---
 
 <section
@@ -23,6 +21,6 @@ const lede =
     <p
         class="m-0 mb-8 border-b border-rule pb-8 text-[22px] leading-[1.4] font-normal italic text-pretty text-tx-secondary"
     >
-        {lede}
+        {t("home.hero.lede")}
     </p>
 </section>

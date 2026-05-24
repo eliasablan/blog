@@ -14,37 +14,13 @@ const { slug } = splitEntryId(post.id);
 const href = `${sectionPath(lang, "blog")}/${slug}`;
 const key = post.data.translationKey;
 
-const monthsEs = [
-    "Ene",
-    "Feb",
-    "Mar",
-    "Abr",
-    "May",
-    "Jun",
-    "Jul",
-    "Ago",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dic",
-];
-const monthsEn = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-];
-const months = lang === "es" ? monthsEs : monthsEn;
+const locale = lang === "es" ? "es-ES" : "en-US";
 const d = post.data.publishedAt;
-const dateLabel = `${d.getUTCFullYear()} · ${months[d.getUTCMonth()]}`;
+const monthShort = new Intl.DateTimeFormat(locale, {
+    month: "short",
+    timeZone: "UTC",
+}).format(d);
+const dateLabel = `${d.getUTCFullYear()} · ${monthShort}`;
 ---
 
 <div

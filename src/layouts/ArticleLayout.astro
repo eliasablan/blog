@@ -25,11 +25,10 @@ const dateLabel = new Intl.DateTimeFormat(locale, {
 
 const words = post.body?.trim().split(/\s+/).length ?? 0;
 const minutes = Math.max(1, Math.round(words / 200));
-const readingLabel =
-    lang === "es" ? `${minutes} min de lectura` : `${minutes} min read`;
+const readingLabel = `${minutes} ${t("blog.readingTime")}`;
 
 const initial = "E";
-const bylineAuthor = lang === "es" ? "Por Elias Ablan" : "By Elias Ablan";
+const bylineAuthor = `${t("article.byline.prefix")} Elias Ablan`;
 const bylineCity = "Caracas";
 const tags = post.data.tags ?? [];
 ---

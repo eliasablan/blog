@@ -1,17 +1,19 @@
 ---
 import type { Lang } from "@/i18n/ui";
+import { useTranslations } from "@/i18n/utils";
 
 interface Props {
     lang: Lang;
 }
 
 const { lang } = Astro.props;
+const t = useTranslations(lang);
 const year = new Date().getFullYear();
 const cvUrl =
     lang === "es"
         ? "https://661udz75j1.ufs.sh/f/FCpxdU1lxaGLcPmSXeRXsAEdoGpN9iBFwnl4Tghjy7VfQOaz"
         : "https://661udz75j1.ufs.sh/f/FCpxdU1lxaGL4fcyVMrJZzS9UV6XO5eHj1msfWC7BFMwbtTk";
-const cvLabel = lang === "es" ? "Curriculum" : "Resume";
+const cvLabel = t("footer.cv");
 ---
 
 <footer
@@ -31,14 +33,14 @@ const cvLabel = lang === "es" ? "Curriculum" : "Resume";
         <span class="text-tx-muted opacity-60">·</span>
         <a href="https://wa.me/584242728990" aria-label="WhatsApp">WhatsApp</a>
         <span class="text-tx-muted opacity-60">·</span>
+        <a href="mailto:eliasablan93@gmail.com" aria-label="Email">Email</a>
+        <span class="text-tx-muted opacity-60">·</span>
         <a
             href={cvUrl}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={cvLabel}>{cvLabel}</a
         >
-        <span class="text-tx-muted opacity-60">·</span>
-        <a href="mailto:eliasablan93@gmail.com" aria-label="Email">Email</a>
         <!-- <span class="text-tx-muted opacity-60">·</span>
         <a href={`/${lang}/rss.xml`} aria-label="RSS">RSS</a> -->
     </div>

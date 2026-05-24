@@ -1,7 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import type { Lang } from "@/i18n/ui";
-import { splitEntryId } from "@/i18n/utils";
+import { splitEntryId, useTranslations } from "@/i18n/utils";
 import { sectionPath } from "@/i18n/routes";
 import { tagLabels, tagPath } from "@/i18n/tags";
 
@@ -11,12 +11,13 @@ interface Props {
 }
 
 const { project, lang } = Astro.props;
+const t = useTranslations(lang);
 const { slug } = splitEntryId(project.id);
 const href = `${sectionPath(lang, "portfolio")}/${slug}`;
 const key = project.data.translationKey;
 
-const repoLabel = lang === "es" ? "código" : "code";
-const demoLabel = lang === "es" ? "visitar" : "visit";
+const repoLabel = t("portfolio.repo.short");
+const demoLabel = t("portfolio.demo.short");
 ---
 
 <div

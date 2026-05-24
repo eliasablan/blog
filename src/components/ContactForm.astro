@@ -26,7 +26,7 @@ const t = useTranslations(lang);
                 type="text"
                 required
                 autocomplete="name"
-                placeholder={lang === "es" ? "Cómo te llamas" : "Your name"}
+                placeholder={t("contact.form.namePlaceholder")}
                 class="w-full resize-y rounded-xs border border-rule bg-card px-3.5 py-3 font-serif text-base leading-normal text-foreground outline-none placeholder:text-tx-muted placeholder:italic focus:border-primary"
             />
             <p
@@ -49,7 +49,7 @@ const t = useTranslations(lang);
                 type="email"
                 required
                 autocomplete="email"
-                placeholder={lang === "es" ? "tu@correo.com" : "you@email.com"}
+                placeholder={t("contact.form.emailPlaceholder")}
                 class="w-full resize-y rounded-xs border border-rule bg-card px-3.5 py-3 font-serif text-base leading-normal text-foreground outline-none placeholder:text-tx-muted placeholder:italic focus:border-primary"
             />
             <p
@@ -70,7 +70,7 @@ const t = useTranslations(lang);
             id="contact-subject"
             name="subject"
             type="text"
-            placeholder={lang === "es" ? "De qué se trata" : "What is it about"}
+            placeholder={t("contact.form.subjectPlaceholder")}
             class="w-full resize-y rounded-xs border border-rule bg-card px-3.5 py-3 font-serif text-base leading-normal text-foreground outline-none placeholder:text-tx-muted placeholder:italic focus:border-primary"
         />
     </div>
@@ -89,9 +89,7 @@ const t = useTranslations(lang);
             required
             rows="6"
             minlength="10"
-            placeholder={lang === "es"
-                ? "Cuéntame brevemente de qué se trata."
-                : "Tell me briefly what it is about."}
+            placeholder={t("contact.form.messagePlaceholder")}
             class="min-h-35 w-full resize-y rounded-xs border border-rule bg-card px-3.5 py-3 font-serif text-base leading-normal text-foreground outline-none placeholder:text-tx-muted placeholder:italic focus:border-primary"
         ></textarea>
         <p

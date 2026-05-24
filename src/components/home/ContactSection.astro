@@ -1,5 +1,6 @@
 ---
 import type { Lang } from "@/i18n/ui";
+import { useTranslations } from "@/i18n/utils";
 import ContactEs from "@/content/home/contact.es.mdx";
 import ContactEn from "@/content/home/contact.en.mdx";
 import ContactForm from "@/components/ContactForm.astro";
@@ -9,15 +10,15 @@ interface Props {
 }
 
 const { lang } = Astro.props;
+const t = useTranslations(lang);
 const Content = lang === "es" ? ContactEs : ContactEn;
-const title = lang === "es" ? "Contacto" : "Contact";
 ---
 
 <section id="contact" class="mx-auto max-w-170 px-8 max-[600px]:px-5">
     <h2
         class="mt-16 mb-5 font-serif text-[32px] leading-[1.2] font-semibold tracking-[-0.012em] text-foreground scroll-mt-20 before:mr-3 before:font-normal before:not-italic before:text-primary before:opacity-85 before:content-['§']"
     >
-        {title}
+        {t("home.contact.title")}
     </h2>
     <div
         class="[&_p]:m-0 [&_p]:mb-12 [&_p]:text-lg [&_p]:leading-[1.7] [&_p]:text-foreground [&_a]:text-primary"

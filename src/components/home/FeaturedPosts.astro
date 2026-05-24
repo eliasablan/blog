@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import type { Lang } from "@/i18n/ui";
-import { filterByLang } from "@/i18n/utils";
+import { filterByLang, useTranslations } from "@/i18n/utils";
 import PostCard from "@/components/PostCard.astro";
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const title = lang === "es" ? "Escritos" : "Writing";
+const t = useTranslations(lang);
 
 const posts = filterByLang(await getCollection("blog"), lang)
     .filter((p) => !p.data.draft)
@@ -21,7 +21,7 @@ const posts = filterByLang(await getCollection("blog"), lang)
     posts.length > 0 && (
         <section class="mx-auto max-w-170 px-8 max-[600px]:px-5">
             <h2 class="mt-16 mb-5 font-serif text-[32px] leading-[1.2] font-semibold tracking-[-0.012em] text-foreground scroll-mt-20 before:mr-3 before:font-normal before:not-italic before:text-primary before:opacity-85 before:content-['§']">
-                {title}
+                {t("home.featured.posts.title")}
             </h2>
             <div class="flex flex-col gap-6">
                 {posts.map((post) => (
