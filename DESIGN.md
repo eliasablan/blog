@@ -14,51 +14,51 @@ directamente en componentes — se consumen vía tokens semánticos.
 
 ### 1.1 Raw — escala neutra
 
-| Token        | Hex      | Uso típico                          |
-| ------------ | -------- | ----------------------------------- |
-| `--paper`    | `#FFFCF0` | bg en light                         |
-| `--base-50`  | `#F2F0E5` | bg secundario en light              |
-| `--base-100` | `#E6E4D9` | ui / bg terciario en light          |
-| `--base-150` | `#DAD8CE` | rule / hover en light               |
-| `--base-200` | `#CECDC3` | active / tx en dark                 |
-| `--base-300` | `#B7B5AC` | —                                   |
-| `--base-500` | `#878580` | tx muted en light                   |
-| `--base-700` | `#575653` | tx secundario en light              |
-| `--base-850` | `#343331` | rule en dark                        |
-| `--base-900` | `#282726` | ui / bg terciario en dark           |
-| `--base-950` | `#1C1B1A` | bg secundario en dark               |
-| `--black`    | `#100F0F` | bg en dark / tx en light            |
+| Token        | Hex       | Uso típico                 |
+| ------------ | --------- | -------------------------- |
+| `--paper`    | `#FFFCF0` | bg en light                |
+| `--base-50`  | `#F2F0E5` | bg secundario en light     |
+| `--base-100` | `#E6E4D9` | ui / bg terciario en light |
+| `--base-150` | `#DAD8CE` | rule / hover en light      |
+| `--base-200` | `#CECDC3` | active / tx en dark        |
+| `--base-300` | `#B7B5AC` | —                          |
+| `--base-500` | `#878580` | tx muted en light          |
+| `--base-700` | `#575653` | tx secundario en light     |
+| `--base-850` | `#343331` | rule en dark               |
+| `--base-900` | `#282726` | ui / bg terciario en dark  |
+| `--base-950` | `#1C1B1A` | bg secundario en dark      |
+| `--black`    | `#100F0F` | bg en dark / tx en light   |
 
 ### 1.2 Raw — acentos
 
 Cambian de valor entre temas; el _papel_ semántico se mantiene.
 
-| Token       | Light     | Dark      | Uso típico                |
-| ----------- | --------- | --------- | ------------------------- |
-| `--red`     | `#AF3029` | `#D14D41` | accent principal          |
-| `--orange`  | `#BC5215` | `#DA702C` | syntax `tk-num`           |
-| `--yellow`  | `#AD8301` | `#D0A215` | `::selection`             |
-| `--green`   | `#66800B` | `#879A39` | syntax `tk-str`, success  |
-| `--cyan`    | `#24837B` | `#3AA99F` | syntax `tk-ty`            |
-| `--blue`    | `#205EA6` | `#4385BE` | syntax `tk-fn`            |
-| `--purple`  | `#5E409D` | `#8B7EC8` | syntax `tk-kw`            |
-| `--magenta` | `#A02F6F` | `#CE5D97` | syntax `tk-op`            |
+| Token       | Light     | Dark      | Uso típico               |
+| ----------- | --------- | --------- | ------------------------ |
+| `--red`     | `#AF3029` | `#D14D41` | accent principal         |
+| `--orange`  | `#BC5215` | `#DA702C` | syntax `tk-num`          |
+| `--yellow`  | `#AD8301` | `#D0A215` | `::selection`            |
+| `--green`   | `#66800B` | `#879A39` | syntax `tk-str`, success |
+| `--cyan`    | `#24837B` | `#3AA99F` | syntax `tk-ty`           |
+| `--blue`    | `#205EA6` | `#4385BE` | syntax `tk-fn`           |
+| `--purple`  | `#5E409D` | `#8B7EC8` | syntax `tk-kw`           |
+| `--magenta` | `#A02F6F` | `#CE5D97` | syntax `tk-op`           |
 
 ### 1.3 Tokens semánticos
 
 Lo que se usa en componentes. Vive en `src/styles/global.css`.
 
-| Token            | Light          | Dark            | Notas                          |
-| ---------------- | -------------- | --------------- | ------------------------------ |
-| `--bg`           | `--paper`      | `--black`       | fondo de página                |
-| `--bg-secondary` | `--base-50`    | `--base-950`    | bloques alternos               |
-| `--bg-tertiary`  | `--base-100`   | `--base-900`    | code blocks, inputs            |
-| `--tx`           | `--black`      | `--base-200`    | texto principal                |
-| `--tx-secondary` | `--base-700`   | `--base-500`    | texto de apoyo                 |
-| `--tx-muted`     | `--base-500`   | `--base-700`    | meta, fechas, captions         |
-| `--rule`         | `--base-150`   | `--base-850`    | divisores y bordes             |
-| `--accent`       | `--red`        | `--red` (D14D41)| brand color                    |
-| `--on-accent`    | `--paper`      | `--black`       | texto sobre accent             |
+| Token            | Light        | Dark             | Notas                  |
+| ---------------- | ------------ | ---------------- | ---------------------- |
+| `--bg`           | `--paper`    | `--black`        | fondo de página        |
+| `--bg-secondary` | `--base-50`  | `--base-950`     | bloques alternos       |
+| `--bg-tertiary`  | `--base-100` | `--base-900`     | code blocks, inputs    |
+| `--tx`           | `--black`    | `--base-200`     | texto principal        |
+| `--tx-secondary` | `--base-700` | `--base-500`     | texto de apoyo         |
+| `--tx-muted`     | `--base-500` | `--base-700`     | meta, fechas, captions |
+| `--rule`         | `--base-150` | `--base-850`     | divisores y bordes     |
+| `--accent`       | `--red`      | `--red` (D14D41) | brand color            |
+| `--on-accent`    | `--paper`    | `--black`        | texto sobre accent     |
 
 En Tailwind v4 (`@theme inline` en `global.css`) estos se exponen como
 `--color-bg`, `--color-foreground`, `--color-tx-secondary`, etc. — las
@@ -69,10 +69,10 @@ clases utilitarias `bg-background`, `text-foreground`,
 
 ## 2. Tipografía
 
-| Familia                | Variable        | Uso                            |
-| ---------------------- | --------------- | ------------------------------ |
-| **IBM Plex Serif**     | `--font-serif`  | body, h1–h4, prose, byline ital|
-| **IBM Plex Mono**      | `--font-mono`   | brand, nav, meta, code, labels |
+| Familia            | Variable       | Uso                             |
+| ------------------ | -------------- | ------------------------------- |
+| **IBM Plex Serif** | `--font-serif` | body, h1–h4, prose, byline ital |
+| **IBM Plex Mono**  | `--font-mono`  | brand, nav, meta, code, labels  |
 
 Pesos cargados: 300 / 400 / 500 / 600 (serif) y 400 / 500 / 600 (mono),
 con italics 400 y 600. Vía `<link>` a Google Fonts en `BaseLayout.astro`
@@ -267,11 +267,23 @@ Dos `radial-gradient` micros sobre `body` para romper la planitud del
 ```css
 body {
   background-image:
-    radial-gradient(circle at 25% 30%, rgba(16,15,15,0.018) 0.5px, transparent 1.2px),
-    radial-gradient(circle at 75% 70%, rgba(16,15,15,0.013) 0.6px, transparent 1.6px);
-  background-size: 3px 3px, 7px 7px;
+    radial-gradient(
+      circle at 25% 30%,
+      rgba(16, 15, 15, 0.018) 0.5px,
+      transparent 1.2px
+    ),
+    radial-gradient(
+      circle at 75% 70%,
+      rgba(16, 15, 15, 0.013) 0.6px,
+      transparent 1.6px
+    );
+  background-size:
+    3px 3px,
+    7px 7px;
 }
-.dark body { background-image: none; }
+.dark body {
+  background-image: none;
+}
 ```
 
 ### 6.2 Selección

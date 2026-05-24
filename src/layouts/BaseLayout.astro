@@ -1,12 +1,12 @@
 ---
-import { ClientRouter } from 'astro:transitions';
-import { Font } from 'astro:assets';
-import '@/styles/global.css';
-import '@/styles/transitions.css';
-import Header from '@/components/Header.astro';
-import Footer from '@/components/Footer.astro';
-import { getLangFromUrl, altLangUrl } from '@/i18n/utils';
-import type { Lang } from '@/i18n/ui';
+import { ClientRouter } from "astro:transitions";
+import { Font } from "astro:assets";
+import "@/styles/global.css";
+import "@/styles/transitions.css";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import { getLangFromUrl, altLangUrl } from "@/i18n/utils";
+import type { Lang } from "@/i18n/ui";
 
 interface Props {
   title: string;
@@ -18,14 +18,25 @@ interface Props {
   canonical?: string;
 }
 
-const { title, description, ogImage = '/favicon.svg', altLangHref, canonical } = Astro.props;
+const {
+  title,
+  description,
+  ogImage = "/favicon.svg",
+  altLangHref,
+  canonical,
+} = Astro.props;
 const lang = Astro.props.lang ?? getLangFromUrl(Astro.url);
 
-const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString();
-const altLang: Lang = lang === 'es' ? 'en' : 'es';
+const canonicalUrl =
+  canonical ??
+  new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString();
+const altLang: Lang = lang === "es" ? "en" : "es";
 const altAvailable = altLangHref !== null;
 const altUrl = altLangHref ?? altLangUrl(Astro.url, altLang);
-const absoluteAltUrl = new URL(altUrl, Astro.site ?? Astro.url.origin).toString();
+const absoluteAltUrl = new URL(
+  altUrl,
+  Astro.site ?? Astro.url.origin,
+).toString();
 
 const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin).toString();
 ---
@@ -47,7 +58,11 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin).toString();
     <link rel="canonical" href={canonicalUrl} />
 
     <link rel="alternate" hreflang={lang} href={canonicalUrl} />
-    {altAvailable && <link rel="alternate" hreflang={altLang} href={absoluteAltUrl} />}
+    {
+      altAvailable && (
+        <link rel="alternate" hreflang={altLang} href={absoluteAltUrl} />
+      )
+    }
     <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
 
     <meta property="og:type" content="website" />
@@ -55,21 +70,25 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin).toString();
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={ogImageUrl} />
-    <meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_US'} />
+    <meta property="og:locale" content={lang === "es" ? "es_ES" : "en_US"} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
 
-    {/* Anti-FOUC: must run synchronously before paint. Absence of stored key = follow system. */}
+    {
+      /* Anti-FOUC: must run synchronously before paint. Absence of stored key = follow system. */
+    }
     <script is:inline>
       (function () {
         try {
-          var stored = localStorage.getItem('theme');
-          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          var isDark = stored === 'dark' || (!stored && prefersDark);
-          if (isDark) document.documentElement.classList.add('dark');
+          var stored = localStorage.getItem("theme");
+          var prefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)",
+          ).matches;
+          var isDark = stored === "dark" || (!stored && prefersDark);
+          if (isDark) document.documentElement.classList.add("dark");
         } catch (_) {}
       })();
     </script>
@@ -77,7 +96,7 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin).toString();
     <ClientRouter />
   </head>
 
-  <body class="min-h-screen flex flex-col">
+  <body class="flex min-h-screen flex-col">
     <Header lang={lang} altLangHref={altUrl} altLangAvailable={altAvailable} />
     <main class="flex-1">
       <slot />
@@ -85,27 +104,31 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin).toString();
     <Footer lang={lang} />
 
     <script is:inline>
-      document.addEventListener('astro:before-preparation', function (event) {
-        var dir = event.direction || 'forward';
+      document.addEventListener("astro:before-preparation", function (event) {
+        var dir = event.direction || "forward";
         document.documentElement.dataset.vtDirection = dir;
       });
-      document.addEventListener('astro:after-swap', function () {
-        var stored = localStorage.getItem('theme');
-        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        var isDark = stored === 'dark' || (!stored && prefersDark);
-        document.documentElement.classList.toggle('dark', isDark);
+      document.addEventListener("astro:after-swap", function () {
+        var stored = localStorage.getItem("theme");
+        var prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
+        var isDark = stored === "dark" || (!stored && prefersDark);
+        document.documentElement.classList.toggle("dark", isDark);
       });
     </script>
 
-    {/* Hand-rolled instead of <Analytics /> — that component's inline customElements.define re-fires on head swaps and causes FOUC on view-transition snapshots. */}
+    {
+      /* Hand-rolled instead of <Analytics /> — that component's inline customElements.define re-fires on head swaps and causes FOUC on view-transition snapshots. */
+    }
     <script>
-      import { inject } from '@vercel/analytics';
+      import { inject } from "@vercel/analytics";
       inject({
-        mode: import.meta.env.PROD ? 'production' : 'development',
+        mode: import.meta.env.PROD ? "production" : "development",
         disableAutoTrack: true,
       });
-      document.addEventListener('astro:page-load', () => {
-        window.va?.('pageview', { path: location.pathname });
+      document.addEventListener("astro:page-load", () => {
+        window.va?.("pageview", { path: location.pathname });
       });
     </script>
   </body>

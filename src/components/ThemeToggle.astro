@@ -1,6 +1,6 @@
 ---
-import type { Lang } from '@/i18n/ui';
-import { useTranslations } from '@/i18n/utils';
+import type { Lang } from "@/i18n/ui";
+import { useTranslations } from "@/i18n/utils";
 
 interface Props {
   lang: Lang;
@@ -14,14 +14,10 @@ const t = useTranslations(lang);
   type="button"
   id="theme-toggle"
   class="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-rule bg-transparent p-0 text-tx-secondary hover:border-primary hover:text-foreground"
-  aria-label={t('theme.toggle')}
-  title={t('theme.toggle')}
+  aria-label={t("theme.toggle")}
+  title={t("theme.toggle")}
 >
-  <svg
-    class="block h-4 w-4 dark:hidden"
-    viewBox="0 0 24 24"
-    aria-hidden="true"
-  >
+  <svg class="block h-4 w-4 dark:hidden" viewBox="0 0 24 24" aria-hidden="true">
     <path
       d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"
       fill="none"
@@ -30,12 +26,14 @@ const t = useTranslations(lang);
       stroke-linecap="round"
       stroke-linejoin="round"></path>
   </svg>
-  <svg
-    class="hidden h-4 w-4 dark:block"
-    viewBox="0 0 24 24"
-    aria-hidden="true"
-  >
-    <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.6"></circle>
+  <svg class="hidden h-4 w-4 dark:block" viewBox="0 0 24 24" aria-hidden="true">
+    <circle
+      cx="12"
+      cy="12"
+      r="4"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"></circle>
     <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
       <line x1="12" y1="2.5" x2="12" y2="5"></line>
       <line x1="12" y1="19" x2="12" y2="21.5"></line>
@@ -50,24 +48,26 @@ const t = useTranslations(lang);
 </button>
 
 <script>
-  function applyTheme(theme: 'light' | 'dark') {
-    document.documentElement.classList.toggle('dark', theme === 'dark');
-    localStorage.setItem('theme', theme);
+  function applyTheme(theme: "light" | "dark") {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    localStorage.setItem("theme", theme);
   }
 
-  function currentTheme(): 'light' | 'dark' {
-    return document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+  function currentTheme(): "light" | "dark" {
+    return document.documentElement.classList.contains("dark")
+      ? "dark"
+      : "light";
   }
 
   function wireToggle() {
-    const btn = document.getElementById('theme-toggle');
-    if (!btn || btn.dataset.wired === '1') return;
-    btn.dataset.wired = '1';
-    btn.addEventListener('click', () => {
-      applyTheme(currentTheme() === 'dark' ? 'light' : 'dark');
+    const btn = document.getElementById("theme-toggle");
+    if (!btn || btn.dataset.wired === "1") return;
+    btn.dataset.wired = "1";
+    btn.addEventListener("click", () => {
+      applyTheme(currentTheme() === "dark" ? "light" : "dark");
     });
   }
 
   wireToggle();
-  document.addEventListener('astro:page-load', wireToggle);
+  document.addEventListener("astro:page-load", wireToggle);
 </script>

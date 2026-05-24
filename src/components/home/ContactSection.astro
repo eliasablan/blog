@@ -6,7 +6,7 @@ import ContactEn from "@/content/home/contact.en.mdx";
 import ContactForm from "@/components/ContactForm.astro";
 
 interface Props {
-    lang: Lang;
+  lang: Lang;
 }
 
 const { lang } = Astro.props;
@@ -15,15 +15,15 @@ const Content = lang === "es" ? ContactEs : ContactEn;
 ---
 
 <section id="contact" class="mx-auto max-w-170 px-8 max-[600px]:px-5">
-    <h2
-        class="mt-16 mb-5 font-serif text-[32px] leading-[1.2] font-semibold tracking-[-0.012em] text-foreground scroll-mt-20 before:mr-3 before:font-normal before:not-italic before:text-primary before:opacity-85 before:content-['§']"
-    >
-        {t("home.contact.title")}
-    </h2>
-    <div
-        class="[&_p]:m-0 [&_p]:mb-12 [&_p]:text-lg [&_p]:leading-[1.7] [&_p]:text-foreground [&_a]:text-primary"
-    >
-        <Content />
-    </div>
-    <ContactForm lang={lang} />
+  <h2
+    class="mt-16 mb-5 scroll-mt-20 font-serif text-[32px] leading-[1.2] font-semibold tracking-[-0.012em] text-foreground before:mr-3 before:font-normal before:text-primary before:not-italic before:opacity-85 before:content-['§']"
+  >
+    {t("home.contact.title")}
+  </h2>
+  <div
+    class="[&_a]:text-primary [&_p]:m-0 [&_p]:mb-12 [&_p]:text-lg [&_p]:leading-[1.7] [&_p]:text-foreground"
+  >
+    <Content />
+  </div>
+  <ContactForm lang={lang} />
 </section>

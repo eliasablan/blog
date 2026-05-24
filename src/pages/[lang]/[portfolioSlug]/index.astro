@@ -1,12 +1,12 @@
 ---
-import { getCollection } from 'astro:content';
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import ProjectCard from '@/components/ProjectCard.astro';
-import { useTranslations, filterByLang, type Lang } from '@/i18n/utils';
-import { sectionSlugs } from '@/i18n/routes';
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
+import { useTranslations, filterByLang, type Lang } from "@/i18n/utils";
+import { sectionSlugs } from "@/i18n/routes";
 
 export function getStaticPaths() {
-  return (['en', 'es'] as const).map((lang) => ({
+  return (["en", "es"] as const).map((lang) => ({
     params: { lang, portfolioSlug: sectionSlugs[lang].portfolio },
   }));
 }
@@ -14,21 +14,24 @@ export function getStaticPaths() {
 const lang = Astro.params.lang as Lang;
 const t = useTranslations(lang);
 
-const projects = filterByLang(await getCollection('portfolio'), lang).sort(
+const projects = filterByLang(await getCollection("portfolio"), lang).sort(
   (a, b) => b.data.year - a.data.year,
 );
 ---
 
-<BaseLayout title={`${t('portfolio.title')} — Elías Ablán`} description={t('portfolio.intro')}>
+<BaseLayout
+  title={`${t("portfolio.title")} — Elías Ablán`}
+  description={t("portfolio.intro")}
+>
   <section class="mx-auto max-w-3xl px-4 py-12">
     <header class="mb-10 space-y-2">
-      <h1 class="text-4xl font-bold tracking-tight">{t('portfolio.title')}</h1>
-      <p class="text-muted-foreground">{t('portfolio.intro')}</p>
+      <h1 class="text-4xl font-bold tracking-tight">{t("portfolio.title")}</h1>
+      <p class="text-muted-foreground">{t("portfolio.intro")}</p>
     </header>
 
     {
       projects.length === 0 ? (
-        <p class="text-muted-foreground">{t('portfolio.empty')}</p>
+        <p class="text-muted-foreground">{t("portfolio.empty")}</p>
       ) : (
         <ul class="flex flex-col gap-6">
           {projects.map((project) => (

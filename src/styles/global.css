@@ -5,29 +5,29 @@
 
 /* ---------- Flexoki palette ---------- */
 :root {
-  --paper: #FFFCF0;
-  --base-50: #F2F0E5;
-  --base-100: #E6E4D9;
-  --base-150: #DAD8CE;
-  --base-200: #CECDC3;
-  --base-300: #B7B5AC;
+  --paper: #fffcf0;
+  --base-50: #f2f0e5;
+  --base-100: #e6e4d9;
+  --base-150: #dad8ce;
+  --base-200: #cecdc3;
+  --base-300: #b7b5ac;
   --base-500: #878580;
-  --base-600: #6F6E69;
+  --base-600: #6f6e69;
   --base-700: #575653;
-  --base-800: #403E3C;
+  --base-800: #403e3c;
   --base-850: #343331;
   --base-900: #282726;
-  --base-950: #1C1B1A;
-  --black: #100F0F;
+  --base-950: #1c1b1a;
+  --black: #100f0f;
 
-  --red: #AF3029;
-  --orange: #BC5215;
-  --yellow: #AD8301;
-  --green: #66800B;
-  --cyan: #24837B;
-  --blue: #205EA6;
-  --purple: #5E409D;
-  --magenta: #A02F6F;
+  --red: #af3029;
+  --orange: #bc5215;
+  --yellow: #ad8301;
+  --green: #66800b;
+  --cyan: #24837b;
+  --blue: #205ea6;
+  --purple: #5e409d;
+  --magenta: #a02f6f;
 
   --bg: var(--paper);
   --bg-secondary: var(--base-50);
@@ -44,14 +44,14 @@
 }
 
 .dark {
-  --red: #D14D41;
-  --orange: #DA702C;
-  --yellow: #D0A215;
-  --green: #879A39;
-  --cyan: #3AA99F;
-  --blue: #4385BE;
-  --purple: #8B7EC8;
-  --magenta: #CE5D97;
+  --red: #d14d41;
+  --orange: #da702c;
+  --yellow: #d0a215;
+  --green: #879a39;
+  --cyan: #3aa99f;
+  --blue: #4385be;
+  --purple: #8b7ec8;
+  --magenta: #ce5d97;
 
   --bg: var(--black);
   --bg-secondary: var(--base-950);
@@ -142,7 +142,8 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    background-image: radial-gradient(
+    background-image:
+      radial-gradient(
         circle at 25% 30%,
         rgba(16, 15, 15, 0.018) 0.5px,
         transparent 1.2px
@@ -152,11 +153,14 @@
         rgba(16, 15, 15, 0.013) 0.6px,
         transparent 1.6px
       );
-    background-size: 3px 3px, 7px 7px;
+    background-size:
+      3px 3px,
+      7px 7px;
   }
 
   .dark body {
-    background-image: radial-gradient(
+    background-image:
+      radial-gradient(
         circle at 25% 30%,
         rgba(255, 252, 240, 0.03) 0.5px,
         transparent 1.2px
@@ -166,7 +170,9 @@
         rgba(255, 252, 240, 0.02) 0.6px,
         transparent 1.6px
       );
-    background-size: 3px 3px, 7px 7px;
+    background-size:
+      3px 3px,
+      7px 7px;
   }
 
   html,

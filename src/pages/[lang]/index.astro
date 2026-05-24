@@ -1,22 +1,22 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import Hero from '@/components/home/Hero.astro';
-import AboutSection from '@/components/home/AboutSection.astro';
-import ThemesSection from '@/components/home/ThemesSection.astro';
-import FeaturedProjects from '@/components/home/FeaturedProjects.astro';
-import FeaturedPosts from '@/components/home/FeaturedPosts.astro';
-import ContactSection from '@/components/home/ContactSection.astro';
-import { useTranslations, type Lang } from '@/i18n/utils';
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Hero from "@/components/home/Hero.astro";
+import AboutSection from "@/components/home/AboutSection.astro";
+import ThemesSection from "@/components/home/ThemesSection.astro";
+import FeaturedProjects from "@/components/home/FeaturedProjects.astro";
+import FeaturedPosts from "@/components/home/FeaturedPosts.astro";
+import ContactSection from "@/components/home/ContactSection.astro";
+import { useTranslations, type Lang } from "@/i18n/utils";
 
 export function getStaticPaths() {
-  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+  return [{ params: { lang: "en" } }, { params: { lang: "es" } }];
 }
 
 const lang = Astro.params.lang as Lang;
 const t = useTranslations(lang);
 ---
 
-<BaseLayout title={t('home.title')} description={t('home.description')}>
+<BaseLayout title={t("home.title")} description={t("home.description")}>
   <Hero lang={lang} />
   <AboutSection lang={lang} />
   <ThemesSection lang={lang} />

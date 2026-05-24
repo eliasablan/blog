@@ -6,9 +6,9 @@ import { useTranslations } from "@/i18n/utils";
 import { tagLabels, tagPath } from "@/i18n/tags";
 
 interface Props {
-    post: CollectionEntry<"blog">;
-    lang: Lang;
-    altLangHref?: string | null;
+  post: CollectionEntry<"blog">;
+  lang: Lang;
+  altLangHref?: string | null;
 }
 
 const { post, lang, altLangHref } = Astro.props;
@@ -18,9 +18,9 @@ const key = post.data.translationKey;
 
 const locale = lang === "es" ? "es-ES" : "en-US";
 const dateLabel = new Intl.DateTimeFormat(locale, {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
 }).format(post.data.publishedAt);
 
 const words = post.body?.trim().split(/\s+/).length ?? 0;
@@ -34,86 +34,84 @@ const tags = post.data.tags ?? [];
 ---
 
 <BaseLayout
-    title={`${post.data.title} — Elias Ablan`}
-    description={post.data.description}
-    altLangHref={altLangHref}
+  title={`${post.data.title} — Elias Ablan`}
+  description={post.data.description}
+  altLangHref={altLangHref}
 >
-    <article
-        class="mx-auto max-w-170 px-8 pt-16 pb-24 max-[600px]:px-5 max-[600px]:pt-10 max-[600px]:pb-16"
+  <article
+    class="mx-auto max-w-170 px-8 pt-16 pb-24 max-[600px]:px-5 max-[600px]:pt-10 max-[600px]:pb-16"
+  >
+    <p
+      class="m-0 mb-6 font-mono text-xs leading-[1.4] tracking-[0.08em] text-tx-secondary uppercase"
     >
-        <p
-            class="m-0 mb-6 font-mono text-xs leading-[1.4] tracking-[0.08em] text-tx-secondary uppercase"
-        >
-            {
-                tags[0] && (
-                    <>
-                        <a
-                            href={tagPath(lang, tags[0])}
-                            class="text-inherit no-underline hover:text-primary"
-                        >
-                            {tagLabels[tags[0]][lang]}
-                        </a>
-                        <span class="mx-2 opacity-50">·</span>
-                    </>
-                )
-            }
-            <span>{readingLabel}</span>
+      {
+        tags[0] && (
+          <>
+            <a
+              href={tagPath(lang, tags[0])}
+              class="text-inherit no-underline hover:text-primary"
+            >
+              {tagLabels[tags[0]][lang]}
+            </a>
             <span class="mx-2 opacity-50">·</span>
-            <time datetime={post.data.publishedAt.toISOString()}
-                >{dateLabel}</time
-            >
-        </p>
+          </>
+        )
+      }
+      <span>{readingLabel}</span>
+      <span class="mx-2 opacity-50">·</span>
+      <time datetime={post.data.publishedAt.toISOString()}>{dateLabel}</time>
+    </p>
 
-        <h1
-            class="m-0 mb-6 font-serif text-[clamp(36px,5vw,52px)] leading-[1.08] font-semibold tracking-[-0.018em] text-balance text-foreground"
-            transition:name={`post-${key}-title`}
-        >
-            {post.data.title}
-        </h1>
+    <h1
+      class="m-0 mb-6 font-serif text-[clamp(36px,5vw,52px)] leading-[1.08] font-semibold tracking-[-0.018em] text-balance text-foreground"
+      transition:name={`post-${key}-title`}
+    >
+      {post.data.title}
+    </h1>
 
-        <p
-            class="m-0 mb-8 border-b border-rule pb-8 text-[22px] leading-[1.4] font-normal italic text-pretty text-tx-secondary"
-        >
-            <span transition:name={`post-${key}-description`}
-                >{post.data.description}</span
-            >
-        </p>
+    <p
+      class="m-0 mb-8 border-b border-rule pb-8 text-[22px] leading-[1.4] font-normal text-pretty text-tx-secondary italic"
+    >
+      <span transition:name={`post-${key}-description`}
+        >{post.data.description}</span
+      >
+    </p>
 
-        <div class="mb-12 flex items-center gap-3">
-            <span
-                class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary font-serif text-sm font-semibold italic text-primary-foreground"
-                aria-hidden="true">{initial}</span
-            >
-            <span class="font-mono text-xs tracking-[0.04em] text-tx-secondary">
-                {bylineAuthor}
-                <span class="mx-1.5 opacity-50">·</span>
-                {bylineCity}
-            </span>
+    <div class="mb-12 flex items-center gap-3">
+      <span
+        class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary font-serif text-sm font-semibold text-primary-foreground italic"
+        aria-hidden="true">{initial}</span
+      >
+      <span class="font-mono text-xs tracking-[0.04em] text-tx-secondary">
+        {bylineAuthor}
+        <span class="mx-1.5 opacity-50">·</span>
+        {bylineCity}
+      </span>
+    </div>
+
+    <div class="article-body">
+      <Content />
+    </div>
+
+    {
+      tags.length > 0 && (
+        <div class="mt-12 flex flex-wrap items-center justify-between gap-6 border-t border-rule pt-8">
+          <div class="inline-flex flex-wrap gap-1.5">
+            {tags.map((tg) => (
+              <a
+                class="rounded-full border border-rule bg-muted px-2.5 py-0.75 font-mono text-xs tracking-[0.02em] text-tx-secondary no-underline hover:border-primary hover:text-primary"
+                href={tagPath(lang, tg)}
+              >
+                {tagLabels[tg][lang]}
+              </a>
+            ))}
+          </div>
         </div>
+      )
+    }
 
-        <div class="article-body">
-            <Content />
-        </div>
-
-        {
-            tags.length > 0 && (
-                <div class="mt-12 flex flex-wrap items-center justify-between gap-6 border-t border-rule pt-8">
-                    <div class="inline-flex flex-wrap gap-1.5">
-                        {tags.map((tg) => (
-                            <a
-                                class="rounded-full border border-rule bg-muted px-2.5 py-0.75 font-mono text-xs tracking-[0.02em] text-tx-secondary no-underline hover:border-primary hover:text-primary"
-                                href={tagPath(lang, tg)}
-                            >
-                                {tagLabels[tg][lang]}
-                            </a>
-                        ))}
-                    </div>
-                </div>
-            )
-        }
-
-        <p class="mt-12 font-serif text-base">
-            <a href={`/${lang}/blog`}>{t("blog.back")}</a>
-        </p>
-    </article>
+    <p class="mt-12 font-serif text-base">
+      <a href={`/${lang}/blog`}>{t("blog.back")}</a>
+    </p>
+  </article>
 </BaseLayout>

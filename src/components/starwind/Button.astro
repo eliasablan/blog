@@ -3,67 +3,67 @@ import { tv, type VariantProps } from "tailwind-variants";
 import type { HTMLAttributes } from "astro/types";
 
 export const button = tv({
-    base:
-        "inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium " +
-        "transition-colors transition-transform focus-visible:outline-none focus-visible:ring-2 " +
-        "focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background " +
-        "disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]",
-    variants: {
-        variant: {
-            primary: "bg-primary text-primary-foreground hover:bg-primary/90",
-            secondary: "bg-accent text-accent-foreground hover:bg-accent/80",
-            outline:
-                "border border-border bg-transparent hover:bg-accent hover:text-accent-foreground no-underline",
-            ghost: "bg-transparent hover:bg-accent hover:text-accent-foreground",
-            destructive:
-                "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        },
-        size: {
-            sm: "h-8 px-3 text-xs",
-            md: "h-10 px-4 text-sm",
-            lg: "h-11 px-6 text-base",
-            icon: "h-10 w-10",
-        },
+  base:
+    "inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium " +
+    "transition-colors transition-transform focus-visible:outline-none focus-visible:ring-2 " +
+    "focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background " +
+    "disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]",
+  variants: {
+    variant: {
+      primary: "bg-primary text-primary-foreground hover:bg-primary/90",
+      secondary: "bg-accent text-accent-foreground hover:bg-accent/80",
+      outline:
+        "border border-border bg-transparent hover:bg-accent hover:text-accent-foreground no-underline",
+      ghost: "bg-transparent hover:bg-accent hover:text-accent-foreground",
+      destructive:
+        "bg-destructive text-destructive-foreground hover:bg-destructive/90",
     },
-    defaultVariants: { variant: "primary", size: "md" },
+    size: {
+      sm: "h-8 px-3 text-xs",
+      md: "h-10 px-4 text-sm",
+      lg: "h-11 px-6 text-base",
+      icon: "h-10 w-10",
+    },
+  },
+  defaultVariants: { variant: "primary", size: "md" },
 });
 
 type Variants = VariantProps<typeof button>;
 
 type AnchorProps = HTMLAttributes<"a"> & {
-    href: string;
-    type?: never;
+  href: string;
+  type?: never;
 };
 type ButtonProps = HTMLAttributes<"button"> & {
-    href?: undefined;
-    type?: "button" | "submit" | "reset";
+  href?: undefined;
+  type?: "button" | "submit" | "reset";
 };
 
 type Props = Variants & (AnchorProps | ButtonProps);
 
 const {
-    variant,
-    size,
-    class: className,
-    href,
-    ...rest
+  variant,
+  size,
+  class: className,
+  href,
+  ...rest
 } = Astro.props as Props & { class?: string };
 const classes = button({ variant, size, class: className });
 
 const isExternal = typeof href === "string" && /^https?:\/\//i.test(href);
 const externalAttrs = isExternal
-    ? { target: "_blank", rel: "noopener noreferrer" }
-    : {};
+  ? { target: "_blank", rel: "noopener noreferrer" }
+  : {};
 ---
 
 {
-    href ? (
-        <a href={href} class={classes} {...externalAttrs} {...rest}>
-            <slot />
-        </a>
-    ) : (
-        <button class={classes} {...rest}>
-            <slot />
-        </button>
-    )
+  href ? (
+    <a href={href} class={classes} {...externalAttrs} {...rest}>
+      <slot />
+    </a>
+  ) : (
+    <button class={classes} {...rest}>
+      <slot />
+    </button>
+  )
 }

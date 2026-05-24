@@ -3,48 +3,48 @@ import type { Lang } from "@/i18n/ui";
 import { useTranslations } from "@/i18n/utils";
 
 interface Props {
-    lang: Lang;
+  lang: Lang;
 }
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const year = new Date().getFullYear();
 const cvUrl =
-    lang === "es"
-        ? "https://661udz75j1.ufs.sh/f/FCpxdU1lxaGLcPmSXeRXsAEdoGpN9iBFwnl4Tghjy7VfQOaz"
-        : "https://661udz75j1.ufs.sh/f/FCpxdU1lxaGL4fcyVMrJZzS9UV6XO5eHj1msfWC7BFMwbtTk";
+  lang === "es"
+    ? "https://661udz75j1.ufs.sh/f/FCpxdU1lxaGLcPmSXeRXsAEdoGpN9iBFwnl4Tghjy7VfQOaz"
+    : "https://661udz75j1.ufs.sh/f/FCpxdU1lxaGL4fcyVMrJZzS9UV6XO5eHj1msfWC7BFMwbtTk";
 const cvLabel = t("footer.cv");
 ---
 
 <footer
-    class="mx-auto w-full flex max-w-170 flex-col flex-wrap items-center justify-between gap-3 px-8 pb-12 font-mono text-xs tracking-[0.02em] text-tx-muted [view-transition-name:site-footer] max-[600px]:px-5 max-[600px]:py-8 [&_a]:text-tx-secondary [&_a]:no-underline [&_a:hover]:text-primary"
+  class="mx-auto flex w-full max-w-170 flex-col flex-wrap items-center justify-between gap-3 px-8 pb-12 font-mono text-xs tracking-[0.02em] text-tx-muted [view-transition-name:site-footer] max-[600px]:px-5 max-[600px]:py-8 [&_a]:text-tx-secondary [&_a]:no-underline [&_a:hover]:text-primary"
 >
-    <hr class="mb-6 w-full border-0 border-t border-rule" />
-    <div class="flex items-center justify-center gap-2 flex-wrap">
-        <a href="https://www.linkedin.com/in/eliasablan" aria-label="LinkedIn"
-            >LinkedIn</a
-        >
-        <span class="text-tx-muted opacity-60">·</span>
-        <a
-            href="https://github.com/eliasablan"
-            target="_blank"
-            rel="noopener noreferrer">GitHub</a
-        >
-        <span class="text-tx-muted opacity-60">·</span>
-        <a href="https://wa.me/584242728990" aria-label="WhatsApp">WhatsApp</a>
-        <span class="text-tx-muted opacity-60">·</span>
-        <a href="mailto:eliasablan93@gmail.com" aria-label="Email">Email</a>
-        <span class="text-tx-muted opacity-60">·</span>
-        <a
-            href={cvUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={cvLabel}>{cvLabel}</a
-        >
-        <!-- <span class="text-tx-muted opacity-60">·</span>
+  <hr class="mb-6 w-full border-0 border-t border-rule" />
+  <div class="flex flex-wrap items-center justify-center gap-2">
+    <a href="https://www.linkedin.com/in/eliasablan" aria-label="LinkedIn"
+      >LinkedIn</a
+    >
+    <span class="text-tx-muted opacity-60">·</span>
+    <a
+      href="https://github.com/eliasablan"
+      target="_blank"
+      rel="noopener noreferrer">GitHub</a
+    >
+    <span class="text-tx-muted opacity-60">·</span>
+    <a href="https://wa.me/584242728990" aria-label="WhatsApp">WhatsApp</a>
+    <span class="text-tx-muted opacity-60">·</span>
+    <a href="mailto:eliasablan93@gmail.com" aria-label="Email">Email</a>
+    <span class="text-tx-muted opacity-60">·</span>
+    <a
+      href={cvUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={cvLabel}>{cvLabel}</a
+    >
+    <!-- <span class="text-tx-muted opacity-60">·</span>
         <a href={`/${lang}/rss.xml`} aria-label="RSS">RSS</a> -->
-    </div>
-    <div>
-        © {year} Elias Ablan <span class="text-tx-muted opacity-60">·</span> Caracas
-    </div>
+  </div>
+  <div>
+    © {year} Elias Ablan <span class="text-tx-muted opacity-60">·</span> Caracas
+  </div>
 </footer>

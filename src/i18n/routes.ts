@@ -1,4 +1,4 @@
-import type { Lang } from './ui';
+import type { Lang } from "./ui";
 
 /**
  * Localized section slugs.
@@ -7,16 +7,16 @@ import type { Lang } from './ui';
  */
 export const sectionSlugs = {
   es: {
-    blog: 'blog',
-    portfolio: 'portafolio',
+    blog: "blog",
+    portfolio: "portafolio",
   },
   en: {
-    blog: 'blog',
-    portfolio: 'portfolio',
+    blog: "blog",
+    portfolio: "portfolio",
   },
-} as const satisfies Record<Lang, Record<'blog' | 'portfolio', string>>;
+} as const satisfies Record<Lang, Record<"blog" | "portfolio", string>>;
 
-export type Section = 'blog' | 'portfolio';
+export type Section = "blog" | "portfolio";
 
 /** Build a localized section URL: sectionPath('es', 'portfolio') → '/es/portafolio' */
 export function sectionPath(lang: Lang, section: Section): string {

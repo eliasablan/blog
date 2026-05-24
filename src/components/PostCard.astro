@@ -5,8 +5,8 @@ import { splitEntryId } from "@/i18n/utils";
 import { sectionPath } from "@/i18n/routes";
 
 interface Props {
-    post: CollectionEntry<"blog">;
-    lang: Lang;
+  post: CollectionEntry<"blog">;
+  lang: Lang;
 }
 
 const { post, lang } = Astro.props;
@@ -17,32 +17,32 @@ const key = post.data.translationKey;
 const locale = lang === "es" ? "es-ES" : "en-US";
 const d = post.data.publishedAt;
 const monthShort = new Intl.DateTimeFormat(locale, {
-    month: "short",
-    timeZone: "UTC",
+  month: "short",
+  timeZone: "UTC",
 }).format(d);
 const dateLabel = `${d.getUTCFullYear()} · ${monthShort}`;
 ---
 
 <div
-    class="grid grid-cols-[100px_1fr] items-baseline gap-4 max-[600px]:grid-cols-1 max-[600px]:gap-0.5"
+  class="grid grid-cols-[100px_1fr] items-baseline gap-4 max-[600px]:grid-cols-1 max-[600px]:gap-0.5"
 >
-    <time
-        class="pt-1.25 font-mono text-xs tracking-[0.04em] text-tx-muted max-[600px]:pt-0"
-        datetime={post.data.publishedAt.toISOString()}
-        transition:name={`post-${key}-date`}>{dateLabel}</time
+  <time
+    class="pt-1.25 font-mono text-xs tracking-[0.04em] text-tx-muted max-[600px]:pt-0"
+    datetime={post.data.publishedAt.toISOString()}
+    transition:name={`post-${key}-date`}>{dateLabel}</time
+  >
+  <div>
+    <a
+      href={href}
+      class="font-serif text-[19px] leading-[1.3] font-semibold text-foreground underline decoration-foreground/20 underline-offset-4 hover:text-primary hover:decoration-primary"
+      transition:name={`post-${key}-title`}
     >
-    <div>
-        <a
-            href={href}
-            class="font-serif text-[19px] font-semibold leading-[1.3] text-foreground underline decoration-foreground/20 underline-offset-4 hover:text-primary hover:decoration-primary"
-            transition:name={`post-${key}-title`}
-        >
-            {post.data.title}
-        </a>
-        <p class="mt-1 text-base leading-normal text-tx-secondary">
-            <span transition:name={`post-${key}-description`}
-                >{post.data.description}</span
-            >
-        </p>
-    </div>
+      {post.data.title}
+    </a>
+    <p class="mt-1 text-base leading-normal text-tx-secondary">
+      <span transition:name={`post-${key}-description`}
+        >{post.data.description}</span
+      >
+    </p>
+  </div>
 </div>

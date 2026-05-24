@@ -5,29 +5,29 @@ import { filterByLang, useTranslations } from "@/i18n/utils";
 import PostCard from "@/components/PostCard.astro";
 
 interface Props {
-    lang: Lang;
+  lang: Lang;
 }
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
 const posts = filterByLang(await getCollection("blog"), lang)
-    .filter((p) => !p.data.draft)
-    .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
-    .slice(0, 9);
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
+  .slice(0, 9);
 ---
 
 {
-    posts.length > 0 && (
-        <section class="mx-auto max-w-170 px-8 max-[600px]:px-5">
-            <h2 class="mt-16 mb-5 font-serif text-[32px] leading-[1.2] font-semibold tracking-[-0.012em] text-foreground scroll-mt-20 before:mr-3 before:font-normal before:not-italic before:text-primary before:opacity-85 before:content-['§']">
-                {t("home.featured.posts.title")}
-            </h2>
-            <div class="flex flex-col gap-6">
-                {posts.map((post) => (
-                    <PostCard post={post} lang={lang} />
-                ))}
-            </div>
-        </section>
-    )
+  posts.length > 0 && (
+    <section class="mx-auto max-w-170 px-8 max-[600px]:px-5">
+      <h2 class="mt-16 mb-5 scroll-mt-20 font-serif text-[32px] leading-[1.2] font-semibold tracking-[-0.012em] text-foreground before:mr-3 before:font-normal before:text-primary before:not-italic before:opacity-85 before:content-['§']">
+        {t("home.featured.posts.title")}
+      </h2>
+      <div class="flex flex-col gap-6">
+        {posts.map((post) => (
+          <PostCard post={post} lang={lang} />
+        ))}
+      </div>
+    </section>
+  )
 }

@@ -3,7 +3,7 @@ import type { Lang } from "@/i18n/ui";
 import { useTranslations } from "@/i18n/utils";
 
 interface Props {
-    lang: Lang;
+  lang: Lang;
 }
 
 const { lang } = Astro.props;
@@ -11,16 +11,16 @@ const t = useTranslations(lang);
 ---
 
 <section
-    class="mx-auto max-w-170 px-8 pt-16 max-[600px]:px-5 max-[600px]:pt-10"
+  class="mx-auto max-w-170 px-8 pt-16 max-[600px]:px-5 max-[600px]:pt-10"
 >
-    <h1
-        class="m-0 mb-6 font-serif text-[clamp(36px,5vw,52px)] leading-[1.08] font-semibold tracking-[-0.018em] text-balance text-foreground"
-    >
-        Elias Ablan
-    </h1>
-    <p
-        class="m-0 mb-8 border-b border-rule pb-8 text-[22px] leading-[1.4] font-normal italic text-pretty text-tx-secondary"
-    >
-        {t("home.hero.lede")}
-    </p>
+  <h1
+    class="m-0 mb-6 font-serif text-[clamp(36px,5vw,52px)] leading-[1.08] font-semibold tracking-[-0.018em] text-balance text-foreground"
+  >
+    Elias Ablan
+  </h1>
+  <p
+    class="m-0 mb-8 border-b border-rule pb-8 text-[22px] leading-[1.4] font-normal text-pretty text-tx-secondary italic"
+  >
+    {t("home.hero.lede")}
+  </p>
 </section>
