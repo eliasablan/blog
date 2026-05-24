@@ -9,9 +9,7 @@ const schema = z.object({
   email: z.email().max(200),
   subject: z.string().trim().max(160).optional().default(""),
   message: z.string().trim().min(10).max(5000),
-  // Honeypot — bots fill this; humans don't see it. Accept any value so we can
-  // silently swallow spam after parsing (returning a validation error would
-  // tell bots the field exists).
+  /** Honeypot: must accept any value so spam is swallowed silently (a 400 would reveal the trap). */
   website: z.string().optional().default(""),
 });
 
@@ -52,7 +50,6 @@ export const POST: APIRoute = async ({ request }) => {
 
   const { name, email, subject, message, website } = parsed.data;
 
-  // Honeypot tripped — silently accept (don't reveal spam detection)
   if (website && website.length > 0) {
     return Response.json({ ok: true });
   }

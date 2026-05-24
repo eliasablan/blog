@@ -11,18 +11,10 @@ import type { Lang } from '@/i18n/ui';
 interface Props {
   title: string;
   description: string;
-  /** Override the lang detected from URL (rarely needed). */
   lang?: Lang;
-  /** Open Graph image absolute path under /public, e.g. "/og/default.png". */
   ogImage?: string;
-  /**
-   * URL of the translated counterpart.
-   * - string: explicit URL (entry pages with a translated entry).
-   * - null: no translation exists for this entry — switcher renders disabled.
-   * - undefined (default): static page, switcher infers URL by swapping lang prefix.
-   */
+  /** string: explicit URL. null: no translation, switcher disabled. undefined: infer by swapping lang prefix. */
   altLangHref?: string | null;
-  /** Optional override for canonical URL. */
   canonical?: string;
 }
 
@@ -70,8 +62,7 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin).toString();
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
 
-    {/* Anti-FOUC theme script — runs synchronously before paint.
-        Only 'light' / 'dark' are ever stored; absence means "follow system". */}
+    {/* Anti-FOUC: must run synchronously before paint. Absence of stored key = follow system. */}
     <script is:inline>
       (function () {
         try {
@@ -93,14 +84,12 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin).toString();
     </main>
     <Footer lang={lang} />
 
-    {/* View transitions: detect back/forward direction and tag <html> for CSS */}
     <script is:inline>
       document.addEventListener('astro:before-preparation', function (event) {
         var dir = event.direction || 'forward';
         document.documentElement.dataset.vtDirection = dir;
       });
       document.addEventListener('astro:after-swap', function () {
-        // Reapply theme class after SPA-like swaps reset <html> classes if needed
         var stored = localStorage.getItem('theme');
         var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         var isDark = stored === 'dark' || (!stored && prefersDark);
@@ -108,16 +97,9 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin).toString();
       });
     </script>
 
-    {/* Vercel Web Analytics — hoisted script, bundled by Astro and not
-        re-executed across ClientRouter navs. Replaces the official <Analytics />
-        component, whose inline customElements.define re-fires on head swaps and
-        causes a FOUC on the new view-transition snapshot. */}
+    {/* Hand-rolled instead of <Analytics /> — that component's inline customElements.define re-fires on head swaps and causes FOUC on view-transition snapshots. */}
     <script>
       import { inject } from '@vercel/analytics';
-      // Bundled module scripts run once across ClientRouter navs (per Astro
-      // docs), so this initialises analytics exactly once. Auto-tracking is
-      // disabled and pageviews fire manually on astro:page-load to avoid
-      // double-counting client-side transitions.
       inject({
         mode: import.meta.env.PROD ? 'production' : 'development',
         disableAutoTrack: true,
