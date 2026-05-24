@@ -7,6 +7,11 @@ interface Props {
 
 const { lang } = Astro.props;
 const year = new Date().getFullYear();
+const cvUrl =
+    lang === "es"
+        ? "https://661udz75j1.ufs.sh/f/FCpxdU1lxaGLcPmSXeRXsAEdoGpN9iBFwnl4Tghjy7VfQOaz"
+        : "https://661udz75j1.ufs.sh/f/FCpxdU1lxaGL4fcyVMrJZzS9UV6XO5eHj1msfWC7BFMwbtTk";
+const cvLabel = lang === "es" ? "Curriculum" : "Resume";
 ---
 
 <footer
@@ -25,6 +30,13 @@ const year = new Date().getFullYear();
         >
         <span class="text-tx-muted opacity-60">·</span>
         <a href="https://wa.me/584242728990" aria-label="WhatsApp">WhatsApp</a>
+        <span class="text-tx-muted opacity-60">·</span>
+        <a
+            href={cvUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={cvLabel}>{cvLabel}</a
+        >
         <span class="text-tx-muted opacity-60">·</span>
         <a href="mailto:eliasablan93@gmail.com" aria-label="Email">Email</a>
         <span class="text-tx-muted opacity-60">·</span>
