@@ -6,7 +6,7 @@ We picked Prettier with `prettier-plugin-astro` and `prettier-plugin-tailwindcss
 
 - **Pure Biome** — fast, lint+format in one tool, but `.astro` templates and MDX stay unformatted.
 - **Hybrid Biome + Prettier** — full coverage and linting, but two tools, two configs, two editor extensions for marginal speed gains at this scale.
-- **Pure Prettier** *(chosen)* — single tool, single config, formats everything; loses the linting Biome would have provided (acceptable: TypeScript + `astro check` cover most of it).
+- **Pure Prettier** _(chosen)_ — single tool, single config, formats everything; loses the linting Biome would have provided (acceptable: TypeScript + `astro check` cover most of it).
 
 ## Consequences
 
