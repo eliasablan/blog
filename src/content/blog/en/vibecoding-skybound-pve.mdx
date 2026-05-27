@@ -1,0 +1,55 @@
+---
+title: "Vibecoding Skybound PvE: from Gemini-built Battle Royale to Codex-powered arcade flight"
+description: "How I turned an airplane Battle Royale prototype into a PvE arcade experience using agents, domain context, ADRs, and deliberate architecture decisions."
+translationKey: "vibecoding-skybound-pve"
+publishedAt: 2026-05-27
+tags: ["web-development", "ai", "thinking-tools"]
+---
+
+Skybound PvE did not start as a PvE game. It started months earlier as an airplane Battle Royale I built with Gemini: a Next.js app with a browser-rendered 3D scene, airplanes, controls, HUD, multiplayer rooms, authentication, and Supabase for realtime messaging and persistence.
+
+That first project had a clear fantasy: pilots entering an island arena, fighting in realtime, and surviving a Battle Royale zone. It also had the normal debt of an ambitious prototype: client-resolved combat, multiplayer decisions mixed into the UI, and several big ideas competing for the same loop.
+
+When I picked it back up, I did not want to keep pushing the same complexity forward. I wanted something playable, direct, and deployable. So the goal changed: take the technical base of the Battle Royale and turn it into Skybound PvE, a survival arcade game against system-controlled enemies.
+
+## Changing the game without throwing the game away
+
+The important decision was not to treat PvE as just another multiplayer mode. If I did, I would drag rooms, profiles, remote snapshots, Battle Royale zones, and PvP persistence into a game that needed a different rhythm.
+
+The new loop was simpler: take off, fight waves, survive, score, and try again. That made it possible to cut authentication, lobby flow, early global rankings, and the shrinking zone. The game could still use Next.js, Three.js, React Three Fiber, Rapier, and Zustand, but with a different product architecture.
+
+That cut made progress possible. It was not a full rewrite and it was not a layer of features on top of the old project. It was a separation: the Battle Royale stayed as the origin, and PvE became a spin-off with its own language.
+
+## Giving the agent memory
+
+Before asking Codex to make changes, I initialized the project with Matt Pocock's skills through `setup-matt-pocock-skills`. That created an agent-facing context structure: how issues are handled, which vocabulary to use, and where domain documentation lives.
+
+Then I wrote a `CONTEXT.md` with the project's actual language. It defined concepts like pilot, run, wave, local scoreboard, arcade name, combat boundary, soft checkpoint, and tracer bullet. That can look like paperwork until the agent starts editing code: once the vocabulary is clear, the decisions get clearer too.
+
+ADRs were the other key piece. Each large decision was recorded: build PvE as a separate spin-off, remove the initial zone, use infinite waves, keep PvE scores separate from PvP Supabase data, start with localStorage before a global table, and prioritize a playable tracer bullet.
+
+I did not use ADRs for ceremony. I used them so the project had memory.
+
+## Grill-me before writing code
+
+Before implementation, I used `grill-me` to pressure-test the plan. The point was to force uncomfortable questions: whether PvE needed login, whether rankings had to be global on day one, whether the Battle Royale zone still made sense, whether enemies should reuse the full player physics model, and what "playable" really meant for the first version.
+
+That step avoided a common vibecoding trap: asking the agent to build too early. If the problem is still blurry, the code comes out blurry. The conversation reduced the scope to a defensible first version.
+
+The target became a tracer bullet: start screen, fast entry into flight, minimal HUD, basic enemies, end-of-run flow, and local scoreboard. Not the full game. The first vertical line proving the spin-off made sense.
+
+## Architecture after the first rush
+
+Once the loop existed, I used `improve-codebase-architecture` to look at the project with less excitement and more structure. The focus was not adding features. It was finding where the PvE game was still thinking like PvP.
+
+The most important separation was conceptual: an enemy is not a remote player, a run is not a multiplayer match, a score is not ranking points, and a local table is not a global leaderboard. Those names can look small, but they keep the code from lying.
+
+It also helped me accept temporary decisions without pretending they were final. The local `localStorage` score table is not trying to be competitive. It is a cheap way to complete the arcade loop now while leaving a clear path toward a score API and PostgreSQL later.
+
+## The result
+
+Skybound PvE became a playable experience deployed on Vercel: a biplane, an island, enemy waves, weapons, health, HUD, radar, score, and a local table of best runs. There is still plenty to do, but the project has its own shape now.
+
+The most useful part of this process was not that AI wrote code quickly. It was using agents with enough context to make small decisions without losing direction. Gemini helped raise the original Battle Royale. Codex helped turn it into a more focused PvE game. The skills, context, and ADRs acted as rails so the project did not become a pile of disconnected ideas.
+
+For me, that is vibecoding when it works: moving fast, yes, but leaving enough traces to come back, argue, and correct course.
