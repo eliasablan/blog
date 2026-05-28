@@ -1,0 +1,45 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { sectionPath } from "@/i18n/routes";
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<BaseLayout
+  title={`${t("notFound.title")} — Elías Ablán`}
+  description={t("notFound.description")}
+  lang={lang}
+  altLangHref={null}
+>
+  <section
+    class="mx-auto flex min-h-[58vh] max-w-3xl flex-col justify-center px-4 py-16"
+  >
+    <p class="font-mono text-xs tracking-[0.16em] text-primary uppercase">
+      {t("notFound.eyebrow")}
+    </p>
+    <h1
+      class="mt-4 max-w-2xl font-serif text-5xl leading-tight font-semibold tracking-[-0.012em] text-foreground"
+    >
+      {t("notFound.heading")}
+    </h1>
+    <p class="mt-5 max-w-xl text-lg leading-8 text-tx-secondary">
+      {t("notFound.body")}
+    </p>
+    <div class="mt-8 flex flex-wrap gap-4">
+      <a
+        href={`/${lang}/`}
+        class="font-mono text-sm tracking-[0.04em] text-foreground underline decoration-foreground/30 underline-offset-4 hover:text-primary hover:decoration-primary"
+      >
+        {t("notFound.home")}
+      </a>
+      <a
+        href={sectionPath(lang, "blog")}
+        class="font-mono text-sm tracking-[0.04em] text-tx-secondary underline decoration-tx-muted/30 underline-offset-4 hover:text-primary hover:decoration-primary"
+      >
+        {t("notFound.blog")}
+      </a>
+    </div>
+  </section>
+</BaseLayout>

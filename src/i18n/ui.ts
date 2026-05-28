@@ -57,6 +57,16 @@ export const ui = {
     "tags.articles": "Artículos",
     "tags.projects": "Proyectos",
 
+    "notFound.title": "Página no encontrada",
+    "notFound.description":
+      "La página que buscas no existe o fue despublicada.",
+    "notFound.eyebrow": "404",
+    "notFound.heading": "Esta página no está disponible",
+    "notFound.body":
+      "Puede que el enlace haya cambiado, que el contenido esté en borrador o que nunca haya existido.",
+    "notFound.home": "Volver al inicio",
+    "notFound.blog": "Ver el blog",
+
     "contact.form.name": "Nombre",
     "contact.form.email": "Email",
     "contact.form.subject": "Asunto",
@@ -134,6 +144,16 @@ export const ui = {
     "tags.back": "← Back to home",
     "tags.articles": "Articles",
     "tags.projects": "Projects",
+
+    "notFound.title": "Page not found",
+    "notFound.description":
+      "The page you are looking for does not exist or was unpublished.",
+    "notFound.eyebrow": "404",
+    "notFound.heading": "This page is not available",
+    "notFound.body":
+      "The link may have changed, the content may be in draft, or the page may never have existed.",
+    "notFound.home": "Back home",
+    "notFound.blog": "Read the blog",
 
     "contact.form.name": "Name",
     "contact.form.email": "Email",
