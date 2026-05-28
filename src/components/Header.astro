@@ -28,12 +28,18 @@ const links = [
 >
   <a
     href={`/${lang}/`}
-    class="inline-flex items-center gap-2.5 font-mono text-xs font-medium tracking-widest whitespace-nowrap text-foreground uppercase no-underline"
+    class="group inline-flex items-center gap-2.5 font-mono text-xs font-medium tracking-widest whitespace-nowrap text-foreground uppercase no-underline"
+    data-brand-link
   >
-    <span
-      class="inline-block h-1.5 w-1.5 rounded-full bg-primary"
-      aria-hidden="true"></span>
-    <span>ELIAS ABLAN</span>
+    <span class="relative inline-flex size-1.5 items-center justify-center">
+      <span
+        class="pointer-events-none absolute top-1/2 left-1/2 size-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/20 opacity-0 group-hover:animate-ping group-hover:opacity-100"
+        aria-hidden="true"></span>
+      <span
+        class="relative inline-block size-1.5 rounded-full bg-primary"
+        aria-hidden="true"></span>
+    </span>
+    <span data-brand-scramble data-brand-text="ELIAS ABLAN">ELIAS ABLAN</span>
   </a>
 
   <nav class="hidden items-center gap-5.5 sm:inline-flex">
@@ -58,3 +64,61 @@ const links = [
     <ThemeToggle lang={lang} />
   </div>
 </header>
+
+<script>
+  const CYCLES_PER_LETTER = 3;
+  const SHUFFLE_TIME = 35;
+  const CHARS = "!@#$%^&*():{};|,.<>/?";
+
+  function wireBrandScramble() {
+    document.querySelectorAll("[data-brand-link]").forEach((link) => {
+      if (!(link instanceof HTMLElement) || link.dataset.wired === "1") return;
+      link.dataset.wired = "1";
+
+      const textEl = link.querySelector("[data-brand-scramble]");
+      if (!(textEl instanceof HTMLElement)) return;
+
+      const brandTextEl = textEl;
+      const text =
+        brandTextEl.dataset.brandText ?? brandTextEl.textContent ?? "";
+      let intervalId: number | undefined;
+
+      function stopScramble() {
+        if (intervalId) {
+          window.clearInterval(intervalId);
+          intervalId = undefined;
+        }
+        brandTextEl.textContent = text;
+      }
+
+      function scramble() {
+        stopScramble();
+
+        let pos = 0;
+        intervalId = window.setInterval(() => {
+          brandTextEl.textContent = text
+            .split("")
+            .map((_char, index) => {
+              if (pos / CYCLES_PER_LETTER > index) return text[index];
+
+              const randomCharIndex = Math.floor(Math.random() * CHARS.length);
+              return CHARS[randomCharIndex];
+            })
+            .join("");
+
+          pos++;
+
+          if (pos >= text.length * CYCLES_PER_LETTER) {
+            stopScramble();
+          }
+        }, SHUFFLE_TIME);
+      }
+
+      link.addEventListener("mouseenter", scramble);
+      link.addEventListener("mouseleave", stopScramble);
+    });
+  }
+
+  wireBrandScramble();
+  document.addEventListener("astro:page-load", wireBrandScramble);
+</script>
