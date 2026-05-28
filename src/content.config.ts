@@ -27,12 +27,14 @@ const portfolio = defineCollection({
       description: z.string(),
       translationKey: z.string(),
       year: z.number(),
+      publishedAt: z.coerce.date().optional(),
       cover: image(),
       coverAlt: z.string().optional(),
       repo: z.string().optional(),
       demo: z.string().optional(),
       tags: z.array(z.enum(tagSlugs)).default([]),
       featured: z.boolean().default(false),
+      draft: z.boolean().default(false),
     }),
 });
 

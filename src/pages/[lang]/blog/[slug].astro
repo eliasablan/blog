@@ -3,9 +3,10 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import ArticleLayout from "@/layouts/ArticleLayout.astro";
 import { splitEntryId, getTranslatedEntry, type Lang } from "@/i18n/utils";
 import { entryPath } from "@/i18n/routes";
+import { isPublished } from "@/lib/content";
 
 export async function getStaticPaths() {
-  const posts = (await getCollection("blog")).filter((p) => !p.data.draft);
+  const posts = (await getCollection("blog")).filter(isPublished);
   return posts.map((post) => {
     const { lang, slug } = splitEntryId(post.id);
     return {

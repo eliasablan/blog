@@ -11,9 +11,10 @@ import {
 } from "@/i18n/utils";
 import { sectionSlugs, sectionPath, entryPath } from "@/i18n/routes";
 import { tagLabels, tagPath } from "@/i18n/tags";
+import { isPublished } from "@/lib/content";
 
 export async function getStaticPaths() {
-  const projects = await getCollection("portfolio");
+  const projects = (await getCollection("portfolio")).filter(isPublished);
   return projects.map((project) => {
     const { lang, slug } = splitEntryId(project.id);
     return {

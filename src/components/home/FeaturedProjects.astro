@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import type { Lang } from "@/i18n/ui";
 import { filterByLang, useTranslations } from "@/i18n/utils";
+import { isPublished, sortProjectsByRecent } from "@/lib/content";
 import ProjectCard from "@/components/ProjectCard.astro";
 
 interface Props {
@@ -12,8 +13,8 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 
 const projects = filterByLang(await getCollection("portfolio"), lang)
-  .filter((p) => p.data.featured)
-  .sort((a, b) => b.data.year - a.data.year)
+  .filter((p) => isPublished(p) && p.data.featured)
+  .sort(sortProjectsByRecent)
   .slice(0, 5);
 ---
 

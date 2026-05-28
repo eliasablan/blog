@@ -1,6 +1,7 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 import { defaultLang, ui, type Lang, type UIKey, languages } from "./ui";
 import { sectionSlugs, type Section } from "./routes";
+import { isPublished } from "@/lib/content";
 
 export { defaultLang, languages, type Lang };
 
@@ -43,6 +44,7 @@ export async function getTranslatedEntry<C extends "blog" | "portfolio">(
     const { lang } = splitEntryId(e.id);
     return (
       lang === targetLang &&
+      isPublished(e) &&
       (e.data as { translationKey: string }).translationKey === translationKey
     );
   });

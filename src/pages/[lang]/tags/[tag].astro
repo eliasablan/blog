@@ -5,15 +5,32 @@ import PostCard from "@/components/PostCard.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
 import { useTranslations, filterByLang, type Lang } from "@/i18n/utils";
 import { tagSlugs, tagLabels, type TagSlug } from "@/i18n/tags";
+import {
+  isPublished,
+  sortPostsByRecent,
+  sortProjectsByRecent,
+} from "@/lib/content";
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
   const langs: Lang[] = ["en", "es"];
-  return langs.flatMap((lang) =>
-    tagSlugs.map((tag) => ({
-      params: { lang, tag },
-      props: { tag },
-    })),
-  );
+  const posts = await getCollection("blog");
+  const projects = await getCollection("portfolio");
+
+  return langs.flatMap((lang) => {
+    const langPosts = filterByLang(posts, lang).filter(isPublished);
+    const langProjects = filterByLang(projects, lang).filter(isPublished);
+
+    return tagSlugs
+      .filter(
+        (tag) =>
+          langPosts.some((post) => post.data.tags.includes(tag)) ||
+          langProjects.some((project) => project.data.tags.includes(tag)),
+      )
+      .map((tag) => ({
+        params: { lang, tag },
+        props: { tag },
+      }));
+  });
 }
 
 const lang = Astro.params.lang as Lang;
@@ -22,12 +39,12 @@ const t = useTranslations(lang);
 const label = tagLabels[tag][lang];
 
 const posts = filterByLang(await getCollection("blog"), lang)
-  .filter((p) => !p.data.draft && p.data.tags.includes(tag))
-  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+  .filter((p) => isPublished(p) && p.data.tags.includes(tag))
+  .sort(sortPostsByRecent);
 
 const projects = filterByLang(await getCollection("portfolio"), lang)
-  .filter((p) => p.data.tags.includes(tag))
-  .sort((a, b) => b.data.year - a.data.year);
+  .filter((p) => isPublished(p) && p.data.tags.includes(tag))
+  .sort(sortProjectsByRecent);
 
 const isEmpty = posts.length === 0 && projects.length === 0;
 

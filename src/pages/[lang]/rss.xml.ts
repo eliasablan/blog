@@ -8,6 +8,7 @@ import {
   type Lang,
 } from "@/i18n/utils";
 import { entryPath } from "@/i18n/routes";
+import { isPublished, sortPostsByRecent } from "@/lib/content";
 
 export function getStaticPaths() {
   return [{ params: { lang: "en" } }, { params: { lang: "es" } }];
@@ -17,10 +18,8 @@ export async function GET(context: APIContext) {
   const lang = context.params.lang as Lang;
   const t = useTranslations(lang);
   const posts = filterByLang(await getCollection("blog"), lang)
-    .filter((p) => !p.data.draft)
-    .sort(
-      (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
-    );
+    .filter(isPublished)
+    .sort(sortPostsByRecent);
 
   const langCode = lang === "en" ? "en-US" : "es-ES";
 

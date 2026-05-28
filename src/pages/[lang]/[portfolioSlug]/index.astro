@@ -4,6 +4,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
 import { useTranslations, filterByLang, type Lang } from "@/i18n/utils";
 import { sectionSlugs } from "@/i18n/routes";
+import { isPublished, sortProjectsByRecent } from "@/lib/content";
 
 export function getStaticPaths() {
   return (["en", "es"] as const).map((lang) => ({
@@ -14,9 +15,9 @@ export function getStaticPaths() {
 const lang = Astro.params.lang as Lang;
 const t = useTranslations(lang);
 
-const projects = filterByLang(await getCollection("portfolio"), lang).sort(
-  (a, b) => b.data.year - a.data.year,
-);
+const projects = filterByLang(await getCollection("portfolio"), lang)
+  .filter(isPublished)
+  .sort(sortProjectsByRecent);
 ---
 
 <BaseLayout
