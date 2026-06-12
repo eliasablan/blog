@@ -104,13 +104,13 @@ const altUrl = translated
       }
     </header>
 
-    <div class="mt-8 aspect-video w-full overflow-hidden rounded-lg bg-muted">
+    <div class="mt-8 w-full overflow-hidden rounded-lg bg-muted">
       <Image
         src={project.data.cover}
         alt={project.data.coverAlt ?? project.data.title}
         widths={[600, 1200]}
         sizes="(max-width: 768px) 100vw, 800px"
-        class="h-full w-full object-cover"
+        class="block h-auto w-full"
         transition:name={`project-${key}-cover`}
       />
     </div>
