@@ -14,13 +14,13 @@ export const ui = {
     "nav.about": "Sobre mí",
     "nav.contact": "Contacto",
 
-    "home.title": "Elías Ablán — Desarrollador y consultor de redes en Caracas",
+    "home.title": "Elías Ablán — Desarrollador full-stack en Caracas",
     "home.description":
       "Blog personal y portafolio de Elías Ablán. Notas sobre desarrollo web, redes, automatización y herramientas de pensamiento.",
 
     "home.hero.eyebrow": "Desarrollador full-stack",
     "home.hero.lede":
-      "Desarrollador freelance y consultor de redes en Caracas. Construyo software, configuro redes y a veces mezclo las dos cosas con hardware.",
+      "Desarrollo apps web y administro las redes y servidores donde corren.",
     "home.hero.cta.posts": "Ver el blog",
     "home.hero.cta.portfolio": "Ver el portafolio",
 
@@ -102,13 +102,13 @@ export const ui = {
     "nav.about": "About",
     "nav.contact": "Contact",
 
-    "home.title": "Elías Ablán — Developer and network consultant in Caracas",
+    "home.title": "Elías Ablán — Full-stack developer in Caracas",
     "home.description":
       "Personal blog and portfolio of Elías Ablán. Notes on web development, networking, automation, and thinking tools.",
 
     "home.hero.eyebrow": "Full-stack developer",
     "home.hero.lede":
-      "Freelance developer and network consultant in Caracas. I build software, set up networks, and sometimes mix the two with hardware.",
+      "I build web apps and run the networks and servers they live on.",
     "home.hero.cta.posts": "Read the blog",
     "home.hero.cta.portfolio": "See the portfolio",
 
