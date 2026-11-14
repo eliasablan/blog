@@ -117,19 +117,5 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin).toString();
         document.documentElement.classList.toggle("dark", isDark);
       });
     </script>
-
-    {
-      /* Hand-rolled instead of <Analytics /> — that component's inline customElements.define re-fires on head swaps and causes FOUC on view-transition snapshots. */
-    }
-    <script>
-      import { inject } from "@vercel/analytics";
-      inject({
-        mode: import.meta.env.PROD ? "production" : "development",
-        disableAutoTrack: true,
-      });
-      document.addEventListener("astro:page-load", () => {
-        window.va?.("pageview", { path: location.pathname });
-      });
-    </script>
   </body>
 </html>

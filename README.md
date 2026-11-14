@@ -1,5 +1,25 @@
 # Astro Starter Kit: Minimal
 
+## Deploy to Cloudflare Workers
+
+The site uses static pages plus server routes for language selection and the
+contact form. The Cloudflare adapter builds both for `https://eablan.dev`.
+
+```sh
+pnpm install
+pnpm exec wrangler login
+pnpm deploy
+```
+
+Configure the contact form's runtime secrets with `pnpm exec wrangler secret put`
+for each name: `RESEND_API_KEY`, `RESEND_FROM`, and `CONTACT_TO_EMAIL`. See
+`.env.example` for the expected values. For local development, use `.env` or
+`.dev.vars`; never commit credentials.
+
+The domain must be an active zone in the same Cloudflare account. The custom
+domain in `wrangler.jsonc` lets Cloudflare manage its DNS record and certificate.
+Use `pnpm build && pnpm preview` to test the production Worker locally.
+
 ```sh
 pnpm create astro@latest -- --template minimal
 ```

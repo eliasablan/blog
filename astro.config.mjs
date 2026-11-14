@@ -2,14 +2,17 @@
 import { defineConfig, fontProviders } from "astro/config";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
-import vercel from "@astrojs/vercel";
+import cloudflare from "@astrojs/cloudflare";
 import tailwindcss from "@tailwindcss/vite";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://eliasablan.com",
+  site: "https://eablan.dev",
   output: "static",
-  adapter: vercel(),
+  adapter: cloudflare({
+    imageService: "compile",
+    prerenderEnvironment: "node",
+  }),
   i18n: {
     locales: ["es", "en"],
     defaultLocale: "es",

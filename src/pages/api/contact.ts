@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { z } from "astro/zod";
 import { Resend } from "resend";
+import { getSecret } from "astro:env/server";
 
 export const prerender = false;
 
@@ -72,9 +73,9 @@ export const POST: APIRoute = async ({ request }) => {
 
   const c = copy[lang];
 
-  const apiKey = import.meta.env.RESEND_API_KEY;
-  const from = import.meta.env.RESEND_FROM;
-  const to = import.meta.env.CONTACT_TO_EMAIL;
+  const apiKey = getSecret("RESEND_API_KEY");
+  const from = getSecret("RESEND_FROM");
+  const to = getSecret("CONTACT_TO_EMAIL");
 
   if (!apiKey || !from || !to) {
     console.error(
