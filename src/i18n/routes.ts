@@ -3,22 +3,22 @@ import type { Lang } from "./ui";
 /**
  * Localized section slugs.
  * Top-level routes like /<lang>/<section>/ use these slugs.
- * Example: portafolio (es) vs portfolio (en).
+ * Example: proyectos (es) vs projects (en).
  */
 export const sectionSlugs = {
   es: {
     blog: "blog",
-    portfolio: "portafolio",
+    projects: "proyectos",
   },
   en: {
     blog: "blog",
-    portfolio: "portfolio",
+    projects: "projects",
   },
-} as const satisfies Record<Lang, Record<"blog" | "portfolio", string>>;
+} as const satisfies Record<Lang, Record<"blog" | "projects", string>>;
 
-export type Section = "blog" | "portfolio";
+export type Section = "blog" | "projects";
 
-/** Build a localized section URL: sectionPath('es', 'portfolio') → '/es/portafolio' */
+/** Build a localized section URL: sectionPath('es', 'projects') → '/es/proyectos' */
 export function sectionPath(lang: Lang, section: Section): string {
   return `/${lang}/${sectionSlugs[lang][section]}`;
 }

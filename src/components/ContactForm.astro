@@ -154,6 +154,12 @@ const t = useTranslations(lang);
     const errorMsg = form.querySelector('[data-status="error"]');
     const submitBtn = form.querySelector('button[type="submit"]');
 
+    const subjectField = form.querySelector('[name="subject"]');
+    const presetSubject = new URLSearchParams(location.search).get("subject");
+    if (subjectField && presetSubject && !subjectField.value) {
+      subjectField.value = presetSubject;
+    }
+
     function setError(name, msg) {
       const target = form.querySelector(`[data-error-for="${name}"]`);
       const field = form.querySelector(`[name="${name}"]`);

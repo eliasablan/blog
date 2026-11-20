@@ -1,0 +1,4 @@
+/en/portfolio /en/projects 301
+/en/portfolio/* /en/projects/:splat 301
+/es/portafolio /es/proyectos 301
+/es/portafolio/* /es/proyectos/:splat 301
