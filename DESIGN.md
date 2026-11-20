@@ -312,7 +312,7 @@ cambios de color siguen con su fundido.
 base`: `outline: 2px solid var(--ink)`, offset `3px`. Especificidad cero:
 un componente puede cambiarlo (los campos inválidos lo pasan a `--red`).
 
-**Hover** solo con `(hover: hover) and (pointer: fine)`; nunca en táctil.
+**Hover** de primitivas y campos con `(hover: hover) and (pointer: fine)`; las utilidades `hover:` de Tailwind (Button `secondary`/`destructive`, Card) con `(hover: hover)`; el enlace de prosa sin condición.
 **Disabled** (`:disabled` o `aria-disabled="true"`): opacidad 0.5, sin
 hover ni press.
 
