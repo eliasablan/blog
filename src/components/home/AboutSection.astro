@@ -2,6 +2,7 @@
 import type { Lang } from "@/i18n/ui";
 import { useTranslations } from "@/i18n/utils";
 import { sectionPath } from "@/i18n/routes";
+import Link from "@/components/Link.astro";
 import AboutEs from "@/content/home/about.es.mdx";
 import AboutEn from "@/content/home/about.en.mdx";
 
@@ -14,17 +15,14 @@ const t = useTranslations(lang);
 const Content = lang === "es" ? AboutEs : AboutEn;
 ---
 
-<section id="about" class="mx-auto max-w-[680px] px-8 max-[600px]:px-5">
+<section id="about" class="mx-auto mt-16 max-w-170 px-8 max-[600px]:px-5">
+  <div class="rule-dots mb-8" aria-hidden="true"></div>
   <div
     class="[&_a]:text-primary [&_em]:italic [&_p]:m-0 [&_p]:mb-6 [&_p]:text-lg [&_p]:leading-[1.7] [&_p]:text-foreground [&_p:last-child]:mb-0 [&_strong]:font-semibold [&_strong]:text-foreground"
   >
     <Content />
   </div>
-  <a
-    href={sectionPath(lang, "about")}
-    class="mt-6 inline-block font-mono text-xs tracking-[0.08em] text-foreground uppercase decoration-current decoration-dotted underline-offset-[6px] hover:underline"
-  >
+  <Link href={sectionPath(lang, "about")} class="mt-8 inline-block">
     {t("home.about.cta")} →
-  </a>
-  <hr class="mx-auto mt-12 h-px w-[60px] border-0 bg-rule" />
+  </Link>
 </section>
