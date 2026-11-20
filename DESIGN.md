@@ -9,86 +9,68 @@ documentarse aquí antes de aterrizar en código.
 
 ## 1. Paleta
 
-Basada en **Flexoki** (Steph Ango). Los nombres "raw" no se usan
-directamente en componentes — se consumen vía tokens semánticos.
+Dirección **Dither × ASCII** (elegida en #3; referencia
+`docs/design/references/dither-ascii.png`): tinta navy sobre papel con
+grano. Solo dos colores raw que se intercambian entre modos; todo token
+semántico es una mezcla `color-mix` de ellos, así que `.dark` solo
+redefine `--ink`, `--paper` y `--grain`.
 
-### 1.1 Raw — escala neutra
+### 1.1 Raw
 
-| Token        | Hex       | Uso típico                 |
-| ------------ | --------- | -------------------------- |
-| `--paper`    | `#FFFCF0` | bg en light                |
-| `--base-50`  | `#F2F0E5` | bg secundario en light     |
-| `--base-100` | `#E6E4D9` | ui / bg terciario en light |
-| `--base-150` | `#DAD8CE` | rule / hover en light      |
-| `--base-200` | `#CECDC3` | active / tx en dark        |
-| `--base-300` | `#B7B5AC` | —                          |
-| `--base-500` | `#878580` | tx muted en light          |
-| `--base-700` | `#575653` | tx secundario en light     |
-| `--base-850` | `#343331` | rule en dark               |
-| `--base-900` | `#282726` | ui / bg terciario en dark  |
-| `--base-950` | `#1C1B1A` | bg secundario en dark      |
-| `--black`    | `#100F0F` | bg en dark / tx en light   |
+| Token     | Light       | Dark         | Uso                                         |
+| --------- | ----------- | ------------ | ------------------------------------------- |
+| `--ink`   | `#1C2056`   | `#E4E5F4`    | texto, bordes de cajas, bloques, dither     |
+| `--paper` | `#EBEBE6`   | `#11143A`    | fondo, texto sobre tinta                    |
+| `--grain` | ruido negro | ruido blanco | textura (SVG `feTurbulence`, alfa horneado) |
 
-### 1.2 Raw — acentos
+Los acentos Flexoki (`--red`, `--green`, …) se conservan solo para
+feedback de formularios y sintaxis; no son color de marca.
 
-Cambian de valor entre temas; el _papel_ semántico se mantiene.
+### 1.2 Tokens semánticos
 
-| Token       | Light     | Dark      | Uso típico               |
-| ----------- | --------- | --------- | ------------------------ |
-| `--red`     | `#AF3029` | `#D14D41` | accent principal         |
-| `--orange`  | `#BC5215` | `#DA702C` | syntax `tk-num`          |
-| `--yellow`  | `#AD8301` | `#D0A215` | `::selection`            |
-| `--green`   | `#66800B` | `#879A39` | syntax `tk-str`, success |
-| `--cyan`    | `#24837B` | `#3AA99F` | syntax `tk-ty`           |
-| `--blue`    | `#205EA6` | `#4385BE` | syntax `tk-fn`           |
-| `--purple`  | `#5E409D` | `#8B7EC8` | syntax `tk-kw`           |
-| `--magenta` | `#A02F6F` | `#CE5D97` | syntax `tk-op`           |
+| Token            | Valor (ambos modos) | Notas                  |
+| ---------------- | ------------------- | ---------------------- |
+| `--bg`           | `--paper`           | fondo de página        |
+| `--bg-secondary` | ink 5% en paper     | bloques alternos       |
+| `--bg-tertiary`  | ink 9% en paper     | code blocks, inputs    |
+| `--tx`           | `--ink`             | texto principal        |
+| `--tx-secondary` | ink 80% en paper    | texto de apoyo (≥7:1)  |
+| `--tx-muted`     | ink 70% en paper    | meta, fechas (≥5:1)    |
+| `--rule`         | ink 25% en paper    | hairlines de listas    |
+| `--accent`       | `--ink`             | no hay color de acento |
+| `--on-accent`    | `--paper`           | texto sobre tinta      |
 
-### 1.3 Tokens semánticos
-
-Lo que se usa en componentes. Vive en `src/styles/global.css`.
-
-| Token            | Light        | Dark             | Notas                  |
-| ---------------- | ------------ | ---------------- | ---------------------- |
-| `--bg`           | `--paper`    | `--black`        | fondo de página        |
-| `--bg-secondary` | `--base-50`  | `--base-950`     | bloques alternos       |
-| `--bg-tertiary`  | `--base-100` | `--base-900`     | code blocks, inputs    |
-| `--tx`           | `--black`    | `--base-200`     | texto principal        |
-| `--tx-secondary` | `--base-700` | `--base-500`     | texto de apoyo         |
-| `--tx-muted`     | `--base-500` | `--base-700`     | meta, fechas, captions |
-| `--rule`         | `--base-150` | `--base-850`     | divisores y bordes     |
-| `--accent`       | `--red`      | `--red` (D14D41) | brand color            |
-| `--on-accent`    | `--paper`    | `--black`        | texto sobre accent     |
-
-En Tailwind v4 (`@theme inline` en `global.css`) estos se exponen como
-`--color-bg`, `--color-foreground`, `--color-tx-secondary`, etc. — las
-clases utilitarias `bg-background`, `text-foreground`,
-`text-tx-secondary`, `border-rule` están disponibles.
+En Tailwind v4 (`@theme inline`) se exponen como `bg-background`,
+`text-foreground`, `text-tx-secondary`, `border-rule`, `border-ink`, etc.
+Las cajas del lenguaje Dither usan `--ink` puro; `--rule` es solo para
+divisores discretos.
 
 ---
 
 ## 2. Tipografía
 
-| Familia            | Variable       | Uso                             |
-| ------------------ | -------------- | ------------------------------- |
-| **IBM Plex Serif** | `--font-serif` | body, h1–h4, prose, byline ital |
-| **IBM Plex Mono**  | `--font-mono`  | brand, nav, meta, code, labels  |
+| Familia            | Variable       | Uso                                                 |
+| ------------------ | -------------- | --------------------------------------------------- |
+| **Pixelify Sans**  | `--font-pixel` | display: brand, titular del Hero (700)              |
+| **Space Mono**     | `--font-mono`  | chrome en mayúsculas: nav, labels, CTAs, meta, code |
+| **IBM Plex Serif** | `--font-serif` | body, prosa del Blog, h1–h3 de páginas              |
 
-Pesos cargados: 300 / 400 / 500 / 600 (serif) y 400 / 500 / 600 (mono),
-con italics 400 y 600. Vía `<link>` a Google Fonts en `BaseLayout.astro`
-con `preconnect` para evitar FOUC.
+Pesos: Pixelify 700; Space Mono 400/700 (no hay 500: `font-medium` cae a
+400); Plex Serif 400/600 con italics. Cargadas con la API de fuentes de
+Astro (`astro.config.mjs` + `<Font>` en `BaseLayout.astro`).
 
 ### Escala
 
-| Rol           | Tamaño                   | Peso | Line-height | Tracking |
-| ------------- | ------------------------ | ---- | ----------- | -------- |
-| h1 hero/page  | `clamp(36px, 5vw, 52px)` | 600  | 1.08        | -0.018em |
-| h2 sección    | `32px`                   | 600  | 1.2         | -0.012em |
-| h3            | `22px`                   | 600  | 1.3         | 0        |
-| lede          | `22px` italic            | 400  | 1.4         | 0        |
-| body          | `18px`                   | 400  | 1.7         | normal   |
-| eyebrow / nav | `12px` mono uppercase    | 500  | 1.4         | 0.08em   |
-| micro / fin   | `11–12px` mono           | 400  | —           | 0.1em    |
+| Rol           | Tamaño                           | Peso    | Line-height | Tracking    |
+| ------------- | -------------------------------- | ------- | ----------- | ----------- |
+| h1 hero/page  | `clamp(36px, 5vw, 52px)`         | 600     | 1.08        | -0.018em    |
+| h2 sección    | `32px`                           | 600     | 1.2         | -0.012em    |
+| h3            | `22px`                           | 600     | 1.3         | 0           |
+| lede          | `22px` italic                    | 400     | 1.4         | 0           |
+| body          | `18px`                           | 400     | 1.7         | normal      |
+| display Hero  | `clamp(26px, 3.5vw, 42px)` pixel | 700     | 1.12        | 0.01em      |
+| eyebrow / nav | `12px` mono uppercase            | 400/700 | 1.4         | 0.06–0.08em |
+| micro / fin   | `11–12px` mono                   | 400     | —           | 0.1em       |
 
 Reglas:
 
@@ -113,6 +95,10 @@ Escala fija (en `global.css`):
 --space-6: 24px
 ```
 
+Grid de pixel (en `global.css`, estos sí existen): `--px: 3px`,
+`--cell: 12px` (4 filas de dither), `--control-h: 48px`, `--dith-w: 48px`.
+Ver §5.2.1.
+
 Convivencia con Tailwind: las utilidades `p-*` y `m-*` siguen usando la
 escala default de Tailwind. Estas variables se usan en CSS custom (style
 blocks de componentes) para mantener cohesión con el prototipo.
@@ -124,7 +110,7 @@ blocks de componentes) para mantener cohesión con el prototipo.
 - **Ancho de columna:** `680px` para todo el contenido editorial (home,
   artículo, tag).
 - **Padding base:** `64px 32px 96px` (≥600px); `40px 20px 64px` en mobile.
-- **Topbar:** `padding: 14px 32px` (`12px 20px` mobile).
+- **Topbar:** `padding: 16px clamp(20px, 4vw, 40px)` (`16px 12px` mobile).
 - Composición: un single column centrado. No hay sidebar.
 
 ---
@@ -133,21 +119,51 @@ blocks de componentes) para mantener cohesión con el prototipo.
 
 ### 5.1 Topbar (`Header.astro`)
 
-- Sticky, `z-50`, fondo `color-mix(in srgb, var(--bg) 92%, transparent)`
-  con `backdrop-filter: blur(10px)`. Borde inferior `1px var(--rule)`.
-- **Brand:** dot `6×6px` accent + texto `ELIAS ABLAN` (mono 12px uppercase,
-  tracking 0.1em, weight 500). Sin underline.
-- **Nav:** links mono 12px uppercase tracking 0.08em, `tx-secondary`,
-  hover → `tx`.
-- **Theme toggle:** botón circular `36×36`, borde `1px var(--rule)`, hover
-  → borde accent + texto `tx`. Icono `16×16` (sol/luna SVG inline).
-- **Language switcher:** mismo lenguaje que nav (mono uppercase 12px).
+- Sticky, `z-50`, fondo `--bg` + `.grain`, borde inferior `1px dotted
+var(--ink)`. Padding `16px`; los controles miden `48px` (4 celdas).
+- **Brand:** `.boxhead` `EA | ELIAS ABLAN | ©año` en Pixelify 15px (13px
+  mobile, solo el nombre). El nombre conserva el efecto scramble al hover;
+  una copia invisible fija el ancho de la caja.
+- **Nav:** Space Mono 12px uppercase con prefijo `//` en `tx-muted`;
+  hover → subrayado punteado. Bajo `lg` baja a su propia fila.
+- **Idioma / tema:** `.ctl` (caja 48×48, hover invertido).
+- **Contacto:** `.dith-bar` de 48px con `.dith` de 12 px de ancho de
+  rampa (8 en mobile).
 
 ### 5.2 Hero (`home/Hero.astro`)
 
-- h1 `Elias Ablan` + lede italic 22px `tx-secondary`.
-- Cierra con `border-bottom: 1px var(--rule)` y `margin-bottom: 48px`.
-- **Sin botones CTA** (los del topbar bastan).
+- Grid `escalera | columna (max 640px)`. La escalera son 16 escalones de
+  tinta con un `.dith` colgando a la derecha; alto redondeado a celdas
+  enteras (`round(…, var(--cell))`), ancho a pixeles enteros. Se oculta
+  bajo 760px.
+- `.boxhead`: `//01 | eyebrow (.box-fill) | ©año`.
+- h1 = one-liner del spec: primera cláusula en Pixelify, resto en Space
+  Mono 12.5px `tx-muted`.
+- Lista `//ALCANCE` + `.checker`, `.rule-dots`, línea `Caracas, Venezuela`.
+- CTA principal `.dith-bar` de 60px (5 celdas) → `/[lang]/#contact`;
+  enlace secundario punteado a Proyectos.
+- Entrada escalonada (`rise`, `grow`) desactivada con
+  `prefers-reduced-motion`.
+
+### 5.2.1 Primitivas Dither (`global.css`, `@layer components`)
+
+Reutilizables por Home, Services y About. Todo se mide en `--px` (3px) y
+`--cell` (12px = 4 filas de dither).
+
+| Clase                    | Qué es                                                                              |
+| ------------------------ | ----------------------------------------------------------------------------------- |
+| `.dith`                  | borde dither Bayer 4×4 (75→12.5%) que se estira al alto del padre; ancho `--dith-w` |
+| `.dith-bar`              | barra de tinta sólida que termina en un `.dith` (último hijo, sin padding derecho)  |
+| `.ctl`                   | control encajado de 48px; `aria-disabled="true"` lo atenúa                          |
+| `.boxhead` + `.box-fill` | fila de label encajada `//LABEL`; `.box-fill` invierte una celda                    |
+| `.rule-dots`             | regla doble punteada (2px + 1px)                                                    |
+| `.checker`               | damero de celdas de 12px; tamaño en celdas enteras (5×5 por defecto)                |
+| `.grain`                 | grano de papel para superficies opacas sobre el body                                |
+
+**Regla de no-recorte:** todo lo que aloje un `.dith` debe medir un número
+entero de celdas de alto (`--cell`, 12px) y todo escalón/offset debe ser
+múltiplo de `--px`; si no, la primera o la última fila de pixeles se
+corta. Por eso los controles del header miden 48px y el CTA 60px.
 
 ### 5.3 About (`home/AboutSection.astro`)
 
@@ -259,37 +275,17 @@ Replica el prototipo `article.html`:
 
 ## 6. Detalles
 
-### 6.1 Textura de papel (solo light)
+### 6.1 Textura de papel (ambos modos)
 
-Dos `radial-gradient` micros sobre `body` para romper la planitud del
-`#FFFCF0`. Se quita en dark (sería ruido sobre `#100F0F`):
-
-```css
-body {
-  background-image:
-    radial-gradient(
-      circle at 25% 30%,
-      rgba(16, 15, 15, 0.018) 0.5px,
-      transparent 1.2px
-    ),
-    radial-gradient(
-      circle at 75% 70%,
-      rgba(16, 15, 15, 0.013) 0.6px,
-      transparent 1.6px
-    );
-  background-size:
-    3px 3px,
-    7px 7px;
-}
-.dark body {
-  background-image: none;
-}
-```
+`body { background-image: var(--grain) }`: ruido fractal SVG de 240px con
+el alfa horneado en la matriz de color (negro en light, blanco en dark).
+Va **debajo** del contenido para que la prosa del Blog siga nítida; las
+superficies opacas que tapan el body (el header sticky) usan `.grain`.
 
 ### 6.2 Selección
 
-`::selection { background: var(--yellow); color: var(--black); }` — el
-amarillo Flexoki en ambos temas (sin invertir).
+`::selection { background: var(--ink); color: var(--paper); }`: tinta
+invertida, en ambos temas.
 
 ### 6.3 Enlaces (default)
 
