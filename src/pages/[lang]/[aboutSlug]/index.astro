@@ -1,0 +1,364 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import type { Lang } from "@/i18n/ui";
+import { sectionSlugs } from "@/i18n/routes";
+import { cvUrl } from "@/i18n/cv";
+
+export function getStaticPaths() {
+  return (["en", "es"] as const).map((lang) => ({
+    params: { lang, aboutSlug: sectionSlugs[lang].about },
+  }));
+}
+
+const lang = Astro.params.lang as Lang;
+const year = new Date().getFullYear();
+
+// Page copy lives here (single use). Each entry keeps its locales together.
+const copy = {
+  title: {
+    es: "Sobre mí — Elías Ablán",
+    en: "About — Elías Ablán",
+  },
+  description: {
+    es: "Desarrollador full-stack en Caracas. Cuatro años con NetSuite en Kavak, desarrollo web y la infraestructura de TI de una empresa. Remoto primero, abierto a mudarme.",
+    en: "Full-stack developer in Caracas. Four years of NetSuite at Kavak, web development and a company's IT infrastructure. Remote first, open to relocation.",
+  },
+  eyebrow: { es: "Sobre mí", en: "About" },
+  place: { es: "Caracas, Venezuela", en: "Caracas, Venezuela" },
+  heading: {
+    es: "Desarrollador full-stack en Caracas.",
+    en: "Full-stack developer in Caracas.",
+  },
+  intro: {
+    es: [
+      "Soy **Elías Ablán**. Me gusta construir software y me da la misma curiosidad lo que corre por debajo: redes, contenedores, servidores, hardware. Todavía estoy aprendiendo mucho de eso. También me apasiona la IA.",
+      "Empecé escribiendo SuiteScript para NetSuite en Kavak y pasé al desarrollo web full-stack. Últimamente administro la infraestructura de TI de una empresa y construí su sitio web de ventas. Construyo, lanzo y mantengo el software de punta a punta, y los flujos de trabajo asistidos por IA me permiten hacerlo solo, al ritmo de un equipo.",
+    ],
+    en: [
+      "I'm **Elías Ablán**. I like building software, and I'm just as curious about what runs underneath it: networks, containers, servers, hardware. I'm still learning a lot of that. I'm also very into AI.",
+      "I started by writing SuiteScript for NetSuite at Kavak, then moved to full-stack web development. Lately I've been running a company's IT infrastructure and building its sales website. I build, ship and run software end to end, and AI-assisted workflows let me do that on my own at the pace of a team.",
+    ],
+  },
+} as const;
+
+// Dates are not in the repo yet: render a visible marker instead of a guess.
+const datesPending = { es: "[FECHAS PENDIENTES]", en: "[DATES TBD]" };
+
+const experience = [
+  {
+    title: { es: "NetSuite · SuiteScript", en: "NetSuite · SuiteScript" },
+    org: { es: "Kavak", en: "Kavak" },
+    body: {
+      es: "Cuatro años escribiendo SuiteScript para NetSuite.",
+      en: "Four years writing SuiteScript for NetSuite.",
+    },
+  },
+  {
+    title: {
+      es: "Desarrollo web full-stack",
+      en: "Full-stack web development",
+    },
+    org: null,
+    body: {
+      es: "Sitios y aplicaciones web con Next.js, React, TypeScript y PostgreSQL.",
+      en: "Websites and web apps with Next.js, React, TypeScript and PostgreSQL.",
+    },
+  },
+  {
+    title: {
+      es: "Infraestructura de TI y sitio de ventas",
+      en: "IT infrastructure and sales website",
+    },
+    org: null,
+    body: {
+      es: "Administro la infraestructura de TI de una empresa y construí su sitio web de ventas.",
+      en: "Running a company's IT infrastructure and building its sales website.",
+    },
+  },
+];
+
+const skills = [
+  {
+    label: { es: "Web", en: "Web" },
+    items: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind",
+      "Astro",
+      "Hono",
+      "tRPC",
+      "PostgreSQL",
+      "Drizzle",
+      "Supabase",
+      "Sanity",
+      "WebSockets",
+      "SEO",
+    ],
+  },
+  {
+    label: { es: "Infraestructura", en: "Infrastructure" },
+    items: [
+      "Linux",
+      "Windows Server",
+      lang === "es" ? "Redes de oficina" : "Office networks",
+      lang === "es" ? "Contenedores" : "Containers",
+      "Self-hosting",
+      "Cloudflare",
+    ],
+  },
+  {
+    label: { es: "Sistemas de negocio", en: "Business systems" },
+    items: [
+      "NetSuite",
+      "SuiteScript",
+      lang === "es" ? "Integraciones" : "Integrations",
+      lang === "es" ? "Automatizaciones" : "Automations",
+    ],
+  },
+  {
+    label: { es: "Flujo de trabajo con IA", en: "AI-assisted workflow" },
+    items: [
+      lang === "es" ? "Desarrollo asistido por IA" : "AI-assisted development",
+      "OpenAI API",
+    ],
+  },
+];
+
+const looking = {
+  label: { es: "Busco", en: "Looking for" },
+  lead: {
+    es: "Trabajo remoto primero, abierto a mudarme.",
+    en: "Remote first, open to relocation.",
+  },
+  order: { es: "En orden de preferencia", en: "In order of preference" },
+  // width is the share of the row each bar fills: longer bar, higher priority.
+  roles: [
+    {
+      label: { es: "Desarrollo full-stack", en: "Full-stack developer" },
+      width: 100,
+    },
+    {
+      label: { es: "Roles cercanos a la IA", en: "AI-adjacent roles" },
+      width: 90,
+    },
+    { label: { es: "NetSuite", en: "NetSuite" }, width: 62 },
+  ],
+};
+
+const labels = {
+  experience: { es: "Experiencia", en: "Experience" },
+  stack: { es: "Stack", en: "Stack" },
+  links: { es: "CV y enlaces", en: "CV & links" },
+  cv: { es: "Descargar CV (PDF)", en: "Download CV (PDF)" },
+};
+
+// "**bold**" in the intro copy: split on it instead of pulling in a parser.
+const renderBold = (text: string) =>
+  text.split(/\*\*(.+?)\*\*/g).map((part, i) => ({ part, bold: i % 2 === 1 }));
+
+const boxhead =
+  "boxhead mt-14 mb-6 grid-cols-[auto_1fr] font-mono text-xs font-bold tracking-[0.08em] uppercase";
+---
+
+<BaseLayout title={copy.title[lang]} description={copy.description[lang]}>
+  <article
+    class="mx-auto max-w-170 px-8 pt-14 pb-24 max-[600px]:px-5 max-[600px]:pt-10 max-[600px]:pb-16"
+  >
+    <div
+      class="boxhead grid-cols-[auto_1fr_auto] font-mono text-xs font-bold tracking-[0.08em] text-foreground uppercase"
+    >
+      <span class="font-normal" aria-hidden="true">//</span>
+      <p class="box-fill m-0 leading-[1.25]">{copy.eyebrow[lang]}</p>
+      <span class="font-normal max-[600px]:hidden">{copy.place[lang]}</span>
+    </div>
+
+    <h1
+      class="mt-9 mb-8 font-pixel text-[clamp(26px,3.5vw,42px)] leading-[1.12] font-bold tracking-[0.01em] text-balance text-foreground"
+    >
+      {copy.heading[lang]}
+    </h1>
+
+    <div class="flex flex-col gap-6 text-lg leading-[1.7] text-foreground">
+      {
+        copy.intro[lang].map((paragraph) => (
+          <p class="m-0">
+            {renderBold(paragraph).map(({ part, bold }) =>
+              bold ? <strong class="font-semibold">{part}</strong> : part,
+            )}
+          </p>
+        ))
+      }
+    </div>
+
+    <div class="rule-dots mt-12" aria-hidden="true"></div>
+
+    <section aria-labelledby="about-experience">
+      <div class={boxhead}>
+        <span class="font-normal" aria-hidden="true">//01</span>
+        <h2 id="about-experience" class="box-fill m-0 text-xs font-bold">
+          {labels.experience[lang]}
+        </h2>
+      </div>
+      <ol class="timeline m-0 list-none p-0">
+        {
+          experience.map((job) => (
+            <li class="relative pb-8 pl-6 last:pb-0">
+              <p class="m-0 font-mono text-xs tracking-[0.06em] uppercase">
+                <span class="pending font-bold text-foreground">
+                  {datesPending[lang]}
+                </span>
+              </p>
+              <h3 class="mt-2 mb-0 font-serif text-[22px] leading-[1.3] font-semibold text-foreground">
+                {job.title[lang]}
+                {job.org && (
+                  <span class="font-mono text-xs font-normal tracking-[0.06em] text-tx-muted uppercase">
+                    {" "}
+                    · {job.org[lang]}
+                  </span>
+                )}
+              </h3>
+              <p class="mt-1 mb-0 text-[17px] leading-[1.6] text-tx-secondary">
+                {job.body[lang]}
+              </p>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section aria-labelledby="about-stack">
+      <div class={boxhead}>
+        <span class="font-normal" aria-hidden="true">//02</span>
+        <h2 id="about-stack" class="box-fill m-0 text-xs font-bold">
+          {labels.stack[lang]}
+        </h2>
+      </div>
+      <dl class="m-0 flex flex-col gap-6">
+        {
+          skills.map((group) => (
+            <div>
+              <dt class="font-mono text-xs tracking-[0.12em] text-tx-secondary uppercase">
+                //{group.label[lang]}
+              </dt>
+              <dd class="m-0 mt-1.5 font-mono text-sm leading-[2] text-foreground">
+                {group.items.map((item, i) => (
+                  <>
+                    {i > 0 && (
+                      <span class="px-1 text-tx-muted" aria-hidden="true">
+                        ·
+                      </span>
+                    )}
+                    <span class="whitespace-nowrap">{item}</span>
+                  </>
+                ))}
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+
+    <section aria-labelledby="about-looking">
+      <div class={boxhead}>
+        <span class="font-normal" aria-hidden="true">//03</span>
+        <h2 id="about-looking" class="box-fill m-0 text-xs font-bold">
+          {looking.label[lang]}
+        </h2>
+      </div>
+      <div class="flex items-start justify-between gap-6">
+        <p class="m-0 text-lg leading-[1.7] text-foreground">
+          {looking.lead[lang]}
+        </p>
+        <div class="checker" aria-hidden="true"></div>
+      </div>
+      <p
+        class="mt-6 mb-3 font-mono text-xs tracking-[0.06em] text-tx-muted uppercase"
+      >
+        //{looking.order[lang]}
+      </p>
+      <ol class="m-0 flex list-none flex-col gap-3 p-0">
+        {
+          looking.roles.map((role, i) => (
+            <li
+              class="dith-bar h-[calc(var(--cell)*4)] pl-4 font-mono text-[12px] font-bold tracking-[0.06em] whitespace-nowrap uppercase"
+              style={`width:${role.width}%`}
+            >
+              0{i + 1}&nbsp;&nbsp;{role.label[lang]}
+              <span class="dith ml-auto" aria-hidden="true" />
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section aria-labelledby="about-links">
+      <div class={boxhead}>
+        <span class="font-normal" aria-hidden="true">//04</span>
+        <h2 id="about-links" class="box-fill m-0 text-xs font-bold">
+          {labels.links[lang]}
+        </h2>
+      </div>
+      <a
+        href={cvUrl(lang)}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="cv dith-bar h-[calc(var(--cell)*5)] gap-4 pl-6 font-mono text-[13px] font-bold tracking-[0.08em] whitespace-nowrap uppercase"
+      >
+        {labels.cv[lang]}
+        <span class="ml-auto pr-1 opacity-60" aria-hidden="true">///</span>
+        <span class="dith" aria-hidden="true"></span>
+      </a>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a
+          class="ctl px-4 tracking-[0.08em]"
+          href="https://github.com/eliasablan"
+          target="_blank"
+          rel="noopener noreferrer">GitHub</a
+        >
+        <a
+          class="ctl px-4 tracking-[0.08em]"
+          href="https://www.linkedin.com/in/eliasablan"
+          target="_blank"
+          rel="noopener noreferrer">LinkedIn</a
+        >
+        <a
+          class="ctl px-4 tracking-[0.08em]"
+          href="mailto:eliasablan93@gmail.com">Email</a
+        >
+      </div>
+    </section>
+
+    <div class="rule-dots mt-14" aria-hidden="true"></div>
+    <p
+      class="mt-2.5 mb-0 flex justify-between font-mono text-xs tracking-[0.06em] text-foreground uppercase"
+    >
+      <span>{copy.place[lang]}</span><span>©{year}</span>
+    </p>
+  </article>
+</BaseLayout>
+
+<style>
+  .timeline {
+    border-left: 1px dotted var(--ink);
+  }
+  .timeline > li::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -5px;
+    width: 9px;
+    height: 9px;
+    background: var(--ink);
+  }
+  /* Visible gap marker: this date has not been provided yet. */
+  .pending {
+    padding: 2px 6px;
+    border: 1px dashed var(--ink);
+  }
+  .cv:focus-visible,
+  .ctl:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+  }
+</style>
