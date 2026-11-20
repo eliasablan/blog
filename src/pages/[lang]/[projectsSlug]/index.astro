@@ -26,39 +26,75 @@ const groups = kindSlugs
     projects: projects.filter((p) => p.data.kind === kind),
   }))
   .filter((group) => group.projects.length > 0);
+
+const year = new Date().getFullYear();
+const num = (i: number) => String(i + 1).padStart(2, "0");
+const headClass =
+  "boxhead grid-cols-[auto_1fr_auto] font-mono text-xs font-bold tracking-[0.08em] uppercase";
 ---
 
 <BaseLayout
   title={`${t("projects.title")} — Elías Ablán`}
   description={t("projects.intro")}
 >
-  <section class="mx-auto max-w-3xl px-4 py-12">
-    <header class="mb-10 space-y-2">
-      <h1 class="text-4xl font-bold tracking-tight">{t("projects.title")}</h1>
-      <p class="text-muted-foreground">{t("projects.intro")}</p>
+  <div
+    class="mx-auto max-w-170 px-8 pt-16 pb-24 max-[600px]:px-5 max-[600px]:pt-10 max-[600px]:pb-16"
+  >
+    <header>
+      <div class={headClass}>
+        <span class="font-normal" aria-hidden="true">//</span>
+        <h1 class="box-fill m-0 text-xs font-bold tracking-[0.08em]">
+          {t("projects.title")}
+        </h1>
+        <span class="font-normal" aria-hidden="true">©{year}</span>
+      </div>
+      <p
+        class="mt-6 mb-0 max-w-[34em] text-lg leading-[1.7] text-pretty text-tx-secondary"
+      >
+        {t("projects.intro")}
+      </p>
     </header>
 
     {
       groups.length === 0 ? (
-        <p class="text-muted-foreground">{t("projects.empty")}</p>
+        <p class="mt-12 mb-0 text-lg text-tx-secondary italic">
+          {t("projects.empty")}
+        </p>
       ) : (
-        <div class="flex flex-col gap-12">
-          {groups.map((group) => (
-            <section>
-              <h2 class="mb-6 border-b border-rule pb-2 font-mono text-xs tracking-[0.12em] text-tx-secondary uppercase">
+        groups.map((group, i) => (
+          <section class="mt-16 max-[600px]:mt-12">
+            <div class={headClass}>
+              <span class="font-normal" aria-hidden="true">
+                //{num(i)}
+              </span>
+              <h2 class="box-fill m-0 text-xs font-bold tracking-[0.08em]">
                 {kindLabels[group.kind][lang]}
               </h2>
-              <ul class="flex flex-col gap-6">
-                {group.projects.map((project) => (
-                  <li>
-                    <ProjectCard project={project} lang={lang} />
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ))}
-        </div>
+              <span class="font-normal" aria-hidden="true">
+                {String(group.projects.length).padStart(2, "0")}
+              </span>
+            </div>
+            <ul
+              class:list={[
+                "m-0 mt-6 list-none p-0",
+                group.kind === "client-work"
+                  ? "flex flex-col gap-4"
+                  : "grid grid-cols-2 gap-4 max-[600px]:grid-cols-1",
+              ]}
+            >
+              {group.projects.map((project) => (
+                <li>
+                  <ProjectCard
+                    project={project}
+                    lang={lang}
+                    form={group.kind === "client-work" ? "row" : "tile"}
+                  />
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
       )
     }
-  </section>
+  </div>
 </BaseLayout>
