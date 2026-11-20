@@ -2,7 +2,8 @@
 import type { Lang } from "@/i18n/ui";
 import { useTranslations } from "@/i18n/utils";
 import { sectionPath } from "@/i18n/routes";
-import { serviceCardOrder, serviceCards } from "@/i18n/serviceCards";
+import { serviceSlugs, services } from "@/i18n/services";
+import { serviceCardBlurbs } from "@/i18n/serviceCards";
 
 interface Props {
   lang: Lang;
@@ -23,7 +24,7 @@ const href = sectionPath(lang, "services");
 
   <div class="grid grid-cols-2 gap-4 max-[600px]:grid-cols-1">
     {
-      serviceCardOrder.map((slug, i) => (
+      serviceSlugs.map((slug, i) => (
         <a
           href={href}
           class="card flex flex-col border border-ink text-foreground no-underline"
@@ -37,10 +38,10 @@ const href = sectionPath(lang, "services");
           </span>
           <span class="flex flex-1 flex-col gap-1.5 p-4">
             <span class="title font-serif text-[19px] leading-tight font-semibold decoration-foreground/25 underline-offset-4">
-              {serviceCards[slug].title[lang]}
+              {services[slug].title[lang]}
             </span>
             <span class="text-base leading-normal text-tx-secondary">
-              {serviceCards[slug].body[lang]}
+              {serviceCardBlurbs[slug][lang]}
             </span>
           </span>
         </a>

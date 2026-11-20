@@ -1,32 +1,27 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { serviceCardOrder, serviceCards } from "./serviceCards.ts";
+import { serviceCardBlurbs } from "./serviceCards.ts";
+import { serviceSlugs } from "./services.ts";
 
-test("Home shows the five Services from the spec, in order", () => {
-  assert.deepEqual(serviceCardOrder, [
-    "websites",
-    "web-apps",
-    "hosting",
-    "it-servers",
-    "business-systems",
-  ]);
-});
-
-test("card copy never shows a price and keeps the site voice", () => {
-  for (const slug of serviceCardOrder) {
+test("Home has a blurb for each of the five Services, in both languages", () => {
+  assert.equal(serviceSlugs.length, 5);
+  assert.deepEqual(
+    Object.keys(serviceCardBlurbs).sort(),
+    [...serviceSlugs].sort(),
+  );
+  for (const slug of serviceSlugs) {
     for (const lang of ["es", "en"] as const) {
-      const text = `${serviceCards[slug].title[lang]} ${serviceCards[slug].body[lang]}`;
-      assert.doesNotMatch(text, /[$€]|\busd\b|\bprecio|\bprice/i, slug);
-      assert.doesNotMatch(text, /[!—]|10x/i, slug);
+      assert.ok(serviceCardBlurbs[slug][lang].trim(), `${slug} ${lang}`);
     }
   }
 });
 
-test("every card has a title and a one-liner in both languages", () => {
-  for (const slug of serviceCardOrder) {
+test("card copy never shows a price and keeps the site voice", () => {
+  for (const slug of serviceSlugs) {
     for (const lang of ["es", "en"] as const) {
-      assert.ok(serviceCards[slug].title[lang].trim(), `${slug} title ${lang}`);
-      assert.ok(serviceCards[slug].body[lang].trim(), `${slug} body ${lang}`);
+      const text = serviceCardBlurbs[slug][lang];
+      assert.doesNotMatch(text, /[$€]|\busd\b|\bprecio|\bprice/i, slug);
+      assert.doesNotMatch(text, /[!—]|10x/i, slug);
     }
   }
 });
