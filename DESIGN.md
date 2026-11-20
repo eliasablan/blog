@@ -181,9 +181,10 @@ servicios". Nunca hay precios.
 ### 5.3 About (`home/AboutSection.astro`)
 
 - Prose serif 18px, corta, entre Selected work y Writing. **Sin h2**: la
-  voz no necesita anuncio.
-- Enlace mono 12px punteado a la página About.
-- Termina con `<hr>` 60px centrado, `var(--rule)`.
+  voz no necesita anuncio. En su lugar abre con un `.rule-dots` (la
+  sección empieza con `mt-16`, igual que las demás) a ancho de columna.
+- Enlace de cierre: `Link.astro` (`.link`) a la página About, `mt-8`, con
+  flecha. Sin divisor al final.
 
 ### 5.4 Section heading (h2 con §)
 
@@ -330,10 +331,17 @@ primitivas de §5.11 (fundido de color en hover, press en los Temas,
 
 ### 5.10 Site footer (`Footer.astro`)
 
-- Mono 12px tracking 0.02em `tx-muted`.
-- Padding `32px 32px 48px` (`32px 20px` mobile).
-- Borde superior `1px var(--rule)`.
-- Layout: izq `© 2026 Elias Ablan · Caracas`, der `RSS · GitHub · Inicio`.
+Columna de 680px (`px-8`, `px-5` mobile), `pt-16 pb-12`.
+
+- Abre con `.rule-dots`.
+- Fila de enlaces `.link` (`gap-x-6 gap-y-3`, envuelve): RSS
+  (`/[lang]/rss.xml`), GitHub, LinkedIn, WhatsApp, Email, CV
+  (Curriculum / Resume según idioma). Los externos abren en pestaña nueva
+  (lo decide `Link.astro`).
+- Cierre: `.dith-bar` de 36px (3 celdas, sin hover: no es enlace) a ancho
+  de columna con `© año ELIAS ABLAN · CARACAS` en mono 11px bold
+  mayúsculas y un `.dith` de 12 px de rampa a la derecha.
+- Conserva `view-transition-name: site-footer`.
 
 ### 5.11 Fundación interactiva (botones, enlaces, campos, cards, foco, movimiento)
 
@@ -405,6 +413,24 @@ borde y anillo `--red`. Disabled → borde punteado + opacidad 0.5.
 **Card** (`starwind/Card.astro`): caja `1px var(--ink)`, sin radio, sin
 sombra, fondo transparente. Con `hover` el fondo pasa a `--bg-secondary`
 (sin elevación).
+
+### 5.12 Página 404 (`pages/404.astro`)
+
+Columna de 680px, centrada en vertical (`min-h-58vh`), mismo lenguaje que
+el Hero sin animación de entrada. De arriba abajo: `.boxhead` `// | 404`
+(`.box-fill` en el número) con un `.checker` de 5×5 celdas a la derecha
+(oculto bajo 600px); h1 en Pixelify con la escala del Hero
+(`clamp(26px, 3.5vw, 42px)`, mayúsculas); cuerpo serif 18px `tx-secondary`;
+`.rule-dots`; `Button` `primary` `lg` (60px, 5 celdas) a ancho de columna
+→ `/[lang]/`; `Link` a Blog. El idioma sale de la URL; el switcher de
+idioma queda deshabilitado (`altLangHref={null}`).
+
+### 5.13 Detalles globales
+
+Selección: tinta invertida (§6.2). Foco: el anillo único de §5.11.
+Scrollbar: `scrollbar-color` en `html`, pulgar a ink 55% sobre paper y
+pista `--bg`, en ambos modos. La transición entre páginas sigue siendo
+el crossfade de `transitions.css`; header y footer quedan estáticos.
 
 ---
 
