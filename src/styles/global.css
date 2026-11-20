@@ -299,6 +299,64 @@
     }
   }
 
+  /* Standalone text link (back links, "see all"): mono chrome with the
+     same underline, hover and focus as a prose link. */
+  .link {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-underline-offset: 5px;
+  }
+
+  /* Text field (Input, Textarea): one cell grid tall, ink box, serif text
+     at 16px so iOS does not zoom. Hover and focus tint the box; the ring
+     is the shared focus ring. */
+  .field {
+    display: block;
+    width: 100%;
+    height: var(--control-h);
+    padding: 11px 14px;
+    border: 1px solid var(--ink);
+    border-radius: 0;
+    background: transparent;
+    color: var(--tx);
+    font-family: var(--font-serif);
+    font-size: 16px;
+    line-height: 24px;
+    transition:
+      background-color var(--dur-hover) ease-out,
+      border-color var(--dur-hover) ease-out,
+      color var(--dur-hover) ease-out;
+  }
+  textarea.field {
+    height: auto;
+    min-height: calc(var(--cell) * 10);
+    resize: vertical;
+  }
+  .field::placeholder {
+    color: var(--tx-muted);
+    font-style: italic;
+    opacity: 1;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .field:not(:disabled):hover {
+      background: var(--bg-secondary);
+    }
+  }
+  .field:focus {
+    background: var(--bg-secondary);
+  }
+  .field[aria-invalid="true"] {
+    border-color: var(--red);
+    outline-color: var(--red);
+  }
+  .field:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-style: dotted;
+  }
+
   /* Boxed label row: //01 | FILLED LABEL | ©2026. Any number of cells;
      mark the inverted one with .box-fill. */
   .boxhead {

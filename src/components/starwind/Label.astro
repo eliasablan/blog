@@ -11,8 +11,8 @@ const { class: className, for: htmlFor, ...rest } = Astro.props;
 <label
   for={htmlFor}
   class:list={[
-    "inline-flex items-center gap-1 text-sm leading-none font-medium",
-    "peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+    "inline-flex items-center gap-1 font-mono text-[11px] leading-[1.4] tracking-[0.12em] text-tx-secondary uppercase",
+    "peer-disabled:cursor-not-allowed peer-disabled:opacity-50",
     className,
   ]}
   {...rest}
