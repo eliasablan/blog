@@ -185,8 +185,8 @@
 
 @layer components {
   /* ---------- Dither × ASCII primitives ----------
-     Shared by Header and Hero; reuse them for Services, About and Home
-     sections. Sizes are in --px / --cell so the pixel grid never breaks. */
+     Shared by Header, Hero, Home, Services and About. Sizes are in --px /
+     --cell so the pixel grid never breaks. */
 
   /* Ordered-dither edge: ink dissolving to the right in 4×4 Bayer steps.
      <span class="dith" aria-hidden="true"></span> as the last child of a flex
