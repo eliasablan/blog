@@ -1,11 +1,11 @@
 # Product Marketing Context
 
-**Document version:** v2
+**Document version:** v3
 **Last updated:** 2026-11-20
 
 ## Product Overview
 **One-liner:** I build, ship and run web software end to end: code, servers and AI-assisted workflows that let one person deliver like a team.
-**Eyebrow / summary label:** Full-stack developer
+**Eyebrow / summary label:** Full-stack developer · systems & infrastructure (es: Desarrollador full-stack · sistemas e infraestructura)
 **What it does:** Elías Ablán is a full-stack developer in Caracas who builds websites and web apps for businesses, then hosts and maintains them on infrastructure he runs himself. He also sets up office IT (networks, Windows Server, Linux). AI is how he works, not what he sells.
 **Product category:** Freelance full-stack developer / small-business web and IT partner
 **Product type:** Professional services, plus ready-made Solutions he can deploy for a Client
@@ -67,7 +67,7 @@
 | Honest | Admits limits and what he's still learning | Self-deprecating | "I'm still learning a lot of it." |
 | Hands-on | Talks about what he did and how | Jargon-dumping | "Notes on what I learn, build, and break." |
 
-**Visual tone:** clean and understated, editorial (IBM Plex Serif/Mono). Never loud.
+**Visual tone:** Dither × ASCII: navy ink on grainy paper, a pixel display face (Pixelify Sans) with Space Mono for the chrome, dithered pixel edges, checkers, dotted rules and boxed `//LABELS`. Blog prose stays in IBM Plex Serif for reading. Never loud: one ink colour, no extra accents.
 **Never use (and why):** "10x" (reads as hype), exclamation marks (off-voice).
 
 ## Proof Points
@@ -87,10 +87,12 @@
 *Decisions and tested lessons. Newest first. Keep it to about 20 active entries.*
 | Date | Learning | Evidence | Applies to | Status |
 |------|----------|----------|------------|--------|
+| 2026-11-20 | Eyebrow is "Full-stack developer · systems & infrastructure"; design direction is Dither × ASCII | Owner pick from the 5-direction Hero prototype (#3) | Hero, Header, all pages | active |
 | 2026-11-20 | AI is the method, never the headline; "Full-stack developer" is the identity | Owner decision | All copy | active |
 | 2026-11-20 | Prices are never published, only "let's talk" | Owner decision | Services page, CTAs | active |
 
 ## Changelog
 *Newest first. One line per revision: what changed and why.*
+- v3 (2026-11-20) — Eyebrow set to "Full-stack developer · systems & infrastructure" and visual tone set to Dither × ASCII, both picked from the Hero prototype (#3).
 - v2 (2026-11-20) — Target Audience: Venezuela first, then international; Employer role priority. Added anti-persona. Testimonial tracked in #1.
 - v1 (2026-11-20) — Initial context, drafted from the site's existing copy and the site-structure grilling session.
