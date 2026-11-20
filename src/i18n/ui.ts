@@ -18,9 +18,13 @@ export const ui = {
     "home.description":
       "Blog personal y portafolio de Elías Ablán. Notas sobre desarrollo web, redes, automatización y herramientas de pensamiento.",
 
-    "home.hero.eyebrow": "Desarrollador full-stack",
-    "home.hero.lede":
-      "Desarrollo apps web y administro las redes y servidores donde corren.",
+    "home.hero.eyebrow":
+      "Desarrollador full-stack · sistemas e infraestructura",
+    "home.hero.head":
+      "Construyo, lanzo y mantengo software web de punta a punta:",
+    "home.hero.tail":
+      "código, servidores y flujos de trabajo asistidos por IA que permiten que una sola persona entregue como un equipo.",
+    "home.hero.cta.contact": "Cuéntame sobre tu proyecto",
     "home.hero.cta.posts": "Ver el blog",
     "home.hero.cta.projects": "Ver los proyectos",
 
@@ -113,9 +117,11 @@ export const ui = {
     "home.description":
       "Personal blog and portfolio of Elías Ablán. Notes on web development, networking, automation, and thinking tools.",
 
-    "home.hero.eyebrow": "Full-stack developer",
-    "home.hero.lede":
-      "I build web apps and run the networks and servers they live on.",
+    "home.hero.eyebrow": "Full-stack developer · systems & infrastructure",
+    "home.hero.head": "I build, ship and run web software end to end:",
+    "home.hero.tail":
+      "code, servers and AI-assisted workflows that let one person deliver like a team.",
+    "home.hero.cta.contact": "Tell me about your project",
     "home.hero.cta.posts": "Read the blog",
     "home.hero.cta.projects": "See the projects",
 

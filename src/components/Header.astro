@@ -4,7 +4,6 @@ import { useTranslations } from "@/i18n/utils";
 import { sectionPath } from "@/i18n/routes";
 import LanguageSwitcher from "@/components/LanguageSwitcher.astro";
 import ThemeToggle from "@/components/ThemeToggle.astro";
-import Button from "@/components/starwind/Button.astro";
 
 interface Props {
   lang: Lang;
@@ -23,56 +22,61 @@ const links = [
   { href: sectionPath(lang, "blog"), label: t("nav.blog") },
   { href: sectionPath(lang, "about"), label: t("nav.about") },
 ];
+const year = new Date().getFullYear();
 ---
 
 <header
-  class="sticky top-0 z-50 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b border-rule bg-background/92 px-5 py-3.5 backdrop-blur-[10px] [view-transition-name:site-header] sm:px-8"
+  class="grain sticky top-0 z-50 flex flex-wrap items-center gap-x-3 gap-y-3 border-b border-dotted border-ink bg-background px-3 py-4 font-mono text-xs uppercase [view-transition-name:site-header] sm:gap-x-6 sm:px-[clamp(20px,4vw,40px)]"
 >
   <a
     href={`/${lang}/`}
-    class="group inline-flex items-center gap-2.5 font-mono text-xs font-medium tracking-widest whitespace-nowrap text-foreground uppercase no-underline"
+    class="boxhead font-pixel text-[13px] leading-none font-bold whitespace-nowrap text-foreground no-underline sm:text-[15px] [&>*]:px-2.5 sm:[&>*]:px-3"
     data-brand-link
   >
-    <span class="relative inline-flex size-1.5 items-center justify-center">
+    <span class="max-sm:hidden" aria-hidden="true">EA</span>
+    <span class="box-fill relative tracking-[0.06em]">
+      <span class="invisible">ELIAS ABLAN</span>
       <span
-        class="pointer-events-none absolute top-1/2 left-1/2 size-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/20 opacity-0 group-hover:animate-ping group-hover:opacity-100"
-        aria-hidden="true"></span>
-      <span
-        class="relative inline-block size-1.5 rounded-full bg-primary"
-        aria-hidden="true"></span>
+        class="absolute inset-0 flex items-center justify-center"
+        data-brand-scramble
+        data-brand-text="ELIAS ABLAN">ELIAS ABLAN</span
+      >
     </span>
-    <span data-brand-scramble data-brand-text="ELIAS ABLAN">ELIAS ABLAN</span>
+    <span class="font-mono text-[11px] font-normal max-lg:hidden">©{year}</span>
   </a>
 
   <nav
-    class="order-last flex w-full items-center justify-between sm:order-none sm:w-auto sm:justify-start sm:gap-5.5"
+    class="order-last flex w-full justify-between sm:justify-start sm:gap-6 lg:order-none lg:w-auto lg:flex-1 lg:justify-end lg:gap-5.5"
   >
     {
       links.map((link) => (
         <a
           href={link.href}
-          class="font-mono text-xs font-medium tracking-[0.08em] text-tx-secondary uppercase no-underline hover:text-foreground hover:decoration-transparent"
+          class="inline-flex text-foreground no-underline decoration-current decoration-dotted underline-offset-5 hover:underline"
         >
+          <span class="text-tx-muted" aria-hidden="true">
+            //
+          </span>
           {link.label}
         </a>
       ))
     }
   </nav>
 
-  <div class="flex items-center gap-2">
-    <Button
-      href={`/${lang}/#contact`}
-      size="sm"
-      class="h-9 rounded-full font-mono text-[11px] tracking-[0.08em] uppercase no-underline"
-    >
-      {t("nav.contact")}
-    </Button>
+  <div class="ml-auto flex items-stretch gap-2">
     <LanguageSwitcher
       lang={lang}
       altUrl={altLangHref}
       available={altLangAvailable}
     />
     <ThemeToggle lang={lang} />
+    <a
+      href={`/${lang}/#contact`}
+      class="dith-bar h-(--control-h) gap-3 pl-4 font-bold [--dith-w:calc(var(--px)*12)] max-sm:[--dith-w:calc(var(--px)*8)]"
+    >
+      {t("nav.contact")}
+      <span class="dith" aria-hidden="true"></span>
+    </a>
   </div>
 </header>
 
