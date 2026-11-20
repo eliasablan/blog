@@ -2,6 +2,7 @@ import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 import { tagSlugs } from "./i18n/tags";
+import { kindSlugs } from "./i18n/kinds";
 
 const blog = defineCollection({
   loader: glob({ pattern: "**/*.mdx", base: "./src/content/blog" }),
@@ -26,6 +27,7 @@ const portfolio = defineCollection({
       title: z.string(),
       description: z.string(),
       translationKey: z.string(),
+      kind: z.enum(kindSlugs),
       year: z.number(),
       publishedAt: z.coerce.date().optional(),
       cover: image(),

@@ -1,0 +1,64 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
+import { useTranslations, filterByLang, type Lang } from "@/i18n/utils";
+import { sectionSlugs } from "@/i18n/routes";
+import { kindLabels, kindOrder } from "@/i18n/kinds";
+import { isPublished, sortProjectsByRecent } from "@/lib/content";
+
+export function getStaticPaths() {
+  return (["en", "es"] as const).map((lang) => ({
+    params: { lang, projectsSlug: sectionSlugs[lang].projects },
+  }));
+}
+
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+
+const projects = filterByLang(await getCollection("portfolio"), lang)
+  .filter(isPublished)
+  .sort(sortProjectsByRecent);
+
+const groups = kindOrder
+  .map((kind) => ({
+    kind,
+    projects: projects.filter((p) => p.data.kind === kind),
+  }))
+  .filter((group) => group.projects.length > 0);
+---
+
+<BaseLayout
+  title={`${t("projects.title")} — Elías Ablán`}
+  description={t("projects.intro")}
+>
+  <section class="mx-auto max-w-3xl px-4 py-12">
+    <header class="mb-10 space-y-2">
+      <h1 class="text-4xl font-bold tracking-tight">{t("projects.title")}</h1>
+      <p class="text-muted-foreground">{t("projects.intro")}</p>
+    </header>
+
+    {
+      groups.length === 0 ? (
+        <p class="text-muted-foreground">{t("projects.empty")}</p>
+      ) : (
+        <div class="flex flex-col gap-12">
+          {groups.map((group) => (
+            <section>
+              <h2 class="mb-6 border-b border-rule pb-2 font-mono text-xs tracking-[0.12em] text-tx-secondary uppercase">
+                {kindLabels[group.kind][lang]}
+              </h2>
+              <ul class="flex flex-col gap-6">
+                {group.projects.map((project) => (
+                  <li>
+                    <ProjectCard project={project} lang={lang} />
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+      )
+    }
+  </section>
+</BaseLayout>

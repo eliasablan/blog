@@ -10,7 +10,7 @@ export const ui = {
   es: {
     "nav.home": "Inicio",
     "nav.blog": "Blog",
-    "nav.portfolio": "Portafolio",
+    "nav.projects": "Proyectos",
     "nav.about": "Sobre mí",
     "nav.contact": "Contacto",
 
@@ -22,12 +22,12 @@ export const ui = {
     "home.hero.lede":
       "Desarrollo apps web y administro las redes y servidores donde corren.",
     "home.hero.cta.posts": "Ver el blog",
-    "home.hero.cta.portfolio": "Ver el portafolio",
+    "home.hero.cta.projects": "Ver los proyectos",
 
     "home.featured.posts.title": "Escritos",
     "home.featured.posts.cta": "Ver todos los artículos",
-    "home.featured.portfolio.title": "Proyectos",
-    "home.featured.portfolio.cta": "Ver el portafolio",
+    "home.featured.projects.title": "Proyectos",
+    "home.featured.projects.cta": "Ver los proyectos",
     "home.contact.title": "Contacto",
 
     "blog.title": "Blog",
@@ -38,14 +38,21 @@ export const ui = {
     "blog.rss.description":
       "Notas sobre desarrollo web, proyectos y aprendizajes.",
 
-    "portfolio.title": "Portafolio",
-    "portfolio.intro": "Proyectos en los que he trabajado.",
-    "portfolio.empty": "Todavía no hay proyectos publicados.",
-    "portfolio.back": "← Volver al portafolio",
-    "portfolio.repo": "Repositorio",
-    "portfolio.demo": "Ver demo",
-    "portfolio.repo.short": "código",
-    "portfolio.demo.short": "visitar",
+    "projects.title": "Proyectos",
+    "projects.intro": "Proyectos en los que he trabajado, agrupados por tipo.",
+    "projects.empty": "Todavía no hay proyectos publicados.",
+    "projects.back": "← Volver a proyectos",
+    "projects.repo": "Repositorio",
+    "projects.demo": "Ver demo",
+    "projects.repo.short": "código",
+    "projects.demo.short": "visitar",
+    "projects.cta.clientWork.title": "¿Quieres uno como este?",
+    "projects.cta.clientWork.body":
+      "Cuéntame qué necesitas y te digo cómo lo construiría.",
+    "projects.cta.solution.title": "Consigue uno para tu negocio",
+    "projects.cta.solution.body":
+      "Lo configuro con tu marca, lo alojo y lo mantengo por ti.",
+    "projects.cta.button": "Escríbeme",
 
     "topics.title": "Temas",
     "topics.intro":
@@ -98,7 +105,7 @@ export const ui = {
   en: {
     "nav.home": "Home",
     "nav.blog": "Blog",
-    "nav.portfolio": "Portfolio",
+    "nav.projects": "Projects",
     "nav.about": "About",
     "nav.contact": "Contact",
 
@@ -110,12 +117,12 @@ export const ui = {
     "home.hero.lede":
       "I build web apps and run the networks and servers they live on.",
     "home.hero.cta.posts": "Read the blog",
-    "home.hero.cta.portfolio": "See the portfolio",
+    "home.hero.cta.projects": "See the projects",
 
     "home.featured.posts.title": "Writing",
     "home.featured.posts.cta": "See all articles",
-    "home.featured.portfolio.title": "Projects",
-    "home.featured.portfolio.cta": "See the portfolio",
+    "home.featured.projects.title": "Projects",
+    "home.featured.projects.cta": "See the projects",
     "home.contact.title": "Contact",
 
     "blog.title": "Blog",
@@ -126,14 +133,21 @@ export const ui = {
     "blog.rss.description":
       "Notes on web development, projects, and lessons learned.",
 
-    "portfolio.title": "Portfolio",
-    "portfolio.intro": "Projects I have worked on.",
-    "portfolio.empty": "No projects published yet.",
-    "portfolio.back": "← Back to portfolio",
-    "portfolio.repo": "Repository",
-    "portfolio.demo": "View demo",
-    "portfolio.repo.short": "code",
-    "portfolio.demo.short": "visit",
+    "projects.title": "Projects",
+    "projects.intro": "Projects I have worked on, grouped by kind.",
+    "projects.empty": "No projects published yet.",
+    "projects.back": "← Back to projects",
+    "projects.repo": "Repository",
+    "projects.demo": "View demo",
+    "projects.repo.short": "code",
+    "projects.demo.short": "visit",
+    "projects.cta.clientWork.title": "Want one like this?",
+    "projects.cta.clientWork.body":
+      "Tell me what you need and I'll tell you how I'd build it.",
+    "projects.cta.solution.title": "Get one for your business",
+    "projects.cta.solution.body":
+      "I set it up with your brand, host it and maintain it for you.",
+    "projects.cta.button": "Get in touch",
 
     "topics.title": "Topics",
     "topics.intro":
