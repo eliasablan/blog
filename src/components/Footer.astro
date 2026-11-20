@@ -3,6 +3,7 @@ import type { Lang } from "@/i18n/ui";
 import { useTranslations } from "@/i18n/utils";
 import { cvUrl } from "@/i18n/cv";
 import { whatsappUrl } from "@/lib/contact";
+import Link from "@/components/Link.astro";
 
 interface Props {
   lang: Lang;
@@ -11,38 +12,28 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const year = new Date().getFullYear();
-const cvLabel = t("footer.cv");
+
+const links = [
+  { href: `/${lang}/rss.xml`, label: "RSS" },
+  { href: "https://github.com/eliasablan", label: "GitHub" },
+  { href: "https://www.linkedin.com/in/eliasablan", label: "LinkedIn" },
+  { href: whatsappUrl, label: "WhatsApp" },
+  { href: "mailto:eliasablan93@gmail.com", label: "Email" },
+  { href: cvUrl(lang), label: t("footer.cv") },
+];
 ---
 
 <footer
-  class="mx-auto flex w-full max-w-170 flex-col flex-wrap items-center justify-between gap-3 px-8 pb-12 font-mono text-xs tracking-[0.02em] text-tx-muted [view-transition-name:site-footer] max-[600px]:px-5 max-[600px]:py-8 [&_a]:text-tx-secondary [&_a]:no-underline [&_a:hover]:text-primary"
+  class="mx-auto w-full max-w-170 px-8 pt-16 pb-12 [view-transition-name:site-footer] max-[600px]:px-5 max-[600px]:pb-8"
 >
-  <hr class="mb-6 w-full border-0 border-t border-rule" />
-  <div class="flex flex-wrap items-center justify-center gap-2">
-    <a href="https://www.linkedin.com/in/eliasablan" aria-label="LinkedIn"
-      >LinkedIn</a
-    >
-    <span class="text-tx-muted opacity-60">·</span>
-    <a
-      href="https://github.com/eliasablan"
-      target="_blank"
-      rel="noopener noreferrer">GitHub</a
-    >
-    <span class="text-tx-muted opacity-60">·</span>
-    <a href={whatsappUrl} aria-label="WhatsApp">WhatsApp</a>
-    <span class="text-tx-muted opacity-60">·</span>
-    <a href="mailto:eliasablan93@gmail.com" aria-label="Email">Email</a>
-    <span class="text-tx-muted opacity-60">·</span>
-    <a
-      href={cvUrl(lang)}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={cvLabel}>{cvLabel}</a
-    >
-    <!-- <span class="text-tx-muted opacity-60">·</span>
-        <a href={`/${lang}/rss.xml`} aria-label="RSS">RSS</a> -->
+  <div class="rule-dots" aria-hidden="true"></div>
+  <div class="mt-6 flex flex-wrap gap-x-6 gap-y-3">
+    {links.map((link) => <Link href={link.href}>{link.label}</Link>)}
   </div>
-  <div>
-    © {year} Elias Ablan <span class="text-tx-muted opacity-60">·</span> Caracas
-  </div>
+  <p
+    class="dith-bar mt-8 mb-0 h-[calc(var(--cell)*3)] gap-3 pl-3 font-mono text-[11px] font-bold tracking-[0.08em] whitespace-nowrap uppercase [--dith-w:calc(var(--px)*12)]"
+  >
+    © {year} Elias Ablan · Caracas
+    <span class="dith ml-auto" aria-hidden="true"></span>
+  </p>
 </footer>
