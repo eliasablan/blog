@@ -1,0 +1,203 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { useTranslations, type Lang } from "@/i18n/utils";
+import { sectionSlugs, sectionPath, entryPath } from "@/i18n/routes";
+import { services, serviceSlugs, process } from "@/i18n/services";
+import { whatsappUrl } from "@/lib/contact";
+
+export function getStaticPaths() {
+  return (["en", "es"] as const).map((lang) => ({
+    params: { lang, servicesSlug: sectionSlugs[lang].services },
+  }));
+}
+
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+const year = new Date().getFullYear();
+const num = (i: number) => String(i + 1).padStart(2, "0");
+
+const linkHref = {
+  tanques: entryPath(lang, "projects", "tanques-australianos"),
+  projects: sectionPath(lang, "projects"),
+};
+const linkClass =
+  "inline-block text-xs tracking-[0.08em] text-foreground uppercase decoration-current decoration-dotted underline-offset-[6px] transition-opacity duration-150 ease-out focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-ink [@media(hover:hover)_and_(pointer:fine)]:hover:opacity-65";
+const headClass =
+  "boxhead grid-cols-[auto_1fr_auto] text-xs font-bold tracking-[0.08em] uppercase";
+---
+
+<BaseLayout
+  title={`${t("services.title")} — Elías Ablán`}
+  description={t("services.description")}
+>
+  <div
+    class="mx-auto max-w-170 px-8 pt-16 pb-24 max-[600px]:px-5 max-[600px]:pt-10 max-[600px]:pb-16"
+  >
+    <header>
+      <div class={`${headClass} font-mono`}>
+        <span class="font-normal" aria-hidden="true">//</span>
+        <h1 class="box-fill m-0 text-xs font-bold tracking-[0.08em]">
+          {t("services.title")}
+        </h1>
+        <span class="font-normal" aria-hidden="true">©{year}</span>
+      </div>
+      <p
+        class="mt-9 mb-0 font-pixel text-[clamp(26px,3.5vw,42px)] leading-[1.12] font-bold tracking-[0.01em] text-balance"
+      >
+        {t("services.head")}
+      </p>
+      <p
+        class="mt-4.5 mb-0 max-w-[34em] text-lg leading-[1.7] text-pretty text-tx-secondary"
+      >
+        {t("services.intro")}
+      </p>
+    </header>
+
+    <div class="mt-12 flex flex-col gap-12">
+      {
+        serviceSlugs.map((slug, i) => {
+          const s = services[slug];
+          return (
+            <article>
+              <div class="dith-bar h-[calc(var(--cell)*4)] gap-4 pl-5 font-mono text-xs tracking-[0.08em] max-[600px]:gap-3 max-[600px]:pl-3 max-[600px]:[--dith-w:calc(var(--px)*8)]">
+                <span class="opacity-70" aria-hidden="true">
+                  //{num(i)}
+                </span>
+                <h2 class="m-0 font-pixel text-[clamp(15px,4.4vw,19px)] leading-[1.15] font-bold tracking-[0.01em] text-balance">
+                  {s.title[lang]}
+                </h2>
+                <span class="dith ml-auto" aria-hidden="true" />
+              </div>
+              <div class="border-l border-ink py-5 pl-5 max-[600px]:pl-4">
+                <p class="m-0 text-lg leading-[1.7] text-pretty text-foreground">
+                  {s.summary[lang]}
+                </p>
+                <p
+                  class="mt-5 mb-1 font-mono text-xs tracking-[0.08em] text-tx-muted uppercase"
+                  aria-hidden="true"
+                >
+                  //{t("services.includes")}
+                </p>
+                <ul class="m-0 list-none p-0 font-mono text-[13px] leading-[1.9] tracking-[0.02em]">
+                  {s.items[lang].map((item) => (
+                    <li class="flex gap-2.5">
+                      <span class="text-tx-muted" aria-hidden="true">
+                        +
+                      </span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                {s.proof && (
+                  <p class="mt-4 mb-0 font-mono text-xs leading-[1.65] tracking-[0.04em] text-tx-secondary">
+                    {s.proof[lang]}
+                  </p>
+                )}
+                {s.link && (
+                  <p class="mt-4 mb-0">
+                    <a href={linkHref[s.link.to]} class={linkClass}>
+                      {s.link.label[lang]} →
+                    </a>
+                  </p>
+                )}
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+
+    <section class="mt-16">
+      <div class={`${headClass} font-mono`}>
+        <span class="font-normal" aria-hidden="true">//</span>
+        <h2 class="box-fill m-0 text-xs font-bold tracking-[0.08em]">
+          {t("services.process.title")}
+        </h2>
+        <span class="font-normal" aria-hidden="true">©{year}</span>
+      </div>
+      <div class="mt-6 flex items-start justify-between gap-6">
+        <ol class="m-0 flex list-none flex-col gap-4 p-0">
+          {
+            process.map((step, i) => (
+              <li class="grid grid-cols-[auto_1fr] gap-x-4">
+                <span
+                  class="font-mono text-xs leading-[1.9] font-bold tracking-[0.08em] text-tx-muted"
+                  aria-hidden="true"
+                >
+                  {num(i)}
+                </span>
+                <p class="m-0 text-lg leading-[1.6] text-pretty">
+                  <strong class="font-semibold">{step.title[lang]}.</strong>{" "}
+                  {step.body[lang]}
+                </p>
+              </li>
+            ))
+          }
+        </ol>
+        <div class="checker max-[600px]:hidden" aria-hidden="true"></div>
+      </div>
+      <p class="mt-6 mb-0 text-lg leading-[1.7] text-pretty text-tx-secondary">
+        {t("services.process.note")}
+      </p>
+    </section>
+
+    <section class="mt-16">
+      <div class={`${headClass} font-mono`}>
+        <span class="font-normal" aria-hidden="true">//</span>
+        <h2 class="box-fill m-0 text-xs font-bold tracking-[0.08em]">
+          {t("services.proof.title")}
+        </h2>
+        <span class="font-normal" aria-hidden="true">©{year}</span>
+      </div>
+      <p class="mt-6 mb-0 text-lg leading-[1.7] text-pretty">
+        {t("services.proof.tanques.body")}
+      </p>
+      <p class="mt-4 mb-0">
+        <a href={linkHref.tanques} class="ctl no-underline">
+          {t("services.proof.tanques.cta")} →
+        </a>
+      </p>
+
+      <div class="mt-8">
+        <div class={`${headClass} font-mono`}>
+          <span class="font-normal" aria-hidden="true">//</span>
+          <span class="font-normal"
+            >{t("services.proof.placeholder.label")}</span
+          >
+          <span class="box-fill">{t("services.proof.placeholder.tag")}</span>
+        </div>
+        <p
+          class="m-0 border border-t-0 border-ink px-3.5 py-4 text-lg leading-[1.6] text-pretty text-tx-secondary italic"
+        >
+          {t("services.proof.placeholder.body")}
+        </p>
+      </div>
+    </section>
+
+    <section class="mt-16">
+      <div class="rule-dots" aria-hidden="true"></div>
+      <p
+        class="mt-8 mb-0 font-serif text-[22px] leading-[1.4] text-pretty text-foreground italic"
+      >
+        {t("services.closing")}
+      </p>
+      <div class="mt-8 flex flex-col items-start gap-4">
+        <a
+          href={`/${lang}/#contact`}
+          class="dith-bar h-[calc(var(--cell)*5)] w-full max-w-sm gap-4 pl-6 font-mono text-[13px] font-bold tracking-[0.08em] uppercase focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-ink"
+        >
+          {t("home.hero.cta.contact")}
+          <span class="dith ml-auto" aria-hidden="true"></span>
+        </a>
+        <a
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="ctl px-4 tracking-[0.08em] no-underline"
+        >
+          {t("services.cta.whatsapp")}
+        </a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

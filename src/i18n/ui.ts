@@ -58,6 +58,28 @@ export const ui = {
       "Lo configuro con tu marca, lo alojo y lo mantengo por ti.",
     "projects.cta.button": "Escríbeme",
 
+    "services.title": "Servicios",
+    "services.description":
+      "Páginas web, tiendas en línea, aplicaciones, hosting, servidores y sistemas de negocio, de un solo desarrollador en Caracas. Cada proyecto se cotiza por escrito.",
+    "services.head": "Lo que construyo, alojo y mantengo funcionando",
+    "services.intro":
+      "Cinco tipos de trabajo, desde la primera página web hasta el servidor donde corre. Cotizo cada proyecto por escrito después de leer lo que necesitas.",
+    "services.includes": "Incluye",
+    "services.process.title": "Cómo funciona un proyecto",
+    "services.process.note":
+      "Los cambios fuera del alcance acordado se cotizan aparte. Funciona mejor cuando ya sabes qué necesitas o puedes describir el problema que quieres resolver.",
+    "services.proof.title": "Trabajo real",
+    "services.proof.tanques.body":
+      "Tanques Australianos: sitio de ventas para un fabricante de tanques de acero en Guacara. La empresa lo ha usado para vender varios productos.",
+    "services.proof.tanques.cta": "Ver el caso",
+    "services.proof.placeholder.label": "Testimonio",
+    "services.proof.placeholder.tag": "Pendiente",
+    "services.proof.placeholder.body":
+      "Marcador de posición: aquí irá el testimonio de un cliente cuando lo tenga. Esto no es un testimonio real.",
+    "services.closing":
+      "¿Algo que no está en la lista? Pregúntame. Todo lo que ves en esta página lo aprendí en un proyecto real.",
+    "services.cta.whatsapp": "O escríbeme por WhatsApp",
+
     "topics.title": "Temas",
     "topics.intro":
       "Lo que escribo y construyo cae en uno de estos siete temas. Cada enlace lleva al archivo correspondiente.",
@@ -154,6 +176,28 @@ export const ui = {
     "projects.cta.solution.body":
       "I set it up with your brand, host it and maintain it for you.",
     "projects.cta.button": "Get in touch",
+
+    "services.title": "Services",
+    "services.description":
+      "Websites, online stores, web apps, hosting, servers and business systems from one developer in Caracas. Every project is quoted in writing.",
+    "services.head": "What I build, host and keep running",
+    "services.intro":
+      "Five kinds of work, from a first website to the server it runs on. I quote each project in writing after reading what you need.",
+    "services.includes": "Includes",
+    "services.process.title": "How a project works",
+    "services.process.note":
+      "Changes outside the agreed scope are quoted separately. This works best when you already know what you need or can describe the problem you want solved.",
+    "services.proof.title": "Real work",
+    "services.proof.tanques.body":
+      "Tanques Australianos: sales site for a steel tank manufacturer in Guacara. The company has used it to sell multiple products.",
+    "services.proof.tanques.cta": "Read the case study",
+    "services.proof.placeholder.label": "Testimonial",
+    "services.proof.placeholder.tag": "Pending",
+    "services.proof.placeholder.body":
+      "Placeholder: a Client testimonial goes here once I have one. This is not a real quote.",
+    "services.closing":
+      "Something not listed? Ask. Everything on this page I learned on a real project.",
+    "services.cta.whatsapp": "Or message me on WhatsApp",
 
     "topics.title": "Topics",
     "topics.intro":
