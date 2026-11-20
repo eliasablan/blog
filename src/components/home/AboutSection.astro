@@ -1,5 +1,7 @@
 ---
 import type { Lang } from "@/i18n/ui";
+import { useTranslations } from "@/i18n/utils";
+import { sectionPath } from "@/i18n/routes";
 import AboutEs from "@/content/home/about.es.mdx";
 import AboutEn from "@/content/home/about.en.mdx";
 
@@ -8,6 +10,7 @@ interface Props {
 }
 
 const { lang } = Astro.props;
+const t = useTranslations(lang);
 const Content = lang === "es" ? AboutEs : AboutEn;
 ---
 
@@ -17,5 +20,11 @@ const Content = lang === "es" ? AboutEs : AboutEn;
   >
     <Content />
   </div>
+  <a
+    href={sectionPath(lang, "about")}
+    class="mt-6 inline-block font-mono text-xs tracking-[0.08em] text-foreground uppercase decoration-current decoration-dotted underline-offset-[6px] hover:underline"
+  >
+    {t("home.about.cta")} →
+  </a>
   <hr class="mx-auto mt-12 h-px w-[60px] border-0 bg-rule" />
 </section>

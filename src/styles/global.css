@@ -118,6 +118,20 @@
   html {
     color-scheme: light dark;
     scroll-behavior: smooth;
+    /* Keep anchor targets (/#contact, article headings) clear of the sticky
+       header: 81px on desktop, 109px when the nav drops to its own row, up to
+       156px when it wraps again on very narrow phones. */
+    scroll-padding-top: 96px;
+  }
+  @media (max-width: 1023px) {
+    html {
+      scroll-padding-top: 128px;
+    }
+  }
+  @media (max-width: 380px) {
+    html {
+      scroll-padding-top: 168px;
+    }
   }
 
   body {
@@ -320,7 +334,6 @@
     margin-top: 48px !important;
     margin-bottom: 20px;
     color: var(--tx);
-    scroll-margin-top: 104px;
   }
   .article-body h2::before {
     content: "§";

@@ -165,10 +165,24 @@ entero de celdas de alto (`--cell`, 12px) y todo escalón/offset debe ser
 múltiplo de `--px`; si no, la primera o la última fila de pixeles se
 corta. Por eso los controles del header miden 48px y el CTA 60px.
 
+### 5.2.2 Orden de Home y Services (`home/ServicesSection.astro`)
+
+Hero → Services → Selected work (Client work + Solutions destacados) →
+About → Writing (últimos 3 Posts) → Contact. Los Temas viven arriba del
+índice del Blog (`ThemesSection.astro`), no en Home.
+
+Services: h2 §, una línea de intro y una rejilla de 2 columnas (1 bajo
+600px) con 5 cards-enlace a la página de Services. Cada card es una caja
+`1px var(--ink)` cuya cabecera es un `.dith-bar` de 24px (2 celdas) con
+`//01…//05` y un `.dith` de 12 px de rampa; debajo, título serif 19px y una
+línea `tx-secondary`. La celda 6 es un `.dith-bar` de 48px "Ver todos los
+servicios". Nunca hay precios.
+
 ### 5.3 About (`home/AboutSection.astro`)
 
-- Prose serif 18px directamente debajo del hero. **Sin h2**: la voz no
-  necesita anuncio.
+- Prose serif 18px, corta, entre Selected work y Writing. **Sin h2**: la
+  voz no necesita anuncio.
+- Enlace mono 12px punteado a la página About.
 - Termina con `<hr>` 60px centrado, `var(--rule)`.
 
 ### 5.4 Section heading (h2 con §)
@@ -243,7 +257,8 @@ Replica el prototipo `article.html`:
 - **Body:**
   - `p` con `margin-top: 24px` (`.body > p + p`, especificidad necesaria
     para ganar a `p { margin: 0 }`).
-  - `h2` con `§` accent + `scroll-margin-top: 80px`.
+  - `h2` con `§` accent (el espacio bajo el header sticky lo da
+    `scroll-padding-top` en `html`, ver §6.6).
   - `h3` sin marker.
   - `code` inline: mono 0.88em, bg `bg-tertiary`, borde rule, radius 3px.
   - `kbd` con borde inferior `2px` para look de tecla.
@@ -315,6 +330,13 @@ Aplicada en `body` y descendientes para evitar el "flash" al togglear.
 Script inline síncrono en `<head>` que aplica `.dark` antes de pintar,
 leyendo `localStorage.theme` y, en su ausencia, `prefers-color-scheme`.
 Idéntico patrón en `astro:after-swap` para SPA navigation.
+
+### 6.6 Anclas bajo el header sticky
+
+`html { scroll-padding-top }` evita que `/#contact` y los h2 de los
+artículos queden tapados por el header: 96px en escritorio (header 81px),
+128px bajo `lg` (header 109px, el nav baja a su propia fila) y 168px bajo
+380px (el nav puede envolver, hasta 156px).
 
 ---
 
