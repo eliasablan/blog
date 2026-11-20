@@ -90,7 +90,6 @@ export const ui = {
 
     "tags.eyebrow": "Tema",
     "tags.empty": "Aún no hay contenido bajo este tema.",
-    "tags.back": "← Volver al inicio",
     "tags.articles": "Artículos",
     "tags.projects": "Proyectos",
 
@@ -213,7 +212,6 @@ export const ui = {
 
     "tags.eyebrow": "Topic",
     "tags.empty": "Nothing under this topic yet.",
-    "tags.back": "← Back to home",
     "tags.articles": "Articles",
     "tags.projects": "Projects",
 
