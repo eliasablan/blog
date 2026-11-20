@@ -211,18 +211,57 @@ h2.section::before {
 Lista en línea (mono 14px, line-height 2) con separadores `·` muted entre
 tags. Links a `tag.html` (próximamente — por ahora `#`).
 
-### 5.6 Project row (`ProjectCard.astro`)
+### 5.6 Projects: índice, Project card y Selected work
 
-Grid `60px 1fr auto`:
+**Project card** (`ProjectCard.astro`, sobre `starwind/Card`): caja
+`1px var(--ink)` sin radio. Cabecera `.dith-bar` de 24px (2 celdas,
+`whitespace-nowrap`) con `//KIND` (singular, mono 11px bold) a la
+izquierda, el año a la derecha y un `.dith` de 12 px de rampa. Todo
+Project muestra su kind, también los Side projects. Debajo, en `p-4`:
+título serif 600 (22px en fila, 19px en tile), descripción 16px
+`tx-secondary` (max 56ch), stack mono 12px `tx-muted` (Topics enlazados,
+separados por `·`) y acciones `Button` `outline` `sm` (36px) con icono
+11px: `visitar` (flecha) y `código` (`</>`).
 
-- Columna 1: año en mono 12px muted, `padding-top: 6px`.
-- Columna 2: título (serif 22px weight 600 con underline sutil),
-  `desc` 17px `tx-secondary` (max-width 56ch), `stack` mono 12px muted
-  con separadores `·`.
-- Columna 3: acciones en mono 12px `tx-secondary`, hover → accent, con
-  iconito 11×11 (flecha externa o llaves `</>`).
+Dos formas, prop `form`:
 
-Mobile (`<600px`): colapsa a una sola columna.
+| Forma           | Uso                                            | Acciones                                        |
+| --------------- | ---------------------------------------------- | ----------------------------------------------- |
+| `row` (default) | Client work del índice, Selected work, Topics  | columna a la derecha; debajo en fila bajo 600px |
+| `tile`          | Solutions y Side projects del índice (rejilla) | al pie de la caja (`mt-auto`)                   |
+
+Toda la card abre el Project: el enlace del título se estira con un
+`::after` (`inset: 0`, `z-index: 1`); Topics y botones van encima
+(`z-2`). Los `transition:name` del título, año y descripción viven en
+`span` internos: en el propio enlace lo volverían bloque contenedor del
+`::after`.
+
+Estados (solo cuando el puntero está sobre la card, no sobre un Topic o
+botón; hover tras `(hover: hover) and (pointer: fine)`):
+
+- **Hover:** fondo `--bg-secondary`, la tinta de la cabecera avanza una
+  celda sobre la rampa (como todo `.dith-bar` enlace) y el título se
+  subraya.
+- **Foco:** el anillo compartido se dibuja en la card
+  (`:has(.pcard-link:focus-visible)`), no en el título, que se subraya.
+- **Press:** `scale(1 - (1 - var(--press-scale)) / 3)` (0.99; una caja
+  grande a 0.97 salta) y `--press-opacity`. Con reduced motion queda en
+  atenuado, sin escala.
+
+**Índice** (`[projectsSlug]/index.astro`): columna de 680px como el
+resto del sitio. Cabecera como Services: `.boxhead`
+`// | PROYECTOS (h1, .box-fill) | ©año` y la intro 18px `tx-secondary`.
+Grupos por kind en orden `kindSlugs` (Client work primero), saltando los
+vacíos; cada uno abre con `.boxhead` `//0N | KIND (h2) | total`. Client
+work va en filas; Solutions y Side projects en rejilla de 2 columnas
+(gap 16px, 1 columna bajo 600px). Sin Projects: frase italic
+`tx-secondary`.
+
+**Selected work** (`home/FeaturedProjects.astro`): h2 §, la misma card
+en filas (Client work y Solutions destacados, hasta 5) y un `Button`
+`primary` `md` (48px) "Ver todos los proyectos" a media columna, alineado
+a la derecha (ancho completo bajo 600px), como la celda final de
+Services.
 
 ### 5.7 Post row (`PostCard.astro`)
 
