@@ -486,15 +486,16 @@ cambian.
 
 **Tokens de movimiento** (`:root`):
 
-| Token             | Valor                            | Uso                                  |
-| ----------------- | -------------------------------- | ------------------------------------ |
-| `--ease-out`      | `cubic-bezier(0.23, 1, 0.32, 1)` | press y todo lo que se mueve         |
-| `--dur-hover`     | `150ms`                          | cambios de color, relleno, subrayado |
-| `--dur-press`     | `160ms`                          | press, avance de tinta               |
-| `--press-scale`   | `0.97`                           | escala al presionar                  |
-| `--press-opacity` | `1`                              | opacidad al presionar                |
+| Token                | Valor                           | Uso                                 |
+| -------------------- | ------------------------------- | ----------------------------------- |
+| `--ease-out`         | `cubic-bezier(0.23, 1, 0.32, 1)` | press y todo lo que se mueve        |
+| `--dur-hover`        | `150ms`                         | cambios de color, relleno, subrayado |
+| `--dur-dither-hover` | `120ms`                         | avance de tinta                     |
+| `--dur-press`        | `160ms`                         | press                               |
+| `--press-scale`      | `0.97`                          | escala al presionar                 |
+| `--press-opacity`    | `1`                             | opacidad al presionar               |
 
-Con `prefers-reduced-motion: reduce`: `--dur-press: 0ms`,
+Con `prefers-reduced-motion: reduce`, `--dur-dither-hover: 0ms`, `--dur-press: 0ms`,
 `--press-scale: 1`, `--press-opacity: 0.8`. Nada se mueve ni escala; el
 press se ve como atenuado y el avance de tinta salta sin pasos. Los
 cambios de color siguen con su fundido.
@@ -523,11 +524,11 @@ no se corte: `sm` 36px (3 celdas, 11px), `md` 48px (4, 12px), `lg` 60px
 `primary` añade su `.dith` como último hijo (rampa de 8, 12 y 16 píxeles de dither (24, 36 y 48 px CSS) según el tamaño; `icon` va sin dither). Press: `scale(0.97)` en
 todas.
 
-**Avance de tinta** (`a.dith-bar` / `button.dith-bar`, también Contacto
-del Header y los CTA de Hero y Services): al hover el fondo sólido crece
-una celda (`--cell`) sobre la rampa, en `steps(4)`, un `--px` por paso.
-Es el único hover que se mueve; los demás son fundidos de
-color.
+**Avance de tinta** en los botones principales y las cabeceras de las
+tarjetas de Proyectos. Al pasar el puntero, el fondo sólido crece una celda
+(`--cell`) sobre la rampa en cuatro pasos de 30 ms, uno por píxel de dither
+(`--px`). Ambas superficies responden al mismo ritmo y el último paso de la
+tarjeta llega 30 ms antes de que termine su fundido de color.
 
 **Enlaces:** el de prosa sigue §6.3 (subrayado 1px, tinta al 40% → 100%
 en hover). `.link` (lo aplica `Link.astro`) es el enlace suelto de chrome:
