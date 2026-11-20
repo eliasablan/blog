@@ -1,6 +1,7 @@
 ---
 import type { Lang } from "@/i18n/ui";
 import { useTranslations } from "@/i18n/utils";
+import { cvUrl } from "@/i18n/cv";
 import { whatsappUrl } from "@/lib/contact";
 
 interface Props {
@@ -10,10 +11,6 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const year = new Date().getFullYear();
-const cvUrl =
-  lang === "es"
-    ? "https://661udz75j1.ufs.sh/f/FCpxdU1lxaGLcPmSXeRXsAEdoGpN9iBFwnl4Tghjy7VfQOaz"
-    : "https://661udz75j1.ufs.sh/f/FCpxdU1lxaGL4fcyVMrJZzS9UV6XO5eHj1msfWC7BFMwbtTk";
 const cvLabel = t("footer.cv");
 ---
 
@@ -37,7 +34,7 @@ const cvLabel = t("footer.cv");
     <a href="mailto:eliasablan93@gmail.com" aria-label="Email">Email</a>
     <span class="text-tx-muted opacity-60">·</span>
     <a
-      href={cvUrl}
+      href={cvUrl(lang)}
       target="_blank"
       rel="noopener noreferrer"
       aria-label={cvLabel}>{cvLabel}</a
