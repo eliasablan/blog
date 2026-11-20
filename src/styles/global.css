@@ -401,26 +401,45 @@
     background-image: var(--grain);
   }
 
-  /* ---------- Article body (rendered MDX) ----------
-     Kept as raw CSS because it targets MDX-rendered HTML where
-     elements receive no classes — Tailwind utilities cannot be applied
-     inline. Prose plugin would require extensive overrides for the §
-     heading marker, accent list-markers, custom hr width, and custom
-     code/blockquote styling. */
+  /* ---------- Article body (rendered MDX, #16) ----------
+     Raw CSS because MDX elements get no classes. Text stays plain serif on
+     paper; the Dither language lives in the frame: square list marks, the
+     ink edge of quotes, boxed keys and code, the pixel dinkus. Vertical
+     spacing is in cells: 24px between blocks, 36px around figures, quotes
+     and breaks, 60px above a section heading. */
+
+  /* Syntax tints for the ink-only Shiki theme (src/lib/codeFrame.ts).
+     All ≥ 5:1 on --code-bg in both modes; tokens differ by weight and
+     style (bold keywords, italic comments), not by hue. */
+  :root {
+    --code-bg: var(--bg-secondary);
+    --code-fg: var(--ink);
+    --code-str: color-mix(in srgb, var(--ink) 80%, var(--paper));
+    --code-cmt: color-mix(in srgb, var(--ink) 72%, var(--paper));
+    --code-punct: var(--code-cmt);
+  }
+
   .article-body {
     font-family: var(--font-serif);
     font-size: 18px;
     line-height: 1.7;
     color: var(--tx);
+    overflow-wrap: break-word;
   }
-  .article-body p {
+  @media (max-width: 600px) {
+    .article-body {
+      font-size: 17px;
+      line-height: 1.65;
+    }
+  }
+  .article-body :where(p, ul, ol, li, blockquote, figure, pre, h2, h3) {
     margin: 0;
   }
-  .article-body > * + * {
+  .article-body > :where(* + *) {
     margin-top: 24px;
   }
-  .article-body > p + p {
-    margin-top: 24px;
+  .article-body > :where(blockquote, figure, hr, p:has(> img:only-child)) {
+    margin-block: 36px;
   }
   .article-body strong {
     font-weight: 600;
@@ -429,143 +448,228 @@
     font-style: italic;
   }
 
+  /* Headings: § for sections (as on Home), a muted // for subsections. */
   .article-body h2 {
-    font-family: var(--font-serif);
+    margin-top: 60px;
     font-size: 32px;
     font-weight: 600;
     letter-spacing: -0.012em;
     line-height: 1.2;
-    margin-top: 48px !important;
-    margin-bottom: 20px;
-    color: var(--tx);
+    text-wrap: balance;
   }
   .article-body h2::before {
     content: "§";
-    color: var(--accent);
-    font-style: italic;
-    font-weight: 400;
+    content: "§" / "";
     margin-right: 12px;
+    font-weight: 400;
     opacity: 0.85;
   }
-  .article-body h2 + * {
-    margin-top: 0 !important;
-  }
-
   .article-body h3 {
-    font-family: var(--font-serif);
+    margin-top: 36px;
     font-size: 22px;
     font-weight: 600;
-    letter-spacing: 0;
     line-height: 1.3;
-    margin-top: 32px !important;
-    margin-bottom: 12px;
-    color: var(--tx);
+    text-wrap: balance;
   }
   .article-body h3 + * {
-    margin-top: 0 !important;
+    margin-top: 12px;
+  }
+  .article-body h3::before {
+    content: "//";
+    content: "//" / "";
+    margin-right: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.7em;
+    font-weight: 400;
+    color: var(--tx-muted);
+    vertical-align: 0.1em;
+  }
+  @media (max-width: 600px) {
+    .article-body h2 {
+      margin-top: 48px;
+      font-size: 26px;
+    }
+    .article-body h3 {
+      font-size: 20px;
+    }
   }
 
-  .article-body code {
-    font-family: var(--font-mono);
-    font-size: 0.88em;
-    background: var(--bg-tertiary);
-    border: 1px solid var(--rule);
-    border-radius: 3px;
-    padding: 2px 6px;
-    color: var(--tx);
+  /* Lists: a 6px ink square (two dither pixels) for bullets, hollow when
+     nested; mono 01, 02… for ordered items, on the text baseline. */
+  .article-body :is(ul, ol) {
+    padding-left: 28px;
+    list-style: none;
   }
-  .article-body kbd {
+  .article-body li {
+    position: relative;
+  }
+  .article-body li + li,
+  .article-body li > :is(ul, ol) {
+    margin-top: 8px;
+  }
+  .article-body ul > li::before {
+    content: "";
+    position: absolute;
+    top: calc(0.85em - var(--px));
+    left: -20px;
+    width: calc(var(--px) * 2);
+    height: calc(var(--px) * 2);
+    background: var(--ink);
+  }
+  .article-body li ul > li::before {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--ink);
+  }
+  .article-body ol {
+    counter-reset: item;
+  }
+  .article-body ol > li {
+    counter-increment: item;
+  }
+  .article-body ol > li::before {
+    content: counter(item, decimal-leading-zero);
+    display: inline-block;
+    width: 28px;
+    margin-left: -28px;
     font-family: var(--font-mono);
-    font-size: 0.85em;
-    background: var(--bg-tertiary);
-    border: 1px solid var(--rule);
-    border-bottom-width: 2px;
-    border-radius: 3px;
-    padding: 1px 6px;
-    color: var(--tx);
+    font-size: 12px;
+    color: var(--tx-muted);
   }
 
+  /* Quote: one ink pixel of edge, italic, a mono cite. */
   .article-body blockquote {
-    margin: 0;
-    padding: 4px 0 4px 24px;
-    border-left: 2px solid var(--accent);
-    font-family: var(--font-serif);
+    padding-left: 21px;
+    border-left: var(--px) solid var(--ink);
+    font-size: 21px;
     font-style: italic;
-    font-size: 22px;
     line-height: 1.5;
     color: var(--tx-secondary);
     text-wrap: pretty;
   }
-  .article-body blockquote p {
-    margin: 0;
+  .article-body blockquote > * + * {
+    margin-top: 12px;
   }
   .article-body blockquote cite {
     display: block;
     font-family: var(--font-mono);
     font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
     font-style: normal;
+    letter-spacing: 0.12em;
+    line-height: 1.4;
+    text-transform: uppercase;
     color: var(--tx-muted);
-    margin-top: 12px;
+  }
+  @media (max-width: 600px) {
+    .article-body blockquote {
+      padding-left: 15px;
+      font-size: 19px;
+    }
   }
 
-  .article-body ul,
-  .article-body ol {
-    padding-left: 1.4em;
-    margin: 0;
-  }
-  .article-body ul li::marker {
-    color: var(--accent);
-  }
-  .article-body ol li::marker {
-    color: var(--accent);
-    font-family: var(--font-mono);
-    font-size: 0.92em;
-  }
-  .article-body li {
-    margin-bottom: 8px;
-    line-height: 1.65;
-  }
-  .article-body li:last-child {
-    margin-bottom: 0;
-  }
-  .article-body li > ul,
-  .article-body li > ol {
-    margin-top: 8px;
-  }
-
-  .article-body hr {
-    border: 0;
-    height: 1px;
-    background: var(--rule);
-    width: 60px;
-    margin: 48px auto !important;
-  }
-
-  /* Code blocks rendered by Astro Shiki */
-  .article-body pre {
-    margin: 0;
-    padding: 20px 24px;
-    background: var(--bg-tertiary) !important;
+  /* Inline code and keys: square boxes, no radius. */
+  .article-body :not(pre) > code {
+    padding: 1px 5px;
     border: 1px solid var(--rule);
-    border-radius: 3px;
+    background: var(--bg-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.84em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  .article-body kbd {
+    display: inline-block;
+    min-width: 2em;
+    padding: 0 6px;
+    border: 1px solid var(--ink);
+    border-bottom-width: var(--px);
+    font-family: var(--font-mono);
+    font-size: 0.7em;
+    letter-spacing: 0.04em;
+    line-height: 1.8;
+    text-align: center;
+    text-transform: uppercase;
+    vertical-align: 0.1em;
+  }
+
+  /* Break: a dinkus of three dither-sized squares. */
+  .article-body hr {
+    width: calc(var(--px) * 10);
+    height: calc(var(--px) * 2);
+    margin-inline: auto;
+    border: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--ink) 0 calc(var(--px) * 2),
+      transparent 0 calc(var(--px) * 4)
+    );
+  }
+
+  .article-body img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--ink);
+  }
+
+  /* Code block: <figure class="code"> from the codeFrame transformer.
+     Ink box; the header is a 24px (2-cell) ink label that dissolves into a
+     .dith, then the file name. Lines are 24px, two cells. */
+  .article-body figure.code {
+    border: 1px solid var(--ink);
+    background: var(--code-bg);
+  }
+  .article-body .code-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px dotted var(--ink);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    line-height: 1;
+  }
+  .article-body .code-lang {
+    flex: none;
+    height: calc(var(--cell) * 2);
+    padding-left: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    --dith-w: calc(var(--px) * 12);
+  }
+  .article-body .code-lang::before {
+    content: "//";
+    content: "//" / "";
+  }
+  .article-body .code-lang .dith {
+    margin-left: 8px;
+  }
+  .article-body .code-title {
+    min-width: 0;
+    overflow: hidden;
+    color: var(--tx-secondary);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .article-body pre {
+    padding: 12px 20px;
     font-family: var(--font-mono);
     font-size: 14px;
-    line-height: 1.75;
-    color: var(--tx);
+    line-height: 24px;
+    tab-size: 2;
     overflow-x: auto;
+    scrollbar-color: var(--rule) transparent;
+    scrollbar-width: thin;
+  }
+  .article-body pre:focus-visible {
+    outline-offset: -4px;
   }
   .article-body pre code {
-    font-family: inherit;
-    font-size: inherit;
-    background: transparent;
-    border: 0;
-    padding: 0;
-    border-radius: 0;
-    color: inherit;
+    font: inherit;
   }
-  .article-body a {
-    color: var(--accent);
+  @media (max-width: 600px) {
+    .article-body pre {
+      padding-inline: 14px;
+      font-size: 13px;
+    }
   }
 }
