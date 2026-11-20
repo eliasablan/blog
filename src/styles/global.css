@@ -322,7 +322,7 @@
     border-style: dotted;
   }
 
-  /* Boxed label row: //01 | FILLED LABEL | ©2026. Any number of cells;
+  /* Boxed label row: //01 | FILLED LABEL | COUNT. Any number of cells;
      mark the inverted one with .box-fill. */
   .boxhead {
     display: grid;
