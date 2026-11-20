@@ -1,0 +1,35 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+// The h2 of a Project page body (passed to MDX as `components.h2`): a
+// numbered .dith-bar, four cells tall, like the Service headings. The
+// number comes from the `case` counter that the page body resets.
+type Props = HTMLAttributes<"h2">;
+
+const { class: className, ...rest } = Astro.props;
+---
+
+<h2
+  class:list={[
+    "head dith-bar m-0 h-(--control-h) gap-4 pl-5 font-mono text-xs tracking-[0.08em] max-[600px]:gap-3 max-[600px]:pl-3 max-[600px]:[--dith-w:calc(var(--px)*8)]",
+    className,
+  ]}
+  {...rest}
+>
+  <span
+    class="min-w-0 truncate font-pixel text-[clamp(15px,4.4vw,19px)] leading-[1.15] font-bold tracking-[0.01em]"
+    ><slot /></span
+  >
+  <span class="dith ml-auto" aria-hidden="true"></span>
+</h2>
+
+<style>
+  .head::before {
+    counter-increment: case;
+    flex: none;
+    opacity: 0.7;
+    content: "//" counter(case, decimal-leading-zero);
+    /* Decorative: keep the number out of the heading's accessible name. */
+    content: "//" counter(case, decimal-leading-zero) / "";
+  }
+</style>

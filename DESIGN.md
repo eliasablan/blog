@@ -422,6 +422,43 @@ Scrollbar: `scrollbar-color` en `html`, pulgar a ink 55% sobre paper y
 pista `--bg`, en ambos modos. La transición entre páginas sigue siendo
 el crossfade de `transitions.css`; header y footer quedan estáticos.
 
+### 5.14 Página de Project (`[projectsSlug]/[slug].astro`)
+
+Columna de 680px como Services (`px-8 pt-16 pb-24`; `px-5 pt-10 pb-16`
+bajo 600px). Mismo esqueleto para los tres tipos; cambia el cierre.
+
+- **Volver:** `Link` (`.link`) a Proyectos, arriba.
+- **Cabecera:** `.boxhead` `// | TIPO (.box-fill) | año`; h1 Plex Serif
+  `clamp(36px, 5vw, 52px)` 600; lede = descripción en italic 22px
+  `tx-secondary` (20px en mobile). Topics como `.link` precedidos por `//`
+  y separados por `·`. Acciones con `Button` `md` (48px): demo `primary`,
+  repo `outline`. Se conservan los `transition:name` de título, año,
+  descripción y cover que comparte con `ProjectCard`.
+- **Cover:** `figure` con caja `1px var(--ink)`; arriba una `.dith-bar` de
+  24px (2 celdas, rampa de 12 px) con `//host` del demo (o el slug), y la
+  imagen a ancho completo con su proporción natural. Las imágenes del body
+  llevan el mismo marco (no hay galería en el contenido todavía).
+- **Body (MDX):** serif 18px, párrafos a 24px. Cada h2 se renderiza con
+  `ProjectSectionHeading.astro`: `.dith-bar` de 48px como los títulos de
+  Services, número `//01…` por contador CSS (oculto a lectores de
+  pantalla) y título Pixelify `clamp(15px, 4.4vw, 19px)` en una línea. Lo
+  que sigue a cada h2 cuelga de un borde izquierdo `1px var(--ink)` con
+  20px de sangría (16px en mobile). Así el caso de Client work (problema,
+  qué construí, resultado) se lee en tres bloques; un body sin h2 es prosa
+  normal.
+- **Cierre por tipo:**
+  - _Client work_: `.rule-dots`, h2 § "¿Quieres uno como este?", una línea
+    `tx-secondary`, `Button` `primary` `md` a `/#contact` y un `.checker`
+    a la derecha (oculto bajo 600px).
+  - _Solution_: panel de tinta sólida. El interior intercambia `--ink` y
+    `--paper` (re-scope de tokens vía `--ink-x`/`--paper-x`, no es una
+    primitiva nueva), así el `Button` `primary` `lg` (60px), su `.dith` y
+    el anillo de foco se dibujan en papel sobre tinta. Título Pixelify,
+    label `//SOLUCIÓN`. El enlace lleva `?subject=Solución: <título>` y
+    `ContactForm` lo precarga (también tras navegar con ClientRouter).
+  - _Side project_: nada a la venta. `.rule-dots`, se repiten demo y repo
+    y un `.link` de vuelta a la derecha.
+
 ---
 
 ## 6. Detalles
