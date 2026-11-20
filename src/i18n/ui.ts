@@ -118,6 +118,7 @@ export const ui = {
     "contact.form.error": "Algo falló. Inténtalo de nuevo o escríbeme directo.",
     "contact.form.required": "Este campo es obligatorio.",
     "contact.form.invalidEmail": "El email no es válido.",
+    "contact.form.tooShort": "Escribe al menos 10 caracteres.",
 
     "article.byline.prefix": "Por",
 
@@ -242,6 +243,7 @@ export const ui = {
       "Something went wrong. Try again or reach out directly.",
     "contact.form.required": "This field is required.",
     "contact.form.invalidEmail": "Invalid email address.",
+    "contact.form.tooShort": "Write at least 10 characters.",
 
     "article.byline.prefix": "By",
 
