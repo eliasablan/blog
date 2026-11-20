@@ -2,29 +2,52 @@
 import { tv, type VariantProps } from "tailwind-variants";
 import type { HTMLAttributes } from "astro/types";
 
+// Built on the Dither primitives in global.css: primary is a .dith-bar
+// (solid ink that dissolves into a trailing .dith), the rest are .ctl
+// boxes. Heights are whole --cell multiples so the dither never clips.
+// States (hover, press, focus, disabled) and motion live in the primitives.
 export const button = tv({
   base:
-    "inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium " +
-    "transition-colors transition-transform focus-visible:outline-none focus-visible:ring-2 " +
-    "focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background " +
-    "disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]",
+    "inline-flex gap-2 font-mono font-bold tracking-[0.08em] whitespace-nowrap uppercase no-underline select-none " +
+    // Keeps hover utilities from firing on a disabled button or link.
+    "disabled:pointer-events-none aria-disabled:pointer-events-none",
   variants: {
     variant: {
-      primary: "bg-primary text-primary-foreground hover:bg-primary/90",
-      secondary: "bg-accent text-accent-foreground hover:bg-accent/80",
-      outline:
-        "border border-border bg-transparent hover:bg-accent hover:text-accent-foreground no-underline",
-      ghost: "bg-transparent hover:bg-accent hover:text-accent-foreground",
-      destructive:
-        "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+      primary: "dith-bar",
+      secondary: "ctl bg-(--ui-hover) hover:bg-ink hover:text-paper",
+      outline: "ctl",
+      ghost: "ctl border-transparent",
+      destructive: "ctl border-red text-red hover:bg-red hover:text-paper",
     },
     size: {
-      sm: "h-8 px-3 text-xs",
-      md: "h-10 px-4 text-sm",
-      lg: "h-11 px-6 text-base",
-      icon: "h-10 w-10",
+      sm: "h-[calc(var(--cell)*3)] text-[11px] [--dith-w:calc(var(--px)*8)]",
+      md: "h-(--control-h) gap-3 text-xs [--dith-w:calc(var(--px)*12)]",
+      lg: "h-[calc(var(--cell)*5)] gap-4 text-[13px]",
+      icon: "size-(--control-h) justify-center p-0",
     },
   },
+  compoundVariants: [
+    // The bar has no right padding: the .dith is its right edge.
+    { variant: "primary", size: "sm", class: "pl-3" },
+    { variant: "primary", size: "md", class: "pl-4" },
+    { variant: "primary", size: "lg", class: "pl-6" },
+    { variant: "primary", size: "icon", class: "[--dith-w:0px]" },
+    {
+      variant: ["secondary", "outline", "ghost", "destructive"],
+      size: "sm",
+      class: "px-3",
+    },
+    {
+      variant: ["secondary", "outline", "ghost", "destructive"],
+      size: "md",
+      class: "px-4",
+    },
+    {
+      variant: ["secondary", "outline", "ghost", "destructive"],
+      size: "lg",
+      class: "px-6",
+    },
+  ],
   defaultVariants: { variant: "primary", size: "md" },
 });
 
@@ -49,6 +72,7 @@ const {
   ...rest
 } = Astro.props as Props & { class?: string };
 const classes = button({ variant, size, class: className });
+const withDith = (variant ?? "primary") === "primary" && size !== "icon";
 
 const isExternal = typeof href === "string" && /^https?:\/\//i.test(href);
 const externalAttrs = isExternal
@@ -60,10 +84,12 @@ const externalAttrs = isExternal
   href ? (
     <a href={href} class={classes} {...externalAttrs} {...rest}>
       <slot />
+      {withDith && <span class="dith ml-auto" aria-hidden="true" />}
     </a>
   ) : (
     <button class={classes} {...rest}>
       <slot />
+      {withDith && <span class="dith ml-auto" aria-hidden="true" />}
     </button>
   )
 }

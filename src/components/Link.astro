@@ -13,6 +13,6 @@ const externalAttrs = isExternal
   : {};
 ---
 
-<a href={href} class={className} {...externalAttrs} {...rest}>
+<a href={href} class:list={["link", className]} {...externalAttrs} {...rest}>
   <slot />
 </a>

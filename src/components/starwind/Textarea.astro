@@ -4,17 +4,10 @@ import type { HTMLAttributes } from "astro/types";
 interface Props extends HTMLAttributes<"textarea"> {}
 
 const { class: className, ...rest } = Astro.props;
+// A <slot /> inside <textarea> is raw text, so render it as the initial value.
+const value = Astro.slots.has("default")
+  ? await Astro.slots.render("default")
+  : undefined;
 ---
 
-<textarea
-  class:list={[
-    "flex min-h-[120px] w-full rounded-md border border-border bg-background px-3 py-2 text-sm",
-    "placeholder:text-muted-foreground",
-    "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none",
-    "disabled:cursor-not-allowed disabled:opacity-50",
-    "aria-[invalid=true]:border-destructive aria-[invalid=true]:focus-visible:ring-destructive",
-    "resize-y",
-    className,
-  ]}
-  {...rest}><slot /></textarea
->
+<textarea class:list={["field", className]} {...rest} set:html={value} />
