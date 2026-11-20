@@ -29,10 +29,9 @@ export const tagLabels: Record<TagSlug, Record<Lang, string>> = {
 export function countByTopic(
   entries: { data: { tags: readonly TagSlug[] } }[],
 ): Record<TagSlug, number> {
-  const counts = Object.fromEntries(tagSlugs.map((slug) => [slug, 0])) as Record<
-    TagSlug,
-    number
-  >;
+  const counts = Object.fromEntries(
+    tagSlugs.map((slug) => [slug, 0]),
+  ) as Record<TagSlug, number>;
   for (const entry of entries) {
     for (const tag of entry.data.tags) counts[tag] += 1;
   }

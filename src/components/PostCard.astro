@@ -33,7 +33,9 @@ const dateLabel = `${d.getUTCFullYear()} · ${monthShort}`;
     transition:name={`post-${key}-date`}>{dateLabel}</time
   >
   <div class="min-w-0">
-    <h3 class="m-0 font-serif text-[19px] leading-[1.3] font-semibold text-balance">
+    <h3
+      class="m-0 font-serif text-[19px] leading-[1.3] font-semibold text-balance"
+    >
       <a
         href={href}
         class="title text-foreground underline-offset-4"
@@ -42,7 +44,9 @@ const dateLabel = `${d.getUTCFullYear()} · ${monthShort}`;
         {post.data.title}
       </a>
     </h3>
-    <p class="mt-1.5 mb-0 text-base leading-normal text-pretty text-tx-secondary">
+    <p
+      class="mt-1.5 mb-0 text-base leading-normal text-pretty text-tx-secondary"
+    >
       <span transition:name={`post-${key}-description`}
         >{post.data.description}</span
       >
