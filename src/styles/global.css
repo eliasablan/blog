@@ -3,23 +3,34 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ---------- Flexoki palette ---------- */
+/* ---------- Dither × ASCII: navy ink on grainy paper ----------
+   Two raw colours swap between modes; every semantic token below is a mix
+   of them, so dark mode only overrides --ink, --paper and --grain. */
 :root {
-  --paper: #fffcf0;
-  --base-50: #f2f0e5;
-  --base-100: #e6e4d9;
-  --base-150: #dad8ce;
-  --base-200: #cecdc3;
-  --base-300: #b7b5ac;
-  --base-500: #878580;
-  --base-600: #6f6e69;
-  --base-700: #575653;
-  --base-800: #403e3c;
-  --base-850: #343331;
-  --base-900: #282726;
-  --base-950: #1c1b1a;
-  --black: #100f0f;
+  --ink: #1c2056;
+  --paper: #ebebe6;
+  /* Paper grain: fractal noise as a tiled background (alpha baked in). */
+  --grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .352 -.048'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 
+  /* One dither pixel everywhere. A dither cell is 4 rows (12px): anything
+     that hosts a .dith strip must be a whole number of cells tall, and
+     stair/step sizes must be whole pixels, or the edge rows get clipped. */
+  --px: 3px;
+  --cell: calc(var(--px) * 4);
+  --control-h: calc(var(--cell) * 4); /* 48px: header buttons, Contact */
+  --dith-w: calc(var(--px) * 16); /* how much of the ramp a strip shows */
+  /* 4×4 Bayer ramp, 16×4 cells: 75% → 50% → 25% → 12.5% ink. */
+  --dith-ramp: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 4' shape-rendering='crispEdges'><path d='M0 0h1v1h-1zM0 2h1v1h-1zM1 0h1v1h-1zM1 1h1v1h-1zM1 2h1v1h-1zM1 3h1v1h-1zM2 0h1v1h-1zM2 2h1v1h-1zM3 0h1v1h-1zM3 1h1v1h-1zM3 2h1v1h-1zM3 3h1v1h-1zM4 0h1v1h-1zM4 2h1v1h-1zM5 1h1v1h-1zM5 3h1v1h-1zM6 0h1v1h-1zM6 2h1v1h-1zM7 1h1v1h-1zM7 3h1v1h-1zM8 0h1v1h-1zM8 2h1v1h-1zM10 0h1v1h-1zM10 2h1v1h-1zM12 0h1v1h-1zM14 2h1v1h-1z'/></svg>");
+}
+
+.dark {
+  --ink: #e4e5f4;
+  --paper: #11143a;
+  --grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .22 -.03'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* ---------- Flexoki palette (raw accents: syntax, form feedback) ---------- */
+:root {
   --red: #af3029;
   --orange: #bc5215;
   --yellow: #ad8301;
@@ -29,17 +40,18 @@
   --purple: #5e409d;
   --magenta: #a02f6f;
 
+  /* Semantic: ink mixed into paper. Text mixes keep ≥ 4.5:1 in both modes. */
   --bg: var(--paper);
-  --bg-secondary: var(--base-50);
-  --bg-tertiary: var(--base-100);
-  --ui: var(--base-100);
-  --ui-hover: var(--base-150);
-  --ui-active: var(--base-200);
-  --tx: var(--black);
-  --tx-secondary: var(--base-700);
-  --tx-muted: var(--base-500);
-  --rule: var(--base-150);
-  --accent: var(--red);
+  --bg-secondary: color-mix(in srgb, var(--ink) 5%, var(--paper));
+  --bg-tertiary: color-mix(in srgb, var(--ink) 9%, var(--paper));
+  --ui: color-mix(in srgb, var(--ink) 9%, var(--paper));
+  --ui-hover: color-mix(in srgb, var(--ink) 14%, var(--paper));
+  --ui-active: color-mix(in srgb, var(--ink) 20%, var(--paper));
+  --tx: var(--ink);
+  --tx-secondary: color-mix(in srgb, var(--ink) 80%, var(--paper));
+  --tx-muted: color-mix(in srgb, var(--ink) 70%, var(--paper));
+  --rule: color-mix(in srgb, var(--ink) 25%, var(--paper));
+  --accent: var(--ink);
   --on-accent: var(--paper);
 }
 
@@ -52,37 +64,12 @@
   --blue: #4385be;
   --purple: #8b7ec8;
   --magenta: #ce5d97;
-
-  --bg: var(--black);
-  --bg-secondary: var(--base-950);
-  --bg-tertiary: var(--base-900);
-  --ui: var(--base-900);
-  --ui-hover: var(--base-850);
-  --ui-active: var(--base-800);
-  --tx: var(--base-200);
-  --tx-secondary: var(--base-500);
-  --tx-muted: var(--base-700);
-  --rule: var(--base-850);
-  --accent: var(--red);
-  --on-accent: var(--black);
 }
 
 @theme inline {
-  /* Flexoki raw */
+  /* Raw */
   --color-paper: var(--paper);
-  --color-base-50: var(--base-50);
-  --color-base-100: var(--base-100);
-  --color-base-150: var(--base-150);
-  --color-base-200: var(--base-200);
-  --color-base-300: var(--base-300);
-  --color-base-500: var(--base-500);
-  --color-base-600: var(--base-600);
-  --color-base-700: var(--base-700);
-  --color-base-800: var(--base-800);
-  --color-base-850: var(--base-850);
-  --color-base-900: var(--base-900);
-  --color-base-950: var(--base-950);
-  --color-ink: var(--black);
+  --color-ink: var(--ink);
   --color-red: var(--red);
   --color-orange: var(--orange);
   --color-yellow: var(--yellow);
@@ -117,6 +104,7 @@
   /* Fonts — variables come from Astro's <Font> integration in BaseLayout */
   --font-serif: var(--font-serif);
   --font-mono: var(--font-mono);
+  --font-pixel: var(--font-pixel);
 }
 
 @layer base {
@@ -142,37 +130,8 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    background-image:
-      radial-gradient(
-        circle at 25% 30%,
-        rgba(16, 15, 15, 0.018) 0.5px,
-        transparent 1.2px
-      ),
-      radial-gradient(
-        circle at 75% 70%,
-        rgba(16, 15, 15, 0.013) 0.6px,
-        transparent 1.6px
-      );
-    background-size:
-      3px 3px,
-      7px 7px;
-  }
-
-  .dark body {
-    background-image:
-      radial-gradient(
-        circle at 25% 30%,
-        rgba(255, 252, 240, 0.03) 0.5px,
-        transparent 1.2px
-      ),
-      radial-gradient(
-        circle at 75% 70%,
-        rgba(255, 252, 240, 0.02) 0.6px,
-        transparent 1.6px
-      );
-    background-size:
-      3px 3px,
-      7px 7px;
+    /* Grain sits under the content so prose stays crisp. */
+    background-image: var(--grain);
   }
 
   html,
@@ -194,8 +153,8 @@
   }
 
   ::selection {
-    background: var(--yellow);
-    color: var(--black);
+    background: var(--ink);
+    color: var(--paper);
   }
 
   a {
@@ -211,6 +170,119 @@
 }
 
 @layer components {
+  /* ---------- Dither × ASCII primitives ----------
+     Shared by Header and Hero; reuse them for Services, About and Home
+     sections. Sizes are in --px / --cell so the pixel grid never breaks. */
+
+  /* Ordered-dither edge: ink dissolving to the right in 4×4 Bayer steps.
+     <span class="dith" aria-hidden="true"></span> as the last child of a flex
+     row; it stretches to the row's height, which must be a whole number of
+     cells (12px). Override --dith-w (in --px) to stop earlier in the ramp. */
+  .dith {
+    display: block;
+    flex: none;
+    align-self: stretch;
+    width: var(--dith-w);
+    background: var(--ink);
+    -webkit-mask: var(--dith-ramp) 0 0 / calc(var(--px) * 16) var(--cell)
+      repeat-y;
+    mask: var(--dith-ramp) 0 0 / calc(var(--px) * 16) var(--cell) repeat-y;
+  }
+
+  /* Solid ink bar that dissolves into a trailing .dith (Contact, main CTA).
+     Give it a height in cells and no right padding. */
+  .dith-bar {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(var(--ink), var(--ink)) left /
+      calc(100% - var(--dith-w)) 100% no-repeat;
+    color: var(--paper);
+    text-decoration: none;
+    transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .dith-bar:active {
+    transform: scale(0.97);
+  }
+
+  /* Boxed control, one cell grid tall (48px): header buttons. */
+  .ctl {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--control-h);
+    min-width: var(--control-h);
+    padding: 0 10px;
+    border: 1px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      background-color 150ms ease-out,
+      color 150ms ease-out,
+      transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .ctl:active {
+    transform: scale(0.97);
+  }
+  .ctl[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .ctl:not([aria-disabled="true"]):hover {
+      background: var(--ink);
+      color: var(--paper);
+    }
+  }
+
+  /* Boxed label row: //01 | FILLED LABEL | ©2026. Any number of cells;
+     mark the inverted one with .box-fill. */
+  .boxhead {
+    display: grid;
+    grid-auto-flow: column;
+    align-items: stretch;
+    border: 1px solid var(--ink);
+  }
+  .boxhead > * {
+    display: flex;
+    align-items: center;
+    padding: 10px 14px;
+  }
+  .boxhead > .box-fill {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  /* Dotted double rule (2px over 1px), as in the reference print. */
+  .rule-dots {
+    height: 5px;
+    border-top: 2px dotted var(--ink);
+    border-bottom: 1px dotted var(--ink);
+  }
+
+  /* Checkerboard of one-cell squares; size it in whole cells (default 5×5). */
+  .checker {
+    flex: none;
+    width: calc(var(--cell) * 5);
+    height: calc(var(--cell) * 5);
+    background-image: conic-gradient(
+      var(--ink) 25%,
+      transparent 0 50%,
+      var(--ink) 0 75%,
+      transparent 0
+    );
+    background-size: calc(var(--cell) * 2) calc(var(--cell) * 2);
+  }
+
+  /* Paper grain for opaque surfaces that sit over the body (sticky header). */
+  .grain {
+    background-image: var(--grain);
+  }
+
   /* ---------- Article body (rendered MDX) ----------
      Kept as raw CSS because it targets MDX-rendered HTML where
      elements receive no classes — Tailwind utilities cannot be applied
@@ -248,7 +320,7 @@
     margin-top: 48px !important;
     margin-bottom: 20px;
     color: var(--tx);
-    scroll-margin-top: 80px;
+    scroll-margin-top: 104px;
   }
   .article-body h2::before {
     content: "§";

@@ -14,27 +14,15 @@ const { lang, altUrl, available = true } = Astro.props;
 const t = useTranslations(lang);
 const target: Lang = lang === "es" ? "en" : "es";
 const href = altUrl ?? altLangUrl(Astro.url, target);
-
-const base =
-  "inline-flex h-9 items-center justify-center rounded-full border border-rule px-2.5 font-mono text-[11px] tracking-[0.1em] text-tx-secondary no-underline uppercase";
 ---
 
 {
   available ? (
-    <a
-      href={href}
-      class={`${base} hover:border-primary hover:text-foreground`}
-      aria-label={t("lang.switch")}
-      hreflang={target}
-    >
+    <a href={href} class="ctl" aria-label={t("lang.switch")} hreflang={target}>
       {target}
     </a>
   ) : (
-    <span
-      class={`${base} cursor-not-allowed text-tx-muted opacity-50`}
-      aria-disabled="true"
-      title={t("lang.notAvailable")}
-    >
+    <span class="ctl" aria-disabled="true" title={t("lang.notAvailable")}>
       {target}
     </span>
   )

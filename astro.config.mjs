@@ -34,9 +34,9 @@ export default defineConfig({
     },
     {
       provider: fontProviders.google(),
-      name: "IBM Plex Mono",
+      name: "Space Mono",
       cssVariable: "--font-mono",
-      weights: [400, 500],
+      weights: [400, 700],
       styles: ["normal"],
       subsets: ["latin"],
       fallbacks: [
@@ -46,6 +46,16 @@ export default defineConfig({
         "Liberation Mono",
         "monospace",
       ],
+      display: "swap",
+    },
+    {
+      provider: fontProviders.google(),
+      name: "Pixelify Sans",
+      cssVariable: "--font-pixel",
+      weights: [700],
+      styles: ["normal"],
+      subsets: ["latin"],
+      fallbacks: ["Menlo", "monospace"],
       display: "swap",
     },
   ],
