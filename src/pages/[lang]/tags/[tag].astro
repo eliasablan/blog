@@ -1,9 +1,13 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import PostCard from "@/components/PostCard.astro";
+import PostList from "@/components/PostList.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
+import SectionHead from "@/components/SectionHead.astro";
+import EmptyState from "@/components/EmptyState.astro";
+import Link from "@/components/Link.astro";
 import { useTranslations, filterByLang, type Lang } from "@/i18n/utils";
+import { sectionPath } from "@/i18n/routes";
 import { tagSlugs, tagLabels, type TagSlug } from "@/i18n/tags";
 import {
   isPublished,
@@ -11,32 +15,19 @@ import {
   sortProjectsByRecent,
 } from "@/lib/content";
 
-export async function getStaticPaths() {
-  const langs: Lang[] = ["en", "es"];
-  const posts = await getCollection("blog");
-  const projects = await getCollection("portfolio");
-
-  return langs.flatMap((lang) => {
-    const langPosts = filterByLang(posts, lang).filter(isPublished);
-    const langProjects = filterByLang(projects, lang).filter(isPublished);
-
-    return tagSlugs
-      .filter(
-        (tag) =>
-          langPosts.some((post) => post.data.tags.includes(tag)) ||
-          langProjects.some((project) => project.data.tags.includes(tag)),
-      )
-      .map((tag) => ({
-        params: { lang, tag },
-        props: { tag },
-      }));
-  });
+// Every Topic gets a page, even with nothing filed under it yet: the
+// Topics list links all of them.
+export function getStaticPaths() {
+  return (["en", "es"] as const).flatMap((lang) =>
+    tagSlugs.map((tag) => ({ params: { lang, tag }, props: { tag } })),
+  );
 }
 
 const lang = Astro.params.lang as Lang;
 const { tag } = Astro.props as { tag: TagSlug };
 const t = useTranslations(lang);
 const label = tagLabels[tag][lang];
+const pad = (n: number) => String(n).padStart(2, "0");
 
 const posts = filterByLang(await getCollection("blog"), lang)
   .filter((p) => isPublished(p) && p.data.tags.includes(tag))
@@ -47,52 +38,61 @@ const projects = filterByLang(await getCollection("portfolio"), lang)
   .sort(sortProjectsByRecent);
 
 const isEmpty = posts.length === 0 && projects.length === 0;
-
-const eyebrowClasses =
-  "font-mono text-xs tracking-[0.08em] text-tx-muted uppercase";
 ---
 
 <BaseLayout title={`${label} — Elías Ablán`} description={label}>
-  <section class="mx-auto max-w-3xl px-4 py-12">
-    <header class="mb-10 space-y-2">
-      <p class={eyebrowClasses}>{t("tags.eyebrow")}</p>
-      <h1 class="text-4xl font-bold tracking-tight">{label}</h1>
+  <div
+    class="mx-auto max-w-170 px-8 pt-16 pb-24 max-[600px]:px-5 max-[600px]:pt-10 max-[600px]:pb-16"
+  >
+    <header>
+      <SectionHead as="p" aside={pad(posts.length + projects.length)}>
+        {t("tags.eyebrow")}
+      </SectionHead>
+      <h1
+        class="mt-9 mb-0 font-pixel text-[clamp(26px,3.5vw,42px)] leading-[1.12] font-bold tracking-[0.01em] text-balance"
+      >
+        {label}
+      </h1>
     </header>
 
-    {isEmpty && <p class="text-muted-foreground">{t("tags.empty")}</p>}
-
     {
-      posts.length > 0 && (
-        <div class="mt-10">
-          <h2 class={`${eyebrowClasses} m-0 mb-4`}>{t("tags.articles")}</h2>
-          <ul class="flex flex-col gap-6">
-            {posts.map((post) => (
-              <li>
-                <PostCard post={post} lang={lang} />
-              </li>
-            ))}
-          </ul>
+      isEmpty && (
+        <div class="mt-12">
+          <EmptyState>{t("tags.empty")}</EmptyState>
         </div>
       )
     }
 
     {
+      posts.length > 0 && (
+        <section class="mt-12">
+          <SectionHead aside={pad(posts.length)} class="mb-6">
+            {t("tags.articles")}
+          </SectionHead>
+          <PostList posts={posts} lang={lang} />
+        </section>
+      )
+    }
+
+    {
       projects.length > 0 && (
-        <div class="mt-10">
-          <h2 class={`${eyebrowClasses} m-0 mb-4`}>{t("tags.projects")}</h2>
-          <ul class="flex flex-col gap-6">
+        <section class="mt-16">
+          <SectionHead aside={pad(projects.length)} class="mb-6">
+            {t("tags.projects")}
+          </SectionHead>
+          <ul class="m-0 flex list-none flex-col gap-6 p-0">
             {projects.map((project) => (
               <li>
                 <ProjectCard project={project} lang={lang} />
               </li>
             ))}
           </ul>
-        </div>
+        </section>
       )
     }
 
-    <p class="mt-12 font-serif text-base">
-      <a href={`/${lang}/`}>{t("tags.back")}</a>
+    <p class="mt-12 mb-0">
+      <Link href={`${sectionPath(lang, "blog")}#topics`}>{t("blog.back")}</Link>
     </p>
-  </section>
+  </div>
 </BaseLayout>

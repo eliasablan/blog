@@ -1,0 +1,15 @@
+---
+// An empty list: a dotted placeholder box (dotted = nothing here yet) with
+// a small checker and the message.
+---
+
+<div
+  class="flex items-center gap-5 border border-dotted border-ink p-6 max-[600px]:gap-4 max-[600px]:p-4"
+>
+  <span
+    class="checker h-[calc(var(--cell)*4)] w-[calc(var(--cell)*4)]"
+    aria-hidden="true"></span>
+  <p class="m-0 text-lg leading-normal text-pretty text-tx-secondary italic">
+    <slot />
+  </p>
+</div>

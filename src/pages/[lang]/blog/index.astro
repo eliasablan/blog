@@ -1,8 +1,10 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import PostCard from "@/components/PostCard.astro";
+import PostList from "@/components/PostList.astro";
 import ThemesSection from "@/components/ThemesSection.astro";
+import SectionHead from "@/components/SectionHead.astro";
+import EmptyState from "@/components/EmptyState.astro";
 import { useTranslations, filterByLang, type Lang } from "@/i18n/utils";
 import { isPublished, sortPostsByRecent } from "@/lib/content";
 
@@ -12,6 +14,7 @@ export function getStaticPaths() {
 
 const lang = Astro.params.lang as Lang;
 const t = useTranslations(lang);
+const year = new Date().getFullYear();
 
 const posts = filterByLang(await getCollection("blog"), lang)
   .filter(isPublished)
@@ -22,26 +25,33 @@ const posts = filterByLang(await getCollection("blog"), lang)
   title={`${t("blog.title")} — Elías Ablán`}
   description={t("blog.intro")}
 >
-  <section class="mx-auto max-w-3xl px-4 py-12">
-    <header class="mb-10 space-y-2">
-      <h1 class="text-4xl font-bold tracking-tight">{t("blog.title")}</h1>
-      <p class="text-muted-foreground">{t("blog.intro")}</p>
+  <div
+    class="mx-auto max-w-170 px-8 pt-16 pb-24 max-[600px]:px-5 max-[600px]:pt-10 max-[600px]:pb-16"
+  >
+    <header>
+      <SectionHead as="h1" aside={`©${year}`}>{t("blog.title")}</SectionHead>
+      <p
+        class="mt-9 mb-0 font-pixel text-[clamp(26px,3.5vw,42px)] leading-[1.12] font-bold tracking-[0.01em] text-balance"
+      >
+        {t("blog.intro")}
+      </p>
     </header>
 
-    <ThemesSection lang={lang} />
+    <div class="mt-12">
+      <ThemesSection lang={lang} />
+    </div>
 
-    {
-      posts.length === 0 ? (
-        <p class="text-muted-foreground">{t("blog.empty")}</p>
-      ) : (
-        <ul class="flex flex-col gap-6">
-          {posts.map((post) => (
-            <li>
-              <PostCard post={post} lang={lang} />
-            </li>
-          ))}
-        </ul>
-      )
-    }
-  </section>
+    <section class="mt-16">
+      <SectionHead aside={String(posts.length).padStart(2, "0")} class="mb-6">
+        {t("tags.articles")}
+      </SectionHead>
+      {
+        posts.length === 0 ? (
+          <EmptyState>{t("blog.empty")}</EmptyState>
+        ) : (
+          <PostList posts={posts} lang={lang} />
+        )
+      }
+    </section>
+  </div>
 </BaseLayout>

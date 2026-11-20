@@ -1,0 +1,23 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { Lang } from "@/i18n/ui";
+import PostCard from "@/components/PostCard.astro";
+
+// One list of Post rows for the Blog index, Topic pages and Home Writing.
+interface Props {
+  posts: CollectionEntry<"blog">[];
+  lang: Lang;
+}
+
+const { posts, lang } = Astro.props;
+---
+
+<ul class="m-0 list-none border-b border-dotted border-ink p-0">
+  {
+    posts.map((post) => (
+      <li>
+        <PostCard post={post} lang={lang} />
+      </li>
+    ))
+  }
+</ul>
