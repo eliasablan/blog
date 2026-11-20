@@ -97,7 +97,7 @@ const scopeItems = [scope.code, scope.servers, scope.networks, scope.hosting];
 <style>
   .hero {
     display: grid;
-    grid-template-columns: clamp(0px, 24vw, 300px) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) min(100%, 640px) minmax(0, 1fr);
     padding-bottom: 120px;
   }
   .stair {
@@ -126,8 +126,6 @@ const scopeItems = [scope.code, scope.servers, scope.networks, scope.hosting];
   }
   .col {
     grid-column: 2;
-    width: 100%;
-    max-width: 640px;
     padding: clamp(28px, 7vh, 72px) clamp(20px, 4vw, 40px) 0;
   }
   .cta .slashes {
@@ -141,13 +139,8 @@ const scopeItems = [scope.code, scope.servers, scope.networks, scope.hosting];
       text-decoration-style: solid;
     }
   }
-  @media (max-width: 760px) {
-    .hero {
-      grid-template-columns: 1fr;
-    }
-    .col {
-      grid-column: 1;
-    }
+  /* Leave 264px on each side for the widest step (216px + 48px of dither). */
+  @media (width < 1168px) {
     .stair {
       display: none;
     }

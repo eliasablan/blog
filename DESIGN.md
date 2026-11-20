@@ -117,10 +117,10 @@ var(--ink)`. Padding `16px`; los controles miden `48px` (4 celdas).
 
 ### 5.2 Hero (`home/Hero.astro`)
 
-- Grid `escalera | columna (max 640px)`. La escalera son 16 escalones de
-  tinta con un `.dith` colgando a la derecha; alto redondeado a celdas
-  enteras (`round(…, var(--cell))`), ancho a pixeles enteros. Se oculta
-  bajo 760px.
+- Columna centrada de hasta 640px con texto alineado a la izquierda.
+  La escalera ocupa el margen izquierdo desde 1168px. Son 16 escalones
+  de tinta con un `.dith` colgando a la derecha, alto redondeado a celdas
+  enteras (`round(…, var(--cell))`) y ancho a pixeles enteros.
 - `.boxhead`: `//01 | eyebrow (.box-fill)`.
 - h1 = one-liner del spec: primera cláusula en Pixelify, resto en Space
   Mono 12.5px `tx-muted`.
