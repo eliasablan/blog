@@ -1,6 +1,7 @@
 ---
 import type { Lang } from "@/i18n/ui";
 import { useTranslations } from "@/i18n/utils";
+import { whatsappUrl } from "@/lib/contact";
 
 interface Props {
   lang: Lang;
@@ -31,7 +32,7 @@ const cvLabel = t("footer.cv");
       rel="noopener noreferrer">GitHub</a
     >
     <span class="text-tx-muted opacity-60">·</span>
-    <a href="https://wa.me/584242728990" aria-label="WhatsApp">WhatsApp</a>
+    <a href={whatsappUrl} aria-label="WhatsApp">WhatsApp</a>
     <span class="text-tx-muted opacity-60">·</span>
     <a href="mailto:eliasablan93@gmail.com" aria-label="Email">Email</a>
     <span class="text-tx-muted opacity-60">·</span>
