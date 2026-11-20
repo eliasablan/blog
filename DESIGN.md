@@ -210,9 +210,8 @@ vacío.
 conteo de Posts + Proyectos publicados en ese idioma (`countByTopic`, en
 `i18n/tags.ts`), `00` incluido. Hover (puntero fino) y `:active` (también
 táctil) invierten la celda como `.ctl`, en `--dur-hover`; sin escala, que
-la despegaría de las líneas compartidas. Con 7 Temas, la octava celda es
-decorativa: un `.dith` de 48px de alto (4 celdas) que arranca en la línea
-de la izquierda; se oculta en 1 columna.
+la despegaría de las líneas compartidas. En dos columnas, la última fila
+muestra una sola celda con los cuatro bordes visibles.
 
 **Página de Tema** (`tags/[tag].astro`): existe para los 7 Temas aunque
 estén vacíos (la lista los enlaza todos). `SectionHead p Tema <total>` →
