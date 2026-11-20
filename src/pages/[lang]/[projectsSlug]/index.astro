@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
+import SectionHead from "@/components/SectionHead.astro";
 import { useTranslations, filterByLang, type Lang } from "@/i18n/utils";
 import { sectionSlugs } from "@/i18n/routes";
 import { kindLabels, kindSlugs } from "@/i18n/kinds";
@@ -40,12 +41,7 @@ const headClass =
     class="mx-auto max-w-170 px-8 pt-16 pb-24 max-[600px]:px-5 max-[600px]:pt-10 max-[600px]:pb-16"
   >
     <header>
-      <div class={`${headClass} grid-cols-[auto_1fr]`}>
-        <span class="font-normal" aria-hidden="true">//</span>
-        <h1 class="box-fill m-0 text-xs font-bold tracking-[0.08em]">
-          {t("projects.title")}
-        </h1>
-      </div>
+      <SectionHead as="h1">{t("projects.title")}</SectionHead>
       <p
         class="mt-6 mb-0 max-w-[34em] text-lg leading-[1.7] text-pretty text-tx-secondary"
       >

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import SectionHead from "@/components/SectionHead.astro";
 import { useTranslations, type Lang } from "@/i18n/utils";
 import { sectionSlugs, sectionPath, entryPath } from "@/i18n/routes";
 import { services, serviceSlugs, processSteps } from "@/i18n/services";
@@ -33,12 +34,7 @@ const headClass =
     class="mx-auto max-w-170 px-8 pt-16 pb-24 max-[600px]:px-5 max-[600px]:pt-10 max-[600px]:pb-16"
   >
     <header>
-      <div class={`${headClass} grid-cols-[auto_1fr]`}>
-        <span class="font-normal" aria-hidden="true">//</span>
-        <h1 class="box-fill m-0 text-xs font-bold tracking-[0.08em]">
-          {t("services.title")}
-        </h1>
-      </div>
+      <SectionHead as="h1">{t("services.title")}</SectionHead>
       <p
         class="mt-9 mb-0 font-pixel text-[clamp(26px,3.5vw,42px)] leading-[1.12] font-bold tracking-[0.01em] text-balance"
       >
@@ -106,12 +102,7 @@ const headClass =
     </div>
 
     <section class="mt-16">
-      <div class={`${headClass} grid-cols-[auto_1fr]`}>
-        <span class="font-normal" aria-hidden="true">//</span>
-        <h2 class="box-fill m-0 text-xs font-bold tracking-[0.08em]">
-          {t("services.process.title")}
-        </h2>
-      </div>
+      <SectionHead>{t("services.process.title")}</SectionHead>
       <div class="mt-6 flex items-start justify-between gap-6">
         <ol class="m-0 flex list-none flex-col gap-4 p-0">
           {
@@ -139,12 +130,7 @@ const headClass =
     </section>
 
     <section class="mt-16">
-      <div class={`${headClass} grid-cols-[auto_1fr]`}>
-        <span class="font-normal" aria-hidden="true">//</span>
-        <h2 class="box-fill m-0 text-xs font-bold tracking-[0.08em]">
-          {t("services.proof.title")}
-        </h2>
-      </div>
+      <SectionHead>{t("services.proof.title")}</SectionHead>
       <p class="mt-6 mb-0 text-lg leading-[1.7] text-pretty">
         {t("services.proof.tanques.body")}
       </p>
