@@ -53,9 +53,10 @@ const tile = form === "tile";
           "pcard-link font-serif leading-tight font-semibold text-foreground no-underline decoration-foreground/40 underline-offset-4",
           tile ? "text-[19px]" : "text-[22px] tracking-[-0.008em]",
         ]}
-        transition:name={`project-${key}-title`}
       >
-        {project.data.title}
+        <span transition:name={`project-${key}-title`}
+          >{project.data.title}</span
+        >
       </a>
       <p class="m-0 max-w-[56ch] text-base leading-normal text-tx-secondary">
         <span transition:name={`project-${key}-description`}
@@ -69,7 +70,7 @@ const tile = form === "tile";
               <>
                 <a
                   href={tagPath(lang, tag)}
-                  class="pcard-tag relative z-1 text-inherit"
+                  class="pcard-tag relative z-2 text-inherit"
                   set:text={tagLabels[tag][lang]}
                 />
                 {i < tags.length - 1 && (
@@ -97,7 +98,7 @@ const tile = form === "tile";
               href={demo}
               variant="outline"
               size="sm"
-              class="relative z-1 gap-1.5"
+              class="relative z-2 gap-1.5"
             >
               <svg
                 viewBox="0 0 16 16"
@@ -117,7 +118,7 @@ const tile = form === "tile";
               href={repo}
               variant="outline"
               size="sm"
-              class="relative z-1 gap-1.5"
+              class="relative z-2 gap-1.5"
             >
               <svg
                 viewBox="0 0 16 16"
@@ -140,7 +141,9 @@ const tile = form === "tile";
 
 <style>
   /* The whole card opens the Project: the title link stretches over it,
-     and the tag and demo/repo links sit above that layer (z-1). */
+     and the tag and demo/repo links sit above that layer. The layer needs a
+     z-index: the description and year carry a view-transition-name, which
+     makes them stacking contexts that would paint over it. */
   .pcard {
     transition:
       background-color var(--dur-hover) ease-out,
@@ -151,6 +154,7 @@ const tile = form === "tile";
     content: "";
     position: absolute;
     inset: 0;
+    z-index: 1;
   }
 
   /* One ring, on the card, when the title link has keyboard focus. */
