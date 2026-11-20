@@ -119,6 +119,7 @@ export const ui = {
     "contact.form.invalidEmail": "El email no es válido.",
 
     "article.byline.prefix": "Por",
+    "article.end": "Fin",
 
     "theme.toggle": "Cambiar tema",
     "theme.light": "Claro",
@@ -242,6 +243,7 @@ export const ui = {
     "contact.form.invalidEmail": "Invalid email address.",
 
     "article.byline.prefix": "By",
+    "article.end": "End",
 
     "theme.toggle": "Toggle theme",
     "theme.light": "Light",

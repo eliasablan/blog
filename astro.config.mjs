@@ -4,6 +4,7 @@ import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import cloudflare from "@astrojs/cloudflare";
 import tailwindcss from "@tailwindcss/vite";
+import { codeFrame, inkTheme } from "./src/lib/codeFrame.ts";
 
 // https://astro.build/config
 export default defineConfig({
@@ -59,6 +60,9 @@ export default defineConfig({
       display: "swap",
     },
   ],
+  markdown: {
+    shikiConfig: { theme: inkTheme, transformers: [codeFrame] },
+  },
   integrations: [
     mdx(),
     sitemap({
