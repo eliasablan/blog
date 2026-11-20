@@ -4,7 +4,8 @@ import type { Lang } from "@/i18n/ui";
 import { filterByLang, useTranslations } from "@/i18n/utils";
 import { isPublished, sortPostsByRecent } from "@/lib/content";
 import { sectionPath } from "@/i18n/routes";
-import PostCard from "@/components/PostCard.astro";
+import PostList from "@/components/PostList.astro";
+import Link from "@/components/Link.astro";
 
 interface Props {
   lang: Lang;
@@ -25,17 +26,12 @@ const posts = filterByLang(await getCollection("blog"), lang)
       <h2 class="mt-16 mb-5 font-serif text-[32px] leading-[1.2] font-semibold tracking-[-0.012em] text-foreground before:mr-3 before:font-normal before:text-primary before:not-italic before:opacity-85 before:content-['§']">
         {t("home.featured.posts.title")}
       </h2>
-      <div class="flex flex-col gap-6">
-        {posts.map((post) => (
-          <PostCard post={post} lang={lang} />
-        ))}
-      </div>
-      <a
-        href={sectionPath(lang, "blog")}
-        class="mt-8 inline-block font-mono text-xs tracking-[0.08em] text-foreground uppercase decoration-current decoration-dotted underline-offset-[6px] hover:underline"
-      >
-        {t("home.featured.posts.cta")} →
-      </a>
+      <PostList posts={posts} lang={lang} />
+      <p class="mt-8 mb-0">
+        <Link href={sectionPath(lang, "blog")}>
+          {t("home.featured.posts.cta")} →
+        </Link>
+      </p>
     </section>
   )
 }

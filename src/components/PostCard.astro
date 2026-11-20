@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import type { Lang } from "@/i18n/ui";
 import { splitEntryId } from "@/i18n/utils";
 import { sectionPath } from "@/i18n/routes";
+import { tagLabels, tagPath } from "@/i18n/tags";
 
 interface Props {
   post: CollectionEntry<"blog">;
@@ -23,26 +24,86 @@ const monthShort = new Intl.DateTimeFormat(locale, {
 const dateLabel = `${d.getUTCFullYear()} · ${monthShort}`;
 ---
 
-<div
-  class="grid grid-cols-[100px_1fr] items-baseline gap-4 max-[600px]:grid-cols-1 max-[600px]:gap-0.5"
+<article
+  class="row grid grid-cols-[100px_1fr] gap-4 border-t border-dotted border-ink px-3.5 py-5 max-[600px]:grid-cols-1 max-[600px]:gap-1.5"
 >
   <time
-    class="pt-1.25 font-mono text-xs tracking-[0.04em] text-tx-muted max-[600px]:pt-0"
+    class="pt-1 font-mono text-xs tracking-[0.04em] text-tx-muted uppercase max-[600px]:pt-0"
     datetime={post.data.publishedAt.toISOString()}
     transition:name={`post-${key}-date`}>{dateLabel}</time
   >
-  <div>
-    <a
-      href={href}
-      class="font-serif text-[19px] leading-[1.3] font-semibold text-foreground underline decoration-foreground/20 underline-offset-4 hover:text-primary hover:decoration-primary"
-      transition:name={`post-${key}-title`}
-    >
-      {post.data.title}
-    </a>
-    <p class="mt-1 text-base leading-normal text-tx-secondary">
+  <div class="min-w-0">
+    <h3 class="m-0 font-serif text-[19px] leading-[1.3] font-semibold text-balance">
+      <a
+        href={href}
+        class="title text-foreground underline-offset-4"
+        transition:name={`post-${key}-title`}
+      >
+        {post.data.title}
+      </a>
+    </h3>
+    <p class="mt-1.5 mb-0 text-base leading-normal text-pretty text-tx-secondary">
       <span transition:name={`post-${key}-description`}
         >{post.data.description}</span
       >
     </p>
+    {
+      post.data.tags.length > 0 && (
+        <ul class="m-0 mt-3 flex list-none flex-wrap gap-2 p-0">
+          {post.data.tags.map((tag) => (
+            <li class="flex">
+              <a href={tagPath(lang, tag)} class="chip">
+                {tagLabels[tag][lang]}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
   </div>
-</div>
+</article>
+
+<style>
+  /* The title is the row's link; hovering it tints the whole row so the
+     target reads at a glance. Colour only: a full-width row never scales. */
+  .row {
+    transition: background-color var(--dur-hover) ease-out;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .row:has(.title:hover) {
+      background: var(--bg-secondary);
+    }
+  }
+
+  /* Topic chip: two cells tall, boxed in ink, inverted on hover. Press
+     shrinks it from its centre (it is not anchored to anything). */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    height: calc(var(--cell) * 2);
+    padding: 0 8px;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transform-origin: center;
+    transition:
+      background-color var(--dur-hover) ease-out,
+      color var(--dur-hover) ease-out,
+      opacity var(--dur-press) var(--ease-out),
+      transform var(--dur-press) var(--ease-out);
+  }
+  .chip:active {
+    transform: scale(var(--press-scale));
+    opacity: var(--press-opacity);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .chip:hover {
+      background: var(--ink);
+      color: var(--paper);
+    }
+  }
+</style>
