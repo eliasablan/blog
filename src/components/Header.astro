@@ -22,7 +22,6 @@ const links = [
   { href: sectionPath(lang, "blog"), label: t("nav.blog") },
   { href: sectionPath(lang, "about"), label: t("nav.about") },
 ];
-const year = new Date().getFullYear();
 ---
 
 <header
@@ -42,7 +41,6 @@ const year = new Date().getFullYear();
         data-brand-text="ELIAS ABLAN">ELIAS ABLAN</span
       >
     </span>
-    <span class="font-mono text-[11px] font-normal max-lg:hidden">©{year}</span>
   </a>
 
   <nav

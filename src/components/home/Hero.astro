@@ -9,7 +9,6 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-const year = new Date().getFullYear();
 
 // Stair silhouette: width of each row in units; a dithered cap hangs off
 // its right edge.
@@ -39,12 +38,11 @@ const scopeItems = [scope.code, scope.servers, scope.networks, scope.hosting];
     class="col font-mono text-[13px] leading-normal tracking-[0.02em] text-foreground uppercase"
   >
     <div
-      class="boxhead rise grid-cols-[auto_1fr_auto] text-xs font-bold tracking-[0.08em]"
+      class="boxhead rise grid-cols-[auto_1fr] text-xs font-bold tracking-[0.08em]"
       style="--i:0"
     >
       <span class="font-normal" aria-hidden="true">//01</span>
       <p class="box-fill m-0 leading-[1.25]">{t("home.hero.eyebrow")}</p>
-      <span class="font-normal" aria-hidden="true">©{year}</span>
     </div>
 
     <h1 class="rise mt-9 mb-0 font-normal" style="--i:1">
@@ -72,11 +70,8 @@ const scopeItems = [scope.code, scope.servers, scope.networks, scope.hosting];
     </div>
 
     <div class="rule-dots rise mt-7" style="--i:3" aria-hidden="true"></div>
-    <p
-      class="rise mt-2.5 mb-0 flex justify-between text-xs tracking-[0.06em]"
-      style="--i:3"
-    >
-      <span>Caracas, Venezuela</span><span>©{year}</span>
+    <p class="rise mt-2.5 mb-0 text-xs tracking-[0.06em]" style="--i:3">
+      Caracas, Venezuela
     </p>
 
     <div class="rise mt-7" style="--i:4">

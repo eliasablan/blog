@@ -105,7 +105,7 @@ Ver §5.2.1.
 
 - Sticky, `z-50`, fondo `--bg` + `.grain`, borde inferior `1px dotted
 var(--ink)`. Padding `16px`; los controles miden `48px` (4 celdas).
-- **Brand:** `.boxhead` `EA | ELIAS ABLAN | ©año` en Pixelify 15px (13px
+- **Brand:** `.boxhead` `EA | ELIAS ABLAN` en Pixelify 15px (13px
   mobile, solo el nombre). El nombre conserva el efecto scramble al hover;
   una copia invisible fija el ancho de la caja. El efecto requiere
   puntero fino y movimiento normal.
@@ -121,7 +121,7 @@ var(--ink)`. Padding `16px`; los controles miden `48px` (4 celdas).
   tinta con un `.dith` colgando a la derecha; alto redondeado a celdas
   enteras (`round(…, var(--cell))`), ancho a pixeles enteros. Se oculta
   bajo 760px.
-- `.boxhead`: `//01 | eyebrow (.box-fill) | ©año`.
+- `.boxhead`: `//01 | eyebrow (.box-fill)`.
 - h1 = one-liner del spec: primera cláusula en Pixelify, resto en Space
   Mono 12.5px `tx-muted`.
 - Lista `//ALCANCE` + `.checker`, `.rule-dots`, línea `Caracas, Venezuela`.
@@ -193,11 +193,11 @@ encajadas que se describen en sus respectivas secciones.
 **Shell** (Blog index y Tema): la columna de 680px de Services/About
 (`max-w-170 px-8 pt-16 pb-24`, `px-5 pt-10 pb-16` bajo 600px). Cada página
 y sección abre con `SectionHead.astro`: un `.boxhead` `// | LABEL
-(.box-fill) | aside`, mono 12px bold mayúsculas. El label es el heading
-(`h1`/`h2`, o `p` cuando el `h1` va debajo); `aside` es un conteo en dos
-cifras (`07`, `00`) o `©año`.
+(.box-fill)`, mono 12px bold mayúsculas. El label es el heading
+(`h1`/`h2`, o `p` cuando el `h1` va debajo). `aside` añade una celda con
+un conteo de dos cifras (`07`, `00`).
 
-**Blog index** (`blog/index.astro`): `SectionHead h1 Blog ©año` → intro en
+**Blog index** (`blog/index.astro`): `SectionHead h1 Blog` → intro en
 display Pixelify (`clamp(26px,3.5vw,42px)`, como el head de Services) →
 Temas → `SectionHead Posts <n>` → lista de Posts (§5.8) o estado
 vacío.
@@ -266,7 +266,7 @@ botón; hover tras `(hover: hover) and (pointer: fine)`):
 
 **Índice** (`[projectsSlug]/index.astro`): columna de 680px como el
 resto del sitio. Cabecera como Services: `.boxhead`
-`// | PROYECTOS (h1, .box-fill) | ©año` y la intro 18px `tx-secondary`.
+`// | PROYECTOS (h1, .box-fill)` y la intro 18px `tx-secondary`.
 Grupos por kind en orden `kindSlugs` (Client work primero), saltando los
 vacíos; cada uno abre con `.boxhead` `//0N | KIND (h2) | total`. Client
 work va en filas; Solutions y Side projects en rejilla de 2 columnas

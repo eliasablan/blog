@@ -3,8 +3,8 @@
 // The label is the heading of its page or section.
 interface Props {
   as?: "h1" | "h2" | "p";
-  /** Right cell: a count or ©year. */
-  aside: string;
+  /** Optional count in the right cell. */
+  aside?: string;
   class?: string;
 }
 
@@ -13,11 +13,18 @@ const { as: Tag = "h2", aside, class: className } = Astro.props;
 
 <div
   class:list={[
-    "boxhead grid-cols-[auto_1fr_auto] font-mono text-xs font-bold tracking-[0.08em] uppercase",
+    "boxhead font-mono text-xs font-bold tracking-[0.08em] uppercase",
+    aside ? "grid-cols-[auto_1fr_auto]" : "grid-cols-[auto_1fr]",
     className,
   ]}
 >
   <span class="font-normal" aria-hidden="true">//</span>
   <Tag class="box-fill m-0 text-xs font-bold tracking-[0.08em]"><slot /></Tag>
-  <span class="font-normal" aria-hidden="true">{aside}</span>
+  {
+    aside && (
+      <span class="font-normal" aria-hidden="true">
+        {aside}
+      </span>
+    )
+  }
 </div>
