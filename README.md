@@ -18,7 +18,30 @@ for each name: `RESEND_API_KEY`, `RESEND_FROM`, and `CONTACT_TO_EMAIL`. See
 
 The domain must be an active zone in the same Cloudflare account. The custom
 domain in `wrangler.jsonc` lets Cloudflare manage its DNS record and certificate.
-Use `pnpm build && pnpm preview` to test the production Worker locally.
+
+## Local checks
+
+Run `pnpm format:check`, `pnpm astro check`, and `pnpm test` for formatting,
+type diagnostics, and unit tests.
+
+For browser checks, build the Worker and start it locally with Wrangler:
+
+```sh
+pnpm exec playwright install --only-shell chromium
+pnpm build
+pnpm preview
+```
+
+From another terminal, confirm that the preview serves the site and run the
+Chromium checks:
+
+```sh
+curl --fail http://127.0.0.1:4518/en/ -o /dev/null
+pnpm test:browser
+```
+
+See [Agent handoff and worktree cleanup](docs/agents/handoff.md) when resuming
+work from another coding session or retiring its branches.
 
 ```sh
 pnpm create astro@latest -- --template minimal
@@ -54,7 +77,7 @@ All commands are run from the root of the project, from a terminal:
 | `pnpm install`         | Installs dependencies                            |
 | `pnpm dev`             | Starts local dev server at `localhost:4321`      |
 | `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
+| `pnpm preview`         | Serves the built Worker on localhost:4518        |
 | `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `pnpm astro -- --help` | Get help using the Astro CLI                     |
 

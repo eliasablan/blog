@@ -1,0 +1,39 @@
+name: Checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.2
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm format:check
+      - run: pnpm astro check
+      - run: pnpm test
+      - run: pnpm exec playwright install --with-deps --only-shell chromium
+      - run: pnpm build
+      - name: Browser checks against the local Worker
+        run: |
+          preview_log="$RUNNER_TEMP/blog-preview.log"
+          pnpm preview > "$preview_log" 2>&1 &
+          preview_pid=$!
+          trap 'kill "$preview_pid" 2>/dev/null || true' EXIT
+          if ! curl --fail --silent --show-error --retry 20 --retry-connrefused --retry-delay 1 http://127.0.0.1:4518/en/ -o /dev/null; then
+            cat "$preview_log"
+            exit 1
+          fi
+          pnpm test:browser

@@ -485,14 +485,14 @@ cambian.
 
 **Tokens de movimiento** (`:root`):
 
-| Token                | Valor                           | Uso                                 |
-| -------------------- | ------------------------------- | ----------------------------------- |
-| `--ease-out`         | `cubic-bezier(0.23, 1, 0.32, 1)` | press y todo lo que se mueve        |
-| `--dur-hover`        | `150ms`                         | cambios de color, relleno, subrayado |
-| `--dur-dither-hover` | `120ms`                         | avance de tinta                     |
-| `--dur-press`        | `160ms`                         | press                               |
-| `--press-scale`      | `0.97`                          | escala al presionar                 |
-| `--press-opacity`    | `1`                             | opacidad al presionar               |
+| Token                | Valor                            | Uso                                  |
+| -------------------- | -------------------------------- | ------------------------------------ |
+| `--ease-out`         | `cubic-bezier(0.23, 1, 0.32, 1)` | press y todo lo que se mueve         |
+| `--dur-hover`        | `150ms`                          | cambios de color, relleno, subrayado |
+| `--dur-dither-hover` | `120ms`                          | avance de tinta                      |
+| `--dur-press`        | `160ms`                          | press                                |
+| `--press-scale`      | `0.97`                           | escala al presionar                  |
+| `--press-opacity`    | `1`                              | opacidad al presionar                |
 
 Con `prefers-reduced-motion: reduce`, `--dur-dither-hover: 0ms`, `--dur-press: 0ms`,
 `--press-scale: 1`, `--press-opacity: 0.8`. Nada se mueve ni escala; el

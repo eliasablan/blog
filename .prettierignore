@@ -4,3 +4,5 @@ pnpm-lock.yaml
 public
 src/content/**/*.md
 src/content/**/*.mdx
+
+.claude/worktrees/
