@@ -8,6 +8,9 @@
     "binding": "ASSETS",
     "directory": "./dist",
   },
-  "routes": [{ "pattern": "eablan.dev", "custom_domain": true }],
+  "routes": [
+    { "pattern": "eablan.dev", "custom_domain": true },
+    { "pattern": "www.eablan.dev", "custom_domain": true },
+  ],
   "observability": { "enabled": true },
 }
