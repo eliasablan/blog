@@ -46,13 +46,13 @@ const year = new Date().getFullYear();
   </a>
 
   <nav
-    class="order-last flex w-full justify-between sm:justify-start sm:gap-6 lg:order-none lg:w-auto lg:flex-1 lg:justify-end lg:gap-5.5"
+    class="order-last flex w-full flex-wrap justify-between gap-x-3 gap-y-1 sm:justify-start sm:gap-6 lg:order-none lg:w-auto lg:flex-1 lg:justify-end lg:gap-5.5"
   >
     {
       links.map((link) => (
         <a
           href={link.href}
-          class="inline-flex text-foreground no-underline decoration-current decoration-dotted underline-offset-5 hover:underline"
+          class="inline-flex whitespace-nowrap text-foreground no-underline decoration-current decoration-dotted underline-offset-5 [@media(hover:hover)_and_(pointer:fine)]:hover:underline"
         >
           <span class="text-tx-muted" aria-hidden="true">
             //
@@ -85,6 +85,10 @@ const year = new Date().getFullYear();
   const SHUFFLE_TIME = 35;
   const CHARS = "!@#$%^&*():{};|,.<>/?";
 
+  const scrambleAllowed = window.matchMedia(
+    "(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)",
+  );
+
   function wireBrandScramble() {
     document.querySelectorAll("[data-brand-link]").forEach((link) => {
       if (!(link instanceof HTMLElement) || link.dataset.wired === "1") return;
@@ -107,6 +111,7 @@ const year = new Date().getFullYear();
       }
 
       function scramble() {
+        if (!scrambleAllowed.matches) return;
         stopScramble();
 
         let pos = 0;

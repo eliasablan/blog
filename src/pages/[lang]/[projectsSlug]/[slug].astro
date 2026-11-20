@@ -102,10 +102,10 @@ const cta =
           <p class="mt-6 mb-0 flex flex-wrap items-baseline gap-x-2 gap-y-1 font-mono text-xs text-tx-muted">
             <span aria-hidden="true">//</span>
             {tags.map((tag, i) => (
-              <>
+              <span class="inline-flex items-baseline gap-x-2">
                 <Link href={tagPath(lang, tag)}>{tagLabels[tag][lang]}</Link>
                 {i < tags.length - 1 && <span aria-hidden="true">·</span>}
-              </>
+              </span>
             ))}
           </p>
         )
@@ -194,8 +194,7 @@ const cta =
     {
       kind === "side-project" && (
         <footer class="mt-16">
-          <div class="rule-dots" aria-hidden="true" />
-          <div class="mt-8 flex flex-wrap items-center gap-3">
+          <div class="flex flex-wrap items-center gap-3">
             {demo && <Button href={demo}>{t("projects.demo")}</Button>}
             {repo && (
               <Button href={repo} variant="outline">

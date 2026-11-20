@@ -5,6 +5,10 @@ import Link from "@/components/Link.astro";
 import { sectionPath } from "@/i18n/routes";
 import { getLangFromUrl, useTranslations } from "@/i18n/utils";
 
+// Resolve the locale from the URL that failed, rather than the build-time /404.
+export const prerender = false;
+Astro.response.status = 404;
+
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---

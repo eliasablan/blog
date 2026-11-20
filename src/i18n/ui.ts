@@ -33,14 +33,14 @@ export const ui = {
     "home.services.cta": "Ver todos los servicios",
     "home.about.cta": "Más sobre mí",
     "home.featured.posts.title": "Escritos",
-    "home.featured.posts.cta": "Ver todos los artículos",
+    "home.featured.posts.cta": "Ver todos los posts",
     "home.featured.projects.title": "Trabajo destacado",
     "home.featured.projects.cta": "Ver todos los proyectos",
     "home.contact.title": "Contacto",
 
     "blog.title": "Blog",
     "blog.intro": "Notas sobre lo que aprendo, construyo y rompo.",
-    "blog.empty": "Todavía no hay artículos publicados.",
+    "blog.empty": "Todavía no hay posts publicados.",
     "blog.back": "← Volver al blog",
     "blog.readingTime": "min de lectura",
     "blog.rss.description":
@@ -90,7 +90,7 @@ export const ui = {
 
     "tags.eyebrow": "Tema",
     "tags.empty": "Aún no hay contenido bajo este tema.",
-    "tags.articles": "Artículos",
+    "tags.articles": "Posts",
     "tags.projects": "Proyectos",
 
     "notFound.title": "Página no encontrada",
@@ -157,14 +157,14 @@ export const ui = {
     "home.services.cta": "See all services",
     "home.about.cta": "More about me",
     "home.featured.posts.title": "Writing",
-    "home.featured.posts.cta": "See all articles",
+    "home.featured.posts.cta": "See all posts",
     "home.featured.projects.title": "Selected work",
     "home.featured.projects.cta": "See all projects",
     "home.contact.title": "Contact",
 
     "blog.title": "Blog",
     "blog.intro": "Notes on what I learn, build, and break.",
-    "blog.empty": "No articles published yet.",
+    "blog.empty": "No posts published yet.",
     "blog.back": "← Back to blog",
     "blog.readingTime": "min read",
     "blog.rss.description":
@@ -214,7 +214,7 @@ export const ui = {
 
     "tags.eyebrow": "Topic",
     "tags.empty": "Nothing under this topic yet.",
-    "tags.articles": "Articles",
+    "tags.articles": "Posts",
     "tags.projects": "Projects",
 
     "notFound.title": "Page not found",

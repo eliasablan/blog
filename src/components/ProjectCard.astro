@@ -65,22 +65,20 @@ const tile = form === "tile";
       </p>
       {
         tags.length > 0 && (
-          <p class="m-0 mt-1 font-mono text-xs leading-normal text-tx-muted">
-            {tags.map((tag, i) => (
-              <>
-                <a
+          <ul class="m-0 mt-1 flex list-none flex-wrap gap-2 p-0">
+            {tags.map((tag) => (
+              <li>
+                <Button
                   href={tagPath(lang, tag)}
-                  class="pcard-tag relative z-2 text-inherit"
-                  set:text={tagLabels[tag][lang]}
-                />
-                {i < tags.length - 1 && (
-                  <span class="mx-1.5 opacity-70" aria-hidden="true">
-                    ·
-                  </span>
-                )}
-              </>
+                  variant="outline"
+                  size="sm"
+                  class="relative z-2"
+                >
+                  {tagLabels[tag][lang]}
+                </Button>
+              </li>
             ))}
-          </p>
+          </ul>
         )
       }
     </div>
@@ -175,10 +173,6 @@ const tile = form === "tile";
     opacity: var(--press-opacity);
   }
 
-  .pcard-tag {
-    text-decoration-color: color-mix(in srgb, currentColor 30%, transparent);
-  }
-
   /* Hover over the card (not its tag or demo/repo links): it tints like a
      Card with hover, the header ink advances one cell into the ramp, as
      every dith-bar link does, and the title underlines. */
@@ -191,10 +185,6 @@ const tile = form === "tile";
     }
     .pcard:has(.pcard-link:hover) .pcard-link {
       text-decoration-line: underline;
-    }
-    .pcard-tag:hover {
-      color: var(--ink);
-      text-decoration-color: var(--ink);
     }
   }
 </style>

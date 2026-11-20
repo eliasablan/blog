@@ -138,7 +138,7 @@ const t = useTranslations(lang);
     font-family: var(--font-mono);
     font-size: 12px;
     line-height: 20px;
-    color: color-mix(in srgb, var(--red) 75%, var(--ink));
+    color: var(--error);
   }
 
   .status {
@@ -289,8 +289,14 @@ const t = useTranslations(lang);
       submittingLabel.hidden = true;
       if (ok) form.reset();
       setStatus(ok ? "success" : "error", ok ? success : failure);
-      // Disabling dropped focus to <body>; put it back where it was.
-      focused?.focus({ preventScroll: true });
+      // Restore focus only when disabling the fieldset left it on <body>.
+      if (
+        document.activeElement === document.body &&
+        focused instanceof HTMLElement &&
+        fieldset.contains(focused)
+      ) {
+        focused.focus({ preventScroll: true });
+      }
     });
   }
 

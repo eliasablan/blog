@@ -138,20 +138,12 @@ const scopeItems = [scope.code, scope.servers, scope.networks, scope.hosting];
   .cta .slashes {
     transition: opacity 150ms ease-out;
   }
-  .quiet {
-    transition: opacity 150ms ease-out;
-  }
-  .cta:focus-visible,
-  .quiet:focus-visible {
-    outline: 2px solid var(--ink);
-    outline-offset: 3px;
-  }
   @media (hover: hover) and (pointer: fine) {
     .cta:hover .slashes {
       opacity: 1;
     }
     .quiet:hover {
-      opacity: 0.65;
+      text-decoration-style: solid;
     }
   }
   @media (max-width: 760px) {

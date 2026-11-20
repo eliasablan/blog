@@ -21,7 +21,7 @@ const linkHref = {
   projects: sectionPath(lang, "projects"),
 };
 const linkClass =
-  "inline-block text-xs tracking-[0.08em] text-foreground uppercase decoration-current decoration-dotted underline-offset-[6px] transition-opacity duration-150 ease-out focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-ink [@media(hover:hover)_and_(pointer:fine)]:hover:opacity-65";
+  "inline-block text-xs tracking-[0.08em] text-foreground uppercase decoration-current decoration-dotted underline-offset-[6px] [@media(hover:hover)_and_(pointer:fine)]:hover:decoration-solid";
 const headClass =
   "boxhead grid-cols-[auto_1fr_auto] text-xs font-bold tracking-[0.08em] uppercase";
 ---
@@ -184,7 +184,7 @@ const headClass =
       <div class="mt-8 flex flex-col items-start gap-4">
         <a
           href={`/${lang}/#contact`}
-          class="dith-bar h-[calc(var(--cell)*5)] w-full max-w-sm gap-4 pl-6 font-mono text-[13px] font-bold tracking-[0.08em] uppercase focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-ink"
+          class="dith-bar h-[calc(var(--cell)*5)] w-full max-w-sm gap-4 pl-6 font-mono text-[13px] font-bold tracking-[0.08em] uppercase"
         >
           {t("home.hero.cta.contact")}
           <span class="dith ml-auto" aria-hidden="true"></span>

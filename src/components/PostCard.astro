@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import Button from "@/components/starwind/Button.astro";
 import type { Lang } from "@/i18n/ui";
 import { splitEntryId } from "@/i18n/utils";
 import { sectionPath } from "@/i18n/routes";
@@ -55,10 +56,10 @@ const dateLabel = `${d.getUTCFullYear()} · ${monthShort}`;
       post.data.tags.length > 0 && (
         <ul class="m-0 mt-3 flex list-none flex-wrap gap-2 p-0">
           {post.data.tags.map((tag) => (
-            <li class="flex">
-              <a href={tagPath(lang, tag)} class="chip">
+            <li>
+              <Button href={tagPath(lang, tag)} variant="outline" size="sm">
                 {tagLabels[tag][lang]}
-              </a>
+              </Button>
             </li>
           ))}
         </ul>
@@ -76,38 +77,6 @@ const dateLabel = `${d.getUTCFullYear()} · ${monthShort}`;
   @media (hover: hover) and (pointer: fine) {
     .row:has(.title:hover) {
       background: var(--bg-secondary);
-    }
-  }
-
-  /* Topic chip: two cells tall, boxed in ink, inverted on hover. Press
-     shrinks it from its centre (it is not anchored to anything). */
-  .chip {
-    display: inline-flex;
-    align-items: center;
-    height: calc(var(--cell) * 2);
-    padding: 0 8px;
-    border: 1px solid var(--ink);
-    color: var(--ink);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    text-decoration: none;
-    transform-origin: center;
-    transition:
-      background-color var(--dur-hover) ease-out,
-      color var(--dur-hover) ease-out,
-      opacity var(--dur-press) var(--ease-out),
-      transform var(--dur-press) var(--ease-out);
-  }
-  .chip:active {
-    transform: scale(var(--press-scale));
-    opacity: var(--press-opacity);
-  }
-  @media (hover: hover) and (pointer: fine) {
-    .chip:hover {
-      background: var(--ink);
-      color: var(--paper);
     }
   }
 </style>

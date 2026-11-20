@@ -247,14 +247,14 @@ const boxhead =
               </dt>
               <dd class="m-0 mt-1.5 font-mono text-sm leading-[2] text-foreground">
                 {group.items.map((item, i) => (
-                  <>
-                    {i > 0 && (
+                  <span class="inline-flex items-baseline whitespace-nowrap">
+                    {itemText(item)}
+                    {i < group.items.length - 1 && (
                       <span class="px-1 text-tx-muted" aria-hidden="true">
                         ·
                       </span>
                     )}
-                    <span class="whitespace-nowrap">{itemText(item)}</span>
-                  </>
+                  </span>
                 ))}
               </dd>
             </div>
@@ -307,7 +307,7 @@ const boxhead =
         href={cvUrl(lang)}
         target="_blank"
         rel="noopener noreferrer"
-        class="cv dith-bar h-[calc(var(--cell)*5)] gap-4 pl-6 font-mono text-[13px] font-bold tracking-[0.08em] whitespace-nowrap uppercase"
+        class="dith-bar h-[calc(var(--cell)*5)] gap-4 pl-6 font-mono text-[13px] font-bold tracking-[0.08em] whitespace-nowrap uppercase"
       >
         {labels.cv[lang]}
         <span class="ml-auto pr-1 opacity-60" aria-hidden="true">///</span>
@@ -359,10 +359,5 @@ const boxhead =
   .pending {
     padding: 2px 6px;
     border: 1px dashed var(--ink);
-  }
-  .cv:focus-visible,
-  .ctl:focus-visible {
-    outline: 2px solid var(--ink);
-    outline-offset: 3px;
   }
 </style>

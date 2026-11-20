@@ -18,7 +18,12 @@ const href = altUrl ?? altLangUrl(Astro.url, target);
 
 {
   available ? (
-    <a href={href} class="ctl" aria-label={t("lang.switch")} hreflang={target}>
+    <a
+      href={href}
+      class="ctl"
+      aria-label={`${target.toUpperCase()} · ${t("lang.switch")}`}
+      hreflang={target}
+    >
       {target}
     </a>
   ) : (

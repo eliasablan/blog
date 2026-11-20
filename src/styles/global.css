@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -47,77 +46,41 @@
   --grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .22 -.03'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
-/* ---------- Flexoki palette (raw accents: syntax, form feedback) ---------- */
+/* ---------- Feedback colours and semantic tokens ---------- */
 :root {
   --red: #af3029;
-  --orange: #bc5215;
-  --yellow: #ad8301;
   --green: #66800b;
-  --cyan: #24837b;
-  --blue: #205ea6;
-  --purple: #5e409d;
-  --magenta: #a02f6f;
 
   /* Semantic: ink mixed into paper. Text mixes keep ≥ 4.5:1 in both modes. */
   --bg: var(--paper);
   --bg-secondary: color-mix(in srgb, var(--ink) 5%, var(--paper));
-  --bg-tertiary: color-mix(in srgb, var(--ink) 9%, var(--paper));
-  --ui: color-mix(in srgb, var(--ink) 9%, var(--paper));
   --ui-hover: color-mix(in srgb, var(--ink) 14%, var(--paper));
-  --ui-active: color-mix(in srgb, var(--ink) 20%, var(--paper));
   --tx: var(--ink);
-  --tx-secondary: color-mix(in srgb, var(--ink) 80%, var(--paper));
-  --tx-muted: color-mix(in srgb, var(--ink) 70%, var(--paper));
+  --tx-secondary: color-mix(in srgb, var(--ink) 92%, var(--paper));
+  --tx-muted: color-mix(in srgb, var(--ink) 88%, var(--paper));
+  --error: color-mix(in srgb, var(--red) 45%, var(--ink));
   --rule: color-mix(in srgb, var(--ink) 25%, var(--paper));
   --accent: var(--ink);
-  --on-accent: var(--paper);
 }
 
 .dark {
   --red: #d14d41;
-  --orange: #da702c;
-  --yellow: #d0a215;
   --green: #879a39;
-  --cyan: #3aa99f;
-  --blue: #4385be;
-  --purple: #8b7ec8;
-  --magenta: #ce5d97;
 }
 
 @theme inline {
   /* Raw */
   --color-paper: var(--paper);
   --color-ink: var(--ink);
-  --color-red: var(--red);
-  --color-orange: var(--orange);
-  --color-yellow: var(--yellow);
-  --color-green: var(--green);
-  --color-cyan: var(--cyan);
-  --color-blue: var(--blue);
-  --color-purple: var(--purple);
-  --color-magenta: var(--magenta);
+  --color-error: var(--error);
 
   /* Semantic */
   --color-background: var(--bg);
   --color-bg-secondary: var(--bg-secondary);
-  --color-bg-tertiary: var(--bg-tertiary);
   --color-foreground: var(--tx);
   --color-tx-secondary: var(--tx-secondary);
   --color-tx-muted: var(--tx-muted);
-  --color-muted: var(--bg-secondary);
-  --color-muted-foreground: var(--tx-muted);
-  --color-border: var(--rule);
-  --color-rule: var(--rule);
-  --color-card: var(--bg-tertiary);
-  --color-card-foreground: var(--tx);
   --color-primary: var(--accent);
-  --color-primary-foreground: var(--on-accent);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--on-accent);
-  --color-on-accent: var(--on-accent);
-  --color-destructive: var(--red);
-  --color-destructive-foreground: var(--on-accent);
-  --color-ring: var(--accent);
 
   /* Fonts — variables come from Astro's <Font> integration in BaseLayout */
   --font-serif: var(--font-serif);
@@ -348,8 +311,8 @@
     background: var(--bg-secondary);
   }
   .field[aria-invalid="true"] {
-    border-color: var(--red);
-    outline-color: var(--red);
+    border-color: var(--error);
+    outline-color: var(--error);
   }
   .field:disabled {
     opacity: 0.5;
@@ -657,7 +620,8 @@
     line-height: 24px;
     tab-size: 2;
     overflow-x: auto;
-    scrollbar-color: var(--rule) transparent;
+    scrollbar-color: color-mix(in srgb, var(--ink) 60%, var(--paper))
+      transparent;
     scrollbar-width: thin;
   }
   .article-body pre:focus-visible {
