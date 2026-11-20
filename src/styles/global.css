@@ -569,3 +569,12 @@
     color: var(--accent);
   }
 }
+
+/* ---------- Global details (#17) ---------- */
+@layer base {
+  /* Scrollbar in ink on paper, both modes. Selection and the focus ring are
+     defined above. */
+  html {
+    scrollbar-color: color-mix(in srgb, var(--ink) 55%, var(--paper)) var(--bg);
+  }
+}
