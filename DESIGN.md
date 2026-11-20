@@ -244,40 +244,89 @@ Mobile: una columna.
   border-radius `2px`. Hover → `filter: brightness(0.95)`.
 - Feedback en italic verde / red según éxito o error.
 
-### 5.9 Article layout (`blog/[slug].astro`)
+### 5.9 Lectura de un Post (`ArticleLayout.astro`, `.article-body`)
 
-Replica el prototipo `article.html`:
+La legibilidad manda: el texto es serif liso sobre el papel y el lenguaje
+Dither vive en el marco (reglas, labels, bordes), nunca encima de la prosa.
+Estilos de cabecera, byline y pie en utilidades de `ArticleLayout.astro`;
+la prosa MDX en `.article-body` (`global.css`), porque el HTML renderizado no
+lleva clases.
 
-- **Eyebrow:** `tag <span class="sep">·</span> reading time <span class="sep">·</span> fecha`
-  en mono 12px uppercase, `tx-secondary`.
-- **h1:** clamp 36–52px, balance, peso 600.
-- **Lede:** descripción del frontmatter en italic 22px `tx-secondary`,
-  cerrando con `border-bottom: 1px var(--rule)` + `padding-bottom: 32px`.
-- **Byline:** avatar circular accent con inicial italic + meta mono.
-- **Body:**
-  - `p` con `margin-top: 24px` (`.body > p + p`, especificidad necesaria
-    para ganar a `p { margin: 0 }`).
-  - `h2` con `§` accent (el espacio bajo el header sticky lo da
-    `scroll-padding-top` en `html`, ver §6.6).
-  - `h3` sin marker.
-  - `code` inline: mono 0.88em, bg `bg-tertiary`, borde rule, radius 3px.
-  - `kbd` con borde inferior `2px` para look de tecla.
-  - `blockquote`: padding-left 24px, borde izquierdo 2px accent, serif
-    italic 22px, `cite` mono 11px uppercase muted.
-  - `ul / ol`: markers en color accent.
-  - `hr`: 60px centrado, divider visual entre secciones.
-- **Codeblock:**
-  - Wrapper `bg-tertiary`, borde rule, radius 3px.
-  - Header en `bg-secondary`: filename mono 11px uppercase muted, lang en
-    accent.
-  - Pre: mono 14px line-height 1.75, padding `20px 24px`, scroll horizontal.
-  - **Syntax tokens:**
-    - `tk-kw` purple, `tk-fn` blue, `tk-str` green, `tk-num` orange,
-    - `tk-cmt` tx-muted italic, `tk-op` magenta, `tk-ty` cyan,
-    - `tk-bi` red, `tk-pr` tx (texto plano).
-- **Footer del artículo:** tags como chips (mono 12px, bg-secondary,
-  borde rule, radius 999px) a la izquierda, etiqueta `~ FIN ~` mono muted
-  a la derecha.
+**Medida y ritmo.** Columna de 680px (616px de texto): ~70 caracteres por
+línea a 18px / 1.7, dentro del rango 45–75. Bajo 600px el cuerpo baja a
+17px / 1.65 (~38 caracteres en 375px). El espaciado vertical va en celdas:
+24px entre bloques, 36px alrededor de figuras, citas, imágenes y cortes,
+60px sobre un h2 (48px en mobile), 36px sobre un h3 y 12px bajo él.
+
+**Cabecera:**
+
+- `.boxhead` de 11px mono: `//` | tema (`.box-fill`, enlace al Tema;
+  hover subrayado punteado, anillo de foco en papel hacia dentro) | tiempo
+  de lectura. Sin tags, solo `//` | tiempo.
+- h1 serif 600 `clamp(32px, 5vw, 52px)`, balance. Lede italic 22px (19px
+  mobile) `tx-secondary`. Ambos conservan sus `transition:name` (PostCard
+  morfa hacia ellos).
+- `.rule-dots` cierra la cabecera.
+- **Byline:** cuadro de tinta de 36px (3 celdas) con `EA` en Pixelify 13px
+  y, al lado, dos líneas mono 11px / 18px: `POR ELIAS ABLAN · CARACAS` y la
+  fecha (UTC) en `tx-secondary`.
+
+**Prosa:**
+
+- `h2` serif 32px (26px mobile) con `§` antepuesto; `h3` 22px (20px) con
+  un `//` mono `tx-muted`. Ambos marcadores van como `content: "…" / ""`
+  para que el lector de pantalla no los lea.
+- `ul`: cuadro de tinta de 6px (dos pixeles de dither); hueco con borde de
+  1px cuando está anidado. `ol`: `01`, `02`… mono 12px `tx-muted`, sobre la
+  línea base del texto.
+- `blockquote`: borde izquierdo de un `--px` de tinta, serif italic 21px
+  (19px mobile) `tx-secondary`; `cite` mono 11px mayúsculas `tx-muted`.
+- `code` en línea: caja cuadrada `1px var(--rule)` sobre `--bg-secondary`,
+  mono 0.84em, `box-decoration-break: clone` al partir línea.
+- `kbd`: caja `1px var(--ink)` con borde inferior de un `--px`, mono 0.7em
+  mayúsculas.
+- `hr`: dinkus de tres cuadros de 6px separados 6px, centrado.
+- Imágenes: bloque al 100% del ancho, alto automático, con borde
+  `1px var(--ink)`.
+- Enlaces: los de prosa de §6.3.
+
+**Code blocks.** Shiki usa el tema `inkTheme` y el transformer `codeFrame`
+(`src/lib/codeFrame.ts`, configurados en `astro.config.mjs`), que envuelve
+cada `<pre>` en `<figure class="code">`:
+
+- Caja `1px var(--ink)` sobre `--code-bg` (`--bg-secondary`). La cabecera
+  (`figcaption`) es un `.dith-bar` de 24px (2 celdas) con `//LANG` mono
+  11px bold y un `.dith` de 12 px de rampa, seguido del nombre de archivo si
+  el fence trae `title="archivo.ts"`; regla punteada debajo. Sin lenguaje se
+  rotula `TEXT`.
+- `pre`: mono 14px (13px mobile) sobre líneas de 24px (2 celdas), padding
+  `12px 20px`, scroll horizontal con barra fina; es enfocable y su anillo va
+  hacia dentro (`outline-offset: -4px`).
+- **Sintaxis solo en tinta:** sin paleta de colores. Los tokens se
+  distinguen por peso y estilo, con tintes `color-mix` de `--ink` en
+  `--paper`:
+
+  | Token                   | Color                           | Estilo |
+  | ----------------------- | ------------------------------- | ------ |
+  | texto, nombres, números | `--code-fg` (ink 100%)          | normal |
+  | keywords, `storage`     | `--code-fg`                     | bold   |
+  | strings                 | `--code-str` (ink 80%)          | normal |
+  | comentarios             | `--code-cmt` (ink 72%)          | italic |
+  | puntuación, operadores  | `--code-punct` (= `--code-cmt`) | normal |
+
+  Contraste sobre `--code-bg`: ≥ 5:1 en light (el tinte del 72% da ~5.1:1)
+  y ≥ 6:1 en dark. Space Mono no carga italic: los comentarios usan la
+  oblicua sintética del navegador.
+
+**Pie:** `.dith-bar` de 24px `//FIN` (`article.end`) que se disuelve en un
+`.rule-dots` hasta el borde; debajo, label `TEMAS` mono 11px `tx-muted` y
+los Temas del Post como `Button` `outline` `sm` (36px, hover invertido,
+press `scale(0.97)`); al final, `← VOLVER AL BLOG` con `.link`. El fin se
+muestra aunque el Post no tenga Temas.
+
+**Movimiento:** la prosa no se anima. Solo el chrome responde, con las
+primitivas de §5.11 (fundido de color en hover, press en los Temas,
+`prefers-reduced-motion` ya resuelto por los tokens).
 
 ### 5.10 Site footer (`Footer.astro`)
 
