@@ -8,7 +8,7 @@ export type Lang = keyof typeof languages;
 
 export const ui = {
   es: {
-    "nav.home": "Inicio",
+    "nav.services": "Servicios",
     "nav.blog": "Blog",
     "nav.projects": "Proyectos",
     "nav.about": "Sobre mí",
@@ -103,7 +103,7 @@ export const ui = {
     "footer.cv": "Curriculum",
   },
   en: {
-    "nav.home": "Home",
+    "nav.services": "Services",
     "nav.blog": "Blog",
     "nav.projects": "Projects",
     "nav.about": "About",
