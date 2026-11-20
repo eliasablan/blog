@@ -233,16 +233,44 @@ Grid `100px 1fr`:
 
 Mobile: una columna.
 
-### 5.8 Contact form (`ContactForm.astro`)
+### 5.8 Contact form (`ContactForm.astro`, `home/ContactSection.astro`)
 
-- Labels mono 11px uppercase tracking 0.12em `tx-secondary`.
-- Inputs/textarea: bg `var(--bg-tertiary)`, borde `1px var(--rule)`,
-  border-radius `2px`, padding `12px 14px`, serif 16px. Focus → borde
-  accent (sin glow).
-- Placeholder italic muted.
-- Submit: bg accent, texto `on-accent`, serif weight 600 16px,
-  border-radius `2px`. Hover → `filter: brightness(0.95)`.
-- Feedback en italic verde / red según éxito o error.
+Bloque de cierre de Home: h2 § (§5.4), el párrafo MDX y el formulario.
+Todo se arma con la fundación §5.11 (`Label`, `Input`, `Textarea`,
+`Button`); los estilos propios viven en el componente.
+
+- **Rejilla:** Nombre | Email en 2 columnas desde `sm` (gap 24px), Asunto
+  y Mensaje a lo ancho; una columna en mobile. Cada grupo es label → 8px
+  → campo → ranura de error.
+- **Obligatorio:** `*` en `tx-muted`, `aria-hidden`; el campo lleva
+  `required`. Email con `autocapitalize="off"` y `spellcheck="false"`.
+- **Estados del campo:** vacío (placeholder italic), hover/foco (fondo
+  `--bg-secondary` + anillo compartido), lleno, inválido (borde y anillo
+  `--red`) y deshabilitado al enviar (`<fieldset disabled>`: borde
+  punteado, opacidad 0.5; el botón también).
+- **Errores:** mono 12px en una ranura reservada de 24px, así que
+  aparecer o desaparecer no mueve nada. Color
+  `color-mix(--red 75%, --ink)`: el rojo crudo no llega a 4.5:1 a 12px
+  en dark. Se validan al enviar; el foco va al primer campo inválido
+  (queda bajo el header sticky gracias a §6.6) y cada error se borra en
+  cuanto el campo se corrige. Mensaje < 10 caracteres → «Escribe al
+  menos 10 caracteres».
+- **Acciones:** submit `Button` primario `lg` (60px, 5 celdas), ancho
+  `max-w-sm`, `origin-left` para que el press (`scale(0.97)`) no despegue
+  el borde izquierdo de la columna de campos. Debajo, WhatsApp como
+  `Button outline` 48px: ruta secundaria, nunca a la par del submit.
+  Bajo 400px ambos van al ancho de la columna.
+- **Estado de envío:** el label del botón pasa a «Enviando…» (ancho fijo,
+  no salta), `aria-busy` en el form y el foco vuelve adonde estaba al
+  terminar.
+- **Feedback:** un único `<p role="status">` siempre presente cierra el
+  form, con 48px reservados (2 líneas a 375px): solo cambia su texto, así
+  se anuncia y no desplaza nada. Texto serif 16px en tinta (el verde
+  crudo no llega a 4.5:1 en light); el estado lo marca una celda de 12px:
+  rampa dither que cicla en `steps(4)` al enviar (estática con
+  `prefers-reduced-motion`), `--green` al éxito, `--red` al error.
+- **Asunto precargado:** `?subject=` (lo ponen los CTA de Solution)
+  rellena el campo al cargar o tras navegar con el ClientRouter.
 
 ### 5.9 Article layout (`blog/[slug].astro`)
 
