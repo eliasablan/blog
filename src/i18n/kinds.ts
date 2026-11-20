@@ -1,11 +1,9 @@
 import type { Lang } from "./ui";
 
+/** Also the display order on the Projects index: Client work first. */
 export const kindSlugs = ["client-work", "solution", "side-project"] as const;
 
 export type KindSlug = (typeof kindSlugs)[number];
-
-/** Display order on the Projects index: Client work first. */
-export const kindOrder: readonly KindSlug[] = kindSlugs;
 
 /** Plural labels, used as group headings. */
 export const kindLabels: Record<KindSlug, Record<Lang, string>> = {
