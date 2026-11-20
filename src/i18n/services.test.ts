@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { process, services, serviceSlugs } from "./services.ts";
+import { processSteps, services, serviceSlugs } from "./services.ts";
 import { ui } from "./ui.ts";
 
 const langs = ["en", "es"] as const;
@@ -21,7 +21,7 @@ function allCopy(lang: L): string[] {
       s.link?.label[lang] ?? "",
     ];
   });
-  const steps = process.flatMap((p) => [p.title[lang], p.body[lang]]);
+  const steps = processSteps.flatMap((p) => [p.title[lang], p.body[lang]]);
   const page = uiKeys(lang).map((k) => (ui[lang] as Record<string, string>)[k]);
   return [...cards, ...steps, ...page].filter(Boolean);
 }

@@ -25,7 +25,6 @@ export const ui = {
     "home.hero.tail":
       "código, servidores y flujos de trabajo asistidos por IA que permiten que una sola persona entregue como un equipo.",
     "home.hero.cta.contact": "Cuéntame sobre tu proyecto",
-    "home.hero.cta.posts": "Ver el blog",
     "home.hero.cta.projects": "Ver los proyectos",
 
     "home.services.title": "Servicios",
@@ -149,7 +148,6 @@ export const ui = {
     "home.hero.tail":
       "code, servers and AI-assisted workflows that let one person deliver like a team.",
     "home.hero.cta.contact": "Tell me about your project",
-    "home.hero.cta.posts": "Read the blog",
     "home.hero.cta.projects": "See the projects",
 
     "home.services.title": "Services",

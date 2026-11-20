@@ -101,8 +101,8 @@ const skills = [
     items: [
       "Linux",
       "Windows Server",
-      lang === "es" ? "Redes de oficina" : "Office networks",
-      lang === "es" ? "Contenedores" : "Containers",
+      { es: "Redes de oficina", en: "Office networks" },
+      { es: "Contenedores", en: "Containers" },
       "Self-hosting",
       "Cloudflare",
     ],
@@ -112,18 +112,22 @@ const skills = [
     items: [
       "NetSuite",
       "SuiteScript",
-      lang === "es" ? "Integraciones" : "Integrations",
-      lang === "es" ? "Automatizaciones" : "Automations",
+      { es: "Integraciones", en: "Integrations" },
+      { es: "Automatizaciones", en: "Automations" },
     ],
   },
   {
     label: { es: "Flujo de trabajo con IA", en: "AI-assisted workflow" },
     items: [
-      lang === "es" ? "Desarrollo asistido por IA" : "AI-assisted development",
+      { es: "Desarrollo asistido por IA", en: "AI-assisted development" },
       "OpenAI API",
     ],
   },
 ];
+
+// Proper nouns (Linux, Astro...) are plain strings; the rest carry both locales.
+const itemText = (item: string | { es: string; en: string }) =>
+  typeof item === "string" ? item : item[lang];
 
 const looking = {
   label: { es: "Busco", en: "Looking for" },
@@ -249,7 +253,7 @@ const boxhead =
                         ·
                       </span>
                     )}
-                    <span class="whitespace-nowrap">{item}</span>
+                    <span class="whitespace-nowrap">{itemText(item)}</span>
                   </>
                 ))}
               </dd>

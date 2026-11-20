@@ -4,7 +4,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
 import { useTranslations, filterByLang, type Lang } from "@/i18n/utils";
 import { sectionSlugs } from "@/i18n/routes";
-import { kindLabels, kindOrder } from "@/i18n/kinds";
+import { kindLabels, kindSlugs } from "@/i18n/kinds";
 import { isPublished, sortProjectsByRecent } from "@/lib/content";
 
 export function getStaticPaths() {
@@ -20,7 +20,7 @@ const projects = filterByLang(await getCollection("portfolio"), lang)
   .filter(isPublished)
   .sort(sortProjectsByRecent);
 
-const groups = kindOrder
+const groups = kindSlugs
   .map((kind) => ({
     kind,
     projects: projects.filter((p) => p.data.kind === kind),

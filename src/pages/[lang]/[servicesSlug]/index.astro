@@ -2,7 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { useTranslations, type Lang } from "@/i18n/utils";
 import { sectionSlugs, sectionPath, entryPath } from "@/i18n/routes";
-import { services, serviceSlugs, process } from "@/i18n/services";
+import { services, serviceSlugs, processSteps } from "@/i18n/services";
 import { whatsappUrl } from "@/lib/contact";
 
 export function getStaticPaths() {
@@ -118,7 +118,7 @@ const headClass =
       <div class="mt-6 flex items-start justify-between gap-6">
         <ol class="m-0 flex list-none flex-col gap-4 p-0">
           {
-            process.map((step, i) => (
+            processSteps.map((step, i) => (
               <li class="grid grid-cols-[auto_1fr] gap-x-4">
                 <span
                   class="font-mono text-xs leading-[1.9] font-bold tracking-[0.08em] text-tx-muted"
