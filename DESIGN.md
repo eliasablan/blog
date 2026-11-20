@@ -286,6 +286,77 @@ Replica el prototipo `article.html`:
 - Borde superior `1px var(--rule)`.
 - Layout: izq `© 2026 Elias Ablan · Caracas`, der `RSS · GitHub · Inicio`.
 
+### 5.11 Fundación interactiva (botones, enlaces, campos, cards, foco, movimiento)
+
+Base que reutiliza toda superficie nueva. Los componentes Starwind
+(`starwind/Button`, `Input`, `Textarea`, `Label`, `Card`) y `Link.astro`
+son envoltorios finos sobre primitivas de `global.css`; imports y props no
+cambian.
+
+**Tokens de movimiento** (`:root`):
+
+| Token             | Valor                            | Uso                                  |
+| ----------------- | -------------------------------- | ------------------------------------ |
+| `--ease-out`      | `cubic-bezier(0.23, 1, 0.32, 1)` | press y todo lo que se mueve         |
+| `--dur-hover`     | `150ms`                          | cambios de color, relleno, subrayado |
+| `--dur-press`     | `160ms`                          | press, avance de tinta               |
+| `--press-scale`   | `0.97`                           | escala al presionar                  |
+| `--press-opacity` | `1`                              | opacidad al presionar                |
+
+Con `prefers-reduced-motion: reduce`: `--dur-press: 0ms`,
+`--press-scale: 1`, `--press-opacity: 0.8`. Nada se mueve ni escala; el
+press se ve como atenuado y el avance de tinta salta sin pasos. Los
+cambios de color siguen con su fundido.
+
+**Foco:** un solo anillo para todo, `:where(:focus-visible)` en `@layer
+base`: `outline: 2px solid var(--ink)`, offset `3px`. Especificidad cero:
+un componente puede cambiarlo (los campos inválidos lo pasan a `--red`).
+
+**Hover** solo con `(hover: hover) and (pointer: fine)`; nunca en táctil.
+**Disabled** (`:disabled` o `aria-disabled="true"`): opacidad 0.5, sin
+hover ni press.
+
+**Button** (`starwind/Button.astro`): Space Mono bold, mayúsculas,
+tracking 0.08em, sin radio. Altos en celdas enteras para que el `.dith`
+no se corte: `sm` 36px (3 celdas, 11px), `md` 48px (4, 12px), `lg` 60px
+(5, 13px), `icon` 48×48.
+
+| Variante      | Primitiva   | Hover                               |
+| ------------- | ----------- | ----------------------------------- |
+| `primary`     | `.dith-bar` | la tinta sólida avanza una celda    |
+| `outline`     | `.ctl`      | invertido (tinta / papel)           |
+| `secondary`   | `.ctl`      | relleno `--ui-hover` → invertido    |
+| `ghost`       | `.ctl`      | sin borde → invertido               |
+| `destructive` | `.ctl`      | borde y texto `--red` → relleno red |
+
+`primary` añade su `.dith` como último hijo (rampa de 8, 12 y 16 px de
+ancho según el tamaño; `icon` va sin dither). Press: `scale(0.97)` en
+todas.
+
+**Avance de tinta** (`a.dith-bar` / `button.dith-bar`, también Contacto
+del Header y los CTA de Hero y Services): al hover el fondo sólido crece
+una celda (`--cell`) sobre la rampa, en `steps(4)`, un `--px` por paso.
+Es el único hover que se mueve; los demás son fundidos de
+color.
+
+**Enlaces:** el de prosa sigue §6.3 (subrayado 1px, tinta al 40% → 100%
+en hover). `.link` (lo aplica `Link.astro`) es el enlace suelto de chrome:
+Space Mono 12px mayúsculas, tracking 0.08em, con el mismo subrayado,
+hover y foco que el de prosa (offset 5px).
+
+**Campos** (`.field`, en `Input` y `Textarea`): caja `1px var(--ink)` sin
+radio, fondo transparente sobre el grano; Plex Serif 16px / 24px (16px
+evita el zoom de iOS); alto 48px (padding `11px 14px`), textarea mínimo
+120px (10 celdas) con resize vertical. Placeholder italic `tx-muted`.
+Hover y foco tiñen el fondo a `--bg-secondary`. `aria-invalid="true"` →
+borde y anillo `--red`. Disabled → borde punteado + opacidad 0.5.
+
+**Label:** Space Mono 11px mayúsculas, tracking 0.12em, `tx-secondary`.
+
+**Card** (`starwind/Card.astro`): caja `1px var(--ink)`, sin radio, sin
+sombra, fondo transparente. Con `hover` el fondo pasa a `--bg-secondary`
+(sin elevación).
+
 ---
 
 ## 6. Detalles
