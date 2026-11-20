@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import type { Lang } from "@/i18n/ui";
 import { filterByLang, useTranslations } from "@/i18n/utils";
 import { isPublished, sortProjectsByRecent } from "@/lib/content";
+import { sectionPath } from "@/i18n/routes";
 import ProjectCard from "@/components/ProjectCard.astro";
 
 interface Props {
@@ -13,7 +14,9 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 
 const projects = filterByLang(await getCollection("portfolio"), lang)
-  .filter((p) => isPublished(p) && p.data.featured)
+  .filter(
+    (p) => isPublished(p) && p.data.featured && p.data.kind !== "side-project",
+  )
   .sort(sortProjectsByRecent)
   .slice(0, 5);
 ---
@@ -29,6 +32,12 @@ const projects = filterByLang(await getCollection("portfolio"), lang)
           <ProjectCard project={project} lang={lang} />
         ))}
       </div>
+      <a
+        href={sectionPath(lang, "projects")}
+        class="mt-8 inline-block font-mono text-xs tracking-[0.08em] text-foreground uppercase decoration-current decoration-dotted underline-offset-[6px] hover:underline"
+      >
+        {t("home.featured.projects.cta")} →
+      </a>
       <hr class="mt-16 h-px w-full border-0 bg-rule" />
     </section>
   )

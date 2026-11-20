@@ -1,0 +1,69 @@
+---
+import type { Lang } from "@/i18n/ui";
+import { useTranslations } from "@/i18n/utils";
+import { sectionPath } from "@/i18n/routes";
+import { serviceCardOrder, serviceCards } from "@/i18n/serviceCards";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const href = sectionPath(lang, "services");
+---
+
+<section id="services" class="mx-auto max-w-170 px-8 max-[600px]:px-5">
+  <h2
+    class="mt-16 mb-3 scroll-mt-20 font-serif text-[32px] leading-[1.2] font-semibold tracking-[-0.012em] text-foreground before:mr-3 before:font-normal before:text-primary before:not-italic before:opacity-85 before:content-['§']"
+  >
+    {t("home.services.title")}
+  </h2>
+  <p class="m-0 mb-8 text-lg text-tx-secondary">{t("home.services.intro")}</p>
+
+  <div class="grid grid-cols-2 gap-4 max-[600px]:grid-cols-1">
+    {
+      serviceCardOrder.map((slug, i) => (
+        <a
+          href={href}
+          class="card flex flex-col border border-ink text-foreground no-underline"
+        >
+          <span
+            class="dith-bar h-[calc(var(--cell)*2)] pl-3 font-mono text-[11px] font-bold tracking-[0.08em] [--dith-w:calc(var(--px)*12)]"
+            aria-hidden="true"
+          >
+            //{String(i + 1).padStart(2, "0")}
+            <span class="dith ml-auto" />
+          </span>
+          <span class="flex flex-1 flex-col gap-1.5 p-4">
+            <span class="title font-serif text-[19px] leading-tight font-semibold decoration-foreground/25 underline-offset-4">
+              {serviceCards[slug].title[lang]}
+            </span>
+            <span class="text-base leading-normal text-tx-secondary">
+              {serviceCards[slug].body[lang]}
+            </span>
+          </span>
+        </a>
+      ))
+    }
+    <a
+      href={href}
+      class="dith-bar h-(--control-h) gap-3 self-end pl-4 font-mono text-xs font-bold tracking-[0.08em] uppercase max-[600px]:mt-2"
+    >
+      {t("home.services.cta")}
+      <span class="dith ml-auto" aria-hidden="true"></span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .card:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .card:hover .title {
+      text-decoration-line: underline;
+    }
+  }
+</style>

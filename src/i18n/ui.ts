@@ -16,7 +16,7 @@ export const ui = {
 
     "home.title": "Elías Ablán — Desarrollador full-stack en Caracas",
     "home.description":
-      "Blog personal y portafolio de Elías Ablán. Notas sobre desarrollo web, redes, automatización y herramientas de pensamiento.",
+      "Elías Ablán, desarrollador full-stack en Caracas. Construyo, lanzo y mantengo sitios web, aplicaciones y servidores para negocios.",
 
     "home.hero.eyebrow":
       "Desarrollador full-stack · sistemas e infraestructura",
@@ -28,10 +28,15 @@ export const ui = {
     "home.hero.cta.posts": "Ver el blog",
     "home.hero.cta.projects": "Ver los proyectos",
 
+    "home.services.title": "Servicios",
+    "home.services.intro":
+      "Una sola persona para el código, los servidores y la red.",
+    "home.services.cta": "Ver todos los servicios",
+    "home.about.cta": "Más sobre mí",
     "home.featured.posts.title": "Escritos",
     "home.featured.posts.cta": "Ver todos los artículos",
-    "home.featured.projects.title": "Proyectos",
-    "home.featured.projects.cta": "Ver los proyectos",
+    "home.featured.projects.title": "Trabajo destacado",
+    "home.featured.projects.cta": "Ver todos los proyectos",
     "home.contact.title": "Contacto",
 
     "blog.title": "Blog",
@@ -115,7 +120,7 @@ export const ui = {
 
     "home.title": "Elías Ablán — Full-stack developer in Caracas",
     "home.description":
-      "Personal blog and portfolio of Elías Ablán. Notes on web development, networking, automation, and thinking tools.",
+      "Elías Ablán, full-stack developer in Caracas. I build, ship and run websites, web apps and servers for businesses.",
 
     "home.hero.eyebrow": "Full-stack developer · systems & infrastructure",
     "home.hero.head": "I build, ship and run web software end to end:",
@@ -125,10 +130,15 @@ export const ui = {
     "home.hero.cta.posts": "Read the blog",
     "home.hero.cta.projects": "See the projects",
 
+    "home.services.title": "Services",
+    "home.services.intro":
+      "One person for the code, the servers and the network.",
+    "home.services.cta": "See all services",
+    "home.about.cta": "More about me",
     "home.featured.posts.title": "Writing",
     "home.featured.posts.cta": "See all articles",
-    "home.featured.projects.title": "Projects",
-    "home.featured.projects.cta": "See the projects",
+    "home.featured.projects.title": "Selected work",
+    "home.featured.projects.cta": "See all projects",
     "home.contact.title": "Contact",
 
     "blog.title": "Blog",

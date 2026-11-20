@@ -1,8 +1,8 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Hero from "@/components/home/Hero.astro";
+import ServicesSection from "@/components/home/ServicesSection.astro";
 import AboutSection from "@/components/home/AboutSection.astro";
-import ThemesSection from "@/components/home/ThemesSection.astro";
 import FeaturedProjects from "@/components/home/FeaturedProjects.astro";
 import FeaturedPosts from "@/components/home/FeaturedPosts.astro";
 import ContactSection from "@/components/home/ContactSection.astro";
@@ -18,9 +18,9 @@ const t = useTranslations(lang);
 
 <BaseLayout title={t("home.title")} description={t("home.description")}>
   <Hero lang={lang} />
-  <AboutSection lang={lang} />
-  <ThemesSection lang={lang} />
+  <ServicesSection lang={lang} />
   <FeaturedProjects lang={lang} />
+  <AboutSection lang={lang} />
   <FeaturedPosts lang={lang} />
   <ContactSection lang={lang} />
   <div class="h-24 max-[600px]:h-16"></div>
