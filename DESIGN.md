@@ -9,41 +9,38 @@ documentarse aquí antes de aterrizar en código.
 
 ## 1. Paleta
 
-Dirección **Dither × ASCII** (elegida en #3; referencia
-`docs/design/references/dither-ascii.png`): tinta navy sobre papel con
-grano. Solo dos colores raw que se intercambian entre modos; todo token
-semántico es una mezcla `color-mix` de ellos, así que `.dark` solo
-redefine `--ink`, `--paper` y `--grain`.
+La dirección **Dither × ASCII** (#3, referencia
+`docs/design/references/dither-ascii.png`) usa tinta azul marino sobre
+papel con grano. En modo oscuro el papel es azul y la tinta es clara.
+Los dos modos derivan sus tonos de interfaz de la tinta y el papel.
 
-### 1.1 Raw
+### 1.1 Colores base
 
-| Token     | Light       | Dark         | Uso                                         |
-| --------- | ----------- | ------------ | ------------------------------------------- |
-| `--ink`   | `#1C2056`   | `#E4E5F4`    | texto, bordes de cajas, bloques, dither     |
-| `--paper` | `#EBEBE6`   | `#11143A`    | fondo, texto sobre tinta                    |
-| `--grain` | ruido negro | ruido blanco | textura (SVG `feTurbulence`, alfa horneado) |
-
-Los acentos Flexoki (`--red`, `--green`, …) se conservan solo para
-feedback de formularios y sintaxis; no son color de marca.
+| Token     | Claro       | Oscuro       | Uso                               |
+| --------- | ----------- | ------------ | --------------------------------- |
+| `--ink`   | `#1C2056`   | `#E4E5F4`    | Texto, bordes, bloques y dither   |
+| `--paper` | `#EBEBE6`   | `#11143A`    | Fondo y texto sobre tinta         |
+| `--grain` | ruido negro | ruido blanco | Textura SVG con alfa en el filtro |
+| `--red`   | `#AF3029`   | `#D14D41`    | Error                             |
+| `--green` | `#66800B`   | `#879A39`    | Indicador de éxito                |
 
 ### 1.2 Tokens semánticos
 
-| Token            | Valor (ambos modos) | Notas                  |
-| ---------------- | ------------------- | ---------------------- |
-| `--bg`           | `--paper`           | fondo de página        |
-| `--bg-secondary` | ink 5% en paper     | bloques alternos       |
-| `--bg-tertiary`  | ink 9% en paper     | code blocks, inputs    |
-| `--tx`           | `--ink`             | texto principal        |
-| `--tx-secondary` | ink 80% en paper    | texto de apoyo (≥7:1)  |
-| `--tx-muted`     | ink 70% en paper    | meta, fechas (≥5:1)    |
-| `--rule`         | ink 25% en paper    | hairlines de listas    |
-| `--accent`       | `--ink`             | no hay color de acento |
-| `--on-accent`    | `--paper`           | texto sobre tinta      |
+| Token            | Valor              | Uso                                           |
+| ---------------- | ------------------ | --------------------------------------------- |
+| `--bg`           | `--paper`          | Fondo de la página                            |
+| `--bg-secondary` | 5% tinta en papel  | Fondo alterno                                 |
+| `--ui-hover`     | 14% tinta en papel | Fondo del botón secundario                    |
+| `--tx`           | `--ink`            | Texto principal                               |
+| `--tx-secondary` | 92% tinta en papel | Texto de apoyo                                |
+| `--tx-muted`     | 88% tinta en papel | Texto auxiliar y fechas                       |
+| `--rule`         | 25% tinta en papel | Borde discreto de código inline               |
+| `--error`        | 45% rojo en tinta  | Texto, borde y foco de error                  |
+| `--accent`       | `--ink`            | Enlaces de prosa y la utilidad `text-primary` |
 
-En Tailwind v4 (`@theme inline`) se exponen como `bg-background`,
-`text-foreground`, `text-tx-secondary`, `border-rule`, `border-ink`, etc.
-Las cajas del lenguaje Dither usan `--ink` puro; `--rule` es solo para
-divisores discretos.
+Las cajas y los controles usan borde de tinta. La sintaxis usa los tonos
+`--code-*` derivados de la tinta, con keywords en negrita y comentarios
+en cursiva (§5.10).
 
 ---
 
@@ -85,23 +82,10 @@ Reglas:
 
 ## 3. Espaciado
 
-Escala fija (en `global.css`):
-
-```
---space-1: 4px    --space-8:  32px
---space-2: 8px    --space-12: 48px
---space-3: 12px   --space-16: 64px
---space-4: 16px   --space-24: 96px
---space-6: 24px
-```
-
-Grid de pixel (en `global.css`, estos sí existen): `--px: 3px`,
-`--cell: 12px` (4 filas de dither), `--control-h: 48px`, `--dith-w: 48px`.
+Los márgenes y rellenos de layout siguen la escala de utilidades de
+Tailwind. El dither tiene su propia cuadrícula en `global.css`
+(`--px: 3px`, `--cell: 12px`, `--control-h: 48px`, `--dith-w: 48px`).
 Ver §5.2.1.
-
-Convivencia con Tailwind: las utilidades `p-*` y `m-*` siguen usando la
-escala default de Tailwind. Estas variables se usan en CSS custom (style
-blocks de componentes) para mantener cohesión con el prototipo.
 
 ---
 
@@ -123,12 +107,13 @@ blocks de componentes) para mantener cohesión con el prototipo.
 var(--ink)`. Padding `16px`; los controles miden `48px` (4 celdas).
 - **Brand:** `.boxhead` `EA | ELIAS ABLAN | ©año` en Pixelify 15px (13px
   mobile, solo el nombre). El nombre conserva el efecto scramble al hover;
-  una copia invisible fija el ancho de la caja.
+  una copia invisible fija el ancho de la caja. El efecto requiere
+  puntero fino y movimiento normal.
 - **Nav:** Space Mono 12px uppercase con prefijo `//` en `tx-muted`;
-  hover → subrayado punteado. Bajo `lg` baja a su propia fila.
+  hover → subrayado punteado con puntero fino. Bajo `lg` baja a su propia
+  fila. Cada etiqueta permanece entera cuando la fila envuelve.
 - **Idioma / tema:** `.ctl` (caja 48×48, hover invertido).
-- **Contacto:** `.dith-bar` de 48px con `.dith` de 12 px de ancho de
-  rampa (8 en mobile).
+- **Contacto:** `.dith-bar` de 48px con `.dith` de 12 píxeles de dither (36 px CSS), u 8 (24 px CSS) en móvil.
 
 ### 5.2 Hero (`home/Hero.astro`)
 
@@ -150,15 +135,15 @@ var(--ink)`. Padding `16px`; los controles miden `48px` (4 celdas).
 Reutilizables por Home, Services y About. Todo se mide en `--px` (3px) y
 `--cell` (12px = 4 filas de dither).
 
-| Clase                    | Qué es                                                                              |
-| ------------------------ | ----------------------------------------------------------------------------------- |
-| `.dith`                  | borde dither Bayer 4×4 (75→12.5%) que se estira al alto del padre; ancho `--dith-w` |
-| `.dith-bar`              | barra de tinta sólida que termina en un `.dith` (último hijo, sin padding derecho)  |
-| `.ctl`                   | control encajado de 48px; `aria-disabled="true"` lo atenúa                          |
-| `.boxhead` + `.box-fill` | fila de label encajada `//LABEL`; `.box-fill` invierte una celda                    |
-| `.rule-dots`             | regla doble punteada (2px + 1px)                                                    |
-| `.checker`               | damero de celdas de 12px; tamaño en celdas enteras (5×5 por defecto)                |
-| `.grain`                 | grano de papel para superficies opacas sobre el body                                |
+| Clase                    | Qué es                                                                                              |
+| ------------------------ | --------------------------------------------------------------------------------------------------- |
+| `.dith`                  | borde dither Bayer 4×4 (75→12.5%) que se estira al alto del padre; ancho `--dith-w`                 |
+| `.dith-bar`              | barra de tinta sólida que termina en un `.dith` (último hijo, sin padding derecho)                  |
+| `.ctl`                   | control encajado; la altura la fija su tamaño (48px en el Header); `aria-disabled="true"` lo atenúa |
+| `.boxhead` + `.box-fill` | fila de label encajada `//LABEL`; `.box-fill` invierte una celda                                    |
+| `.rule-dots`             | regla doble punteada (2px + 1px)                                                                    |
+| `.checker`               | damero de celdas de 12px; tamaño en celdas enteras (5×5 por defecto)                                |
+| `.grain`                 | grano de papel para superficies opacas sobre el body                                                |
 
 **Regla de no-recorte:** todo lo que aloje un `.dith` debe medir un número
 entero de celdas de alto (`--cell`, 12px) y todo escalón/offset debe ser
@@ -174,37 +159,34 @@ About → Writing (últimos 3 Posts) → Contact. Los Temas viven arriba del
 Services: h2 §, una línea de intro y una rejilla de 2 columnas (1 bajo
 600px) con 5 cards-enlace a la página de Services. Cada card es una caja
 `1px var(--ink)` cuya cabecera es un `.dith-bar` de 24px (2 celdas) con
-`//01…//05` y un `.dith` de 12 px de rampa; debajo, título serif 19px y una
+`//01…//05` y un `.dith` de 12 píxeles de dither (36 px CSS); debajo, título serif 19px y una
 línea `tx-secondary`. La celda 6 es un `.dith-bar` de 48px "Ver todos los
 servicios". Nunca hay precios.
 
-### 5.3 About (`home/AboutSection.astro`)
+La página de Services abre con una `.boxhead`, un titular Pixelify y prosa
+serif. Cada servicio tiene una cabecera `.dith-bar` numerada de 48px y
+el contenido alineado a un borde izquierdo de tinta. El proceso usa una
+cabecera encajada. El cierre reúne la llamada a contacto y WhatsApp.
 
-- Prose serif 18px, corta, entre Selected work y Writing. **Sin h2**: la
+### 5.3 About
+
+- En Home, prosa serif 18px entre Selected work y Writing. **Sin h2**: la
   voz no necesita anuncio. En su lugar abre con un `.rule-dots` (la
   sección empieza con `mt-16`, igual que las demás) a ancho de columna.
 - Enlace de cierre: `Link.astro` (`.link`) a la página About, `mt-8`, con
   flecha. Sin divisor al final.
 
+La página About usa una cabecera encajada y titular Pixelify. Las secciones
+numeradas presentan experiencia en una línea de tiempo punteada, el stack
+en grupos con separadores, las prioridades en barras dither de 48px y el
+CV en una barra de 60px junto a los enlaces sociales.
+
 ### 5.4 Section heading (h2 con §)
 
-Toda sección semántica (Temas, Proyectos, Escritos, Contacto) abre con:
-
-```html
-<h2 class="section">Título</h2>
-```
-
-Estilo: serif 32px weight 600, con un `§` accent inserto vía `::before`:
-
-```css
-h2.section::before {
-  content: "§";
-  color: var(--accent);
-  font-style: italic;
-  margin-right: 12px;
-  opacity: 0.85;
-}
-```
+Los encabezados de sección visibles en Home usan Plex Serif 32px,
+peso 600, y un `§` de tinta en `::before` con 12px de separación.
+Los índices de Blog y Projects y sus agrupaciones usan las cabeceras
+encajadas que se describen en sus respectivas secciones.
 
 ### 5.5 Blog index, Temas y página de Tema
 
@@ -217,7 +199,7 @@ cifras (`07`, `00`) o `©año`.
 
 **Blog index** (`blog/index.astro`): `SectionHead h1 Blog ©año` → intro en
 display Pixelify (`clamp(26px,3.5vw,42px)`, como el head de Services) →
-Temas → `SectionHead Artículos <n>` → lista de Posts (§5.7) o estado
+Temas → `SectionHead Posts <n>` → lista de Posts (§5.8) o estado
 vacío.
 
 **Lista de Temas** (`ThemesSection.astro`, `#topics`): `SectionHead Temas
@@ -234,7 +216,7 @@ de la izquierda; se oculta en 1 columna.
 
 **Página de Tema** (`tags/[tag].astro`): existe para los 7 Temas aunque
 estén vacíos (la lista los enlaza todos). `SectionHead p Tema <total>` →
-`h1` con el nombre en display Pixelify → `SectionHead Artículos <n>` +
+`h1` con el nombre en display Pixelify → `SectionHead Posts <n>` +
 lista de Posts → `SectionHead Proyectos <n>` + `ProjectCard`. Cada sección
 solo aparece si tiene algo; si no hay nada, estado vacío. Cierra con
 `.link` "← Volver al blog" a `/blog#topics`.
@@ -250,11 +232,11 @@ Escritos cuando no hay Posts.
 **Project card** (`ProjectCard.astro`, sobre `starwind/Card`): caja
 `1px var(--ink)` sin radio. Cabecera `.dith-bar` de 24px (2 celdas,
 `whitespace-nowrap`) con `//KIND` (singular, mono 11px bold) a la
-izquierda, el año a la derecha y un `.dith` de 12 px de rampa. Todo
+izquierda, el año a la derecha y un `.dith` de 12 píxeles de dither (36 px CSS). Todo
 Project muestra su kind, también los Side projects. Debajo, en `p-4`:
 título serif 600 (22px en fila, 19px en tile), descripción 16px
-`tx-secondary` (max 56ch), stack mono 12px `tx-muted` (Topics enlazados,
-separados por `·`) y acciones `Button` `outline` `sm` (36px) con icono
+`tx-secondary` (max 56ch), chips de Tema en filas flexibles y acciones `Button` `outline` `sm`
+(36px) con icono
 11px: `visitar` (flecha) y `código` (`</>`).
 
 Dos formas, prop `form`:
@@ -297,7 +279,44 @@ en filas (Client work y Solutions destacados, hasta 5) y un `Button`
 a la derecha (ancho completo bajo 600px), como la celda final de
 Services.
 
-### 5.7 Post row (`PostCard.astro` en `PostList.astro`)
+### 5.7 Página de Project (`[projectsSlug]/[slug].astro`)
+
+Columna de 680px como Services (`px-8 pt-16 pb-24`; `px-5 pt-10 pb-16`
+bajo 600px). Mismo esqueleto para los tres tipos; cambia el cierre.
+
+- **Volver:** `Link` (`.link`) a Proyectos, arriba.
+- **Cabecera:** `.boxhead` `// | TIPO (.box-fill) | año`; h1 Plex Serif
+  `clamp(36px, 5vw, 52px)` 600; lede = descripción en italic 22px
+  `tx-secondary` (20px en mobile). Topics como `.link` precedidos por `//`
+  y separados por `·`. Acciones con `Button` `md` (48px): demo `primary`,
+  repo `outline`. Se conservan los `transition:name` de título, año,
+  descripción y cover que comparte con `ProjectCard`.
+- **Cover:** `figure` con caja `1px var(--ink)`; arriba una `.dith-bar` de
+  24px (2 celdas, rampa de 12 px) con `//host` del demo (o el slug), y la
+  imagen a ancho completo con su proporción natural. Las imágenes del body
+  llevan el mismo marco (no hay galería en el contenido todavía).
+- **Body (MDX):** serif 18px, párrafos a 24px. Cada h2 se renderiza con
+  `ProjectSectionHeading.astro`: `.dith-bar` de 48px como los títulos de
+  Services, número `//01…` por contador CSS (oculto a lectores de
+  pantalla) y título Pixelify `clamp(15px, 4.4vw, 19px)` en una línea. Lo
+  que sigue a cada h2 cuelga de un borde izquierdo `1px var(--ink)` con
+  20px de sangría (16px en mobile). Así el caso de Client work (problema,
+  qué construí, resultado) se lee en tres bloques; un body sin h2 es prosa
+  normal.
+- **Cierre por tipo:**
+  - _Client work_: `.rule-dots`, h2 § "¿Quieres uno como este?", una línea
+    `tx-secondary`, `Button` `primary` `md` a `/#contact` y un `.checker`
+    a la derecha (oculto bajo 600px).
+  - _Solution_: panel de tinta sólida. El interior intercambia `--ink` y
+    `--paper` (re-scope de tokens vía `--ink-x`/`--paper-x`, no es una
+    primitiva nueva), así el `Button` `primary` `lg` (60px), su `.dith` y
+    el anillo de foco se dibujan en papel sobre tinta. Título Pixelify,
+    label `//SOLUCIÓN`. El enlace lleva `?subject=Solución: <título>` y
+    `ContactForm` lo precarga (también tras navegar con ClientRouter).
+  - _Side project_: se repiten demo y repo y se ofrece un `.link` de
+    vuelta a la derecha. El Footer aporta la regla punteada de cierre.
+
+### 5.8 Post row (`PostCard.astro` en `PostList.astro`)
 
 Una sola lista (`PostList`) para el Blog index, la página de Tema y
 Escritos en Home, así las filas son idénticas en las tres. Lista `ul` con
@@ -306,8 +325,8 @@ regla superior igual, padding `20px 14px` (los 14px alinean la fecha con
 el `//` del `SectionHead`) y grid `100px 1fr` (una columna bajo 600px):
 
 - Columna 1: fecha mono 12px mayúsculas `tx-muted` (`2026 · MAY`).
-- Columna 2: `h3` serif 19px/1.3 weight 600, balance; el título es el
-  único enlace de la fila y usa el subrayado de prosa (40% → 100%). Lede
+- Columna 2: `h3` serif 19px/1.3 weight 600, balance; el título
+  enlaza al Post y usa el subrayado de prosa (40% → 100%). Lede
   16px `tx-secondary`, pretty. Debajo, los Temas del Post como chips.
 - Hover del título (puntero fino): toda la fila se tiñe a
   `--bg-secondary` (`:has()`, `--dur-hover`). Solo color: una fila de
@@ -315,20 +334,17 @@ el `//` del `SectionHead`) y grid `100px 1fr` (una columna bajo 600px):
 - Se conservan los `transition:name` de fecha, título y descripción para
   el morph hacia el artículo.
 
-**Chip de Tema** (scoped en `PostCard`): enlace a la página del Tema, alto
-24px (2 celdas), padding `0 8px`, caja `1px var(--ink)`, Space Mono 11px
-mayúsculas tracking 0.08em. Hover (puntero fino) invierte (tinta / papel)
-en `--dur-hover`; press `scale(var(--press-scale))` desde el centro (no
-está anclado a nada) en `--dur-press` `--ease-out`; con reduced motion se
-atenúa en vez de escalar (tokens de §5.11).
+**Chip de Tema:** enlace `Button` `outline` `sm` (36px) con las
+interacciones de la fundación. PostCard, ProjectCard y el pie de Post
+usan el mismo control. Los chips envuelven en filas.
 
-Escritos en Home conserva su h2 § y cierra con un `.link` "Ver todos los
-artículos →".
+Escritos en Home conserva su h2 § y cierra con un `.link` «Ver todos los
+posts →».
 
-### 5.8 Contact form (`ContactForm.astro`, `home/ContactSection.astro`)
+### 5.9 Contact form (`ContactForm.astro`, `home/ContactSection.astro`)
 
 Bloque de cierre de Home: h2 § (§5.4), el párrafo MDX y el formulario.
-Todo se arma con la fundación §5.11 (`Label`, `Input`, `Textarea`,
+Todo se arma con la fundación §5.12 (`Label`, `Input`, `Textarea`,
 `Button`); los estilos propios viven en el componente.
 
 - **Rejilla:** Nombre | Email en 2 columnas desde `sm` (gap 24px), Asunto
@@ -338,12 +354,11 @@ Todo se arma con la fundación §5.11 (`Label`, `Input`, `Textarea`,
   `required`. Email con `autocapitalize="off"` y `spellcheck="false"`.
 - **Estados del campo:** vacío (placeholder italic), hover/foco (fondo
   `--bg-secondary` + anillo compartido), lleno, inválido (borde y anillo
-  `--red`) y deshabilitado al enviar (`<fieldset disabled>`: borde
+  `--error`) y deshabilitado al enviar (`<fieldset disabled>`: borde
   punteado, opacidad 0.5; el botón también).
 - **Errores:** mono 12px en una ranura reservada de 24px, así que
-  aparecer o desaparecer no mueve nada. Color
-  `color-mix(--red 75%, --ink)`: el rojo crudo no llega a 4.5:1 a 12px
-  en dark. Se validan al enviar; el foco va al primer campo inválido
+  aparecer o desaparecer no mueve nada. Usan el color `--error`.
+  Se validan al enviar y el foco va al primer campo inválido
   (queda bajo el header sticky gracias a §6.6) y cada error se borra en
   cuanto el campo se corrige. Mensaje < 10 caracteres → «Escribe al
   menos 10 caracteres».
@@ -353,8 +368,8 @@ Todo se arma con la fundación §5.11 (`Label`, `Input`, `Textarea`,
   `Button outline` 48px: ruta secundaria, nunca a la par del submit.
   Bajo 400px ambos van al ancho de la columna.
 - **Estado de envío:** el label del botón pasa a «Enviando…» (ancho fijo,
-  no salta), `aria-busy` en el form y el foco vuelve adonde estaba al
-  terminar.
+  no salta) y el form declara `aria-busy`. Al terminar, el foco vuelve
+  al control anterior si sigue en el cuerpo del documento.
 - **Feedback:** un único `<p role="status">` siempre presente cierra el
   form, con 48px reservados (2 líneas a 375px): solo cambia su texto, así
   se anuncia y no desplaza nada. Texto serif 16px en tinta (el verde
@@ -364,7 +379,7 @@ Todo se arma con la fundación §5.11 (`Label`, `Input`, `Textarea`,
 - **Asunto precargado:** `?subject=` (lo ponen los CTA de Solution)
   rellena el campo al cargar o tras navegar con el ClientRouter.
 
-### 5.9 Lectura de un Post (`ArticleLayout.astro`, `.article-body`)
+### 5.10 Lectura de un Post (`ArticleLayout.astro`, `.article-body`)
 
 La legibilidad manda: el texto es serif liso sobre el papel y el lenguaje
 Dither vive en el marco (reglas, labels, bordes), nunca encima de la prosa.
@@ -416,7 +431,7 @@ cada `<pre>` en `<figure class="code">`:
 
 - Caja `1px var(--ink)` sobre `--code-bg` (`--bg-secondary`). La cabecera
   (`figcaption`) es un `.dith-bar` de 24px (2 celdas) con `//LANG` mono
-  11px bold y un `.dith` de 12 px de rampa, seguido del nombre de archivo si
+  11px bold y un `.dith` de 12 píxeles de dither (36 px CSS), seguido del nombre de archivo si
   el fence trae `title="archivo.ts"`; regla punteada debajo. Sin lenguaje se
   rotula `TEXT`.
 - `pre`: mono 14px (13px mobile) sobre líneas de 24px (2 celdas), padding
@@ -445,10 +460,10 @@ press `scale(0.97)`); al final, `← VOLVER AL BLOG` con `.link`. El fin se
 muestra aunque el Post no tenga Temas.
 
 **Movimiento:** la prosa no se anima. Solo el chrome responde, con las
-primitivas de §5.11 (fundido de color en hover, press en los Temas,
+primitivas de §5.12 (fundido de color en hover, press en los Temas,
 `prefers-reduced-motion` ya resuelto por los tokens).
 
-### 5.10 Site footer (`Footer.astro`)
+### 5.11 Site footer (`Footer.astro`)
 
 Columna de 680px (`px-8`, `px-5` mobile), `pt-16 pb-12`.
 
@@ -459,10 +474,10 @@ Columna de 680px (`px-8`, `px-5` mobile), `pt-16 pb-12`.
   (lo decide `Link.astro`).
 - Cierre: `.dith-bar` de 36px (3 celdas, sin hover: no es enlace) a ancho
   de columna con `© año ELIAS ABLAN · CARACAS` en mono 11px bold
-  mayúsculas y un `.dith` de 12 px de rampa a la derecha.
+  mayúsculas y un `.dith` de 12 píxeles de dither (36 px CSS) a la derecha.
 - Conserva `view-transition-name: site-footer`.
 
-### 5.11 Fundación interactiva (botones, enlaces, campos, cards, foco, movimiento)
+### 5.12 Fundación interactiva (botones, enlaces, campos, cards, foco, movimiento)
 
 Base que reutiliza toda superficie nueva. Los componentes Starwind
 (`starwind/Button`, `Input`, `Textarea`, `Label`, `Card`) y `Link.astro`
@@ -486,7 +501,7 @@ cambios de color siguen con su fundido.
 
 **Foco:** un solo anillo para todo, `:where(:focus-visible)` en `@layer
 base`: `outline: 2px solid var(--ink)`, offset `3px`. Especificidad cero:
-un componente puede cambiarlo (los campos inválidos lo pasan a `--red`).
+un componente puede cambiarlo (los campos inválidos lo pasan a `--error`).
 
 **Hover** de primitivas y campos con `(hover: hover) and (pointer: fine)`; las utilidades `hover:` de Tailwind (Button `secondary`/`destructive`, Card) con `(hover: hover)`; el enlace de prosa sin condición.
 **Disabled** (`:disabled` o `aria-disabled="true"`): opacidad 0.5, sin
@@ -497,16 +512,15 @@ tracking 0.08em, sin radio. Altos en celdas enteras para que el `.dith`
 no se corte: `sm` 36px (3 celdas, 11px), `md` 48px (4, 12px), `lg` 60px
 (5, 13px), `icon` 48×48.
 
-| Variante      | Primitiva   | Hover                               |
-| ------------- | ----------- | ----------------------------------- |
-| `primary`     | `.dith-bar` | la tinta sólida avanza una celda    |
-| `outline`     | `.ctl`      | invertido (tinta / papel)           |
-| `secondary`   | `.ctl`      | relleno `--ui-hover` → invertido    |
-| `ghost`       | `.ctl`      | sin borde → invertido               |
-| `destructive` | `.ctl`      | borde y texto `--red` → relleno red |
+| Variante      | Primitiva   | Hover                                      |
+| ------------- | ----------- | ------------------------------------------ |
+| `primary`     | `.dith-bar` | la tinta sólida avanza una celda           |
+| `outline`     | `.ctl`      | invertido (tinta / papel)                  |
+| `secondary`   | `.ctl`      | relleno `--ui-hover` → invertido           |
+| `ghost`       | `.ctl`      | sin borde → invertido                      |
+| `destructive` | `.ctl`      | borde y texto `--error` → relleno de error |
 
-`primary` añade su `.dith` como último hijo (rampa de 8, 12 y 16 px de
-ancho según el tamaño; `icon` va sin dither). Press: `scale(0.97)` en
+`primary` añade su `.dith` como último hijo (rampa de 8, 12 y 16 píxeles de dither (24, 36 y 48 px CSS) según el tamaño; `icon` va sin dither). Press: `scale(0.97)` en
 todas.
 
 **Avance de tinta** (`a.dith-bar` / `button.dith-bar`, también Contacto
@@ -525,7 +539,7 @@ radio, fondo transparente sobre el grano; Plex Serif 16px / 24px (16px
 evita el zoom de iOS); alto 48px (padding `11px 14px`), textarea mínimo
 120px (10 celdas) con resize vertical. Placeholder italic `tx-muted`.
 Hover y foco tiñen el fondo a `--bg-secondary`. `aria-invalid="true"` →
-borde y anillo `--red`. Disabled → borde punteado + opacidad 0.5.
+borde y anillo `--error`. Disabled → borde punteado + opacidad 0.5.
 
 **Label:** Space Mono 11px mayúsculas, tracking 0.12em, `tx-secondary`.
 
@@ -533,7 +547,7 @@ borde y anillo `--red`. Disabled → borde punteado + opacidad 0.5.
 sombra, fondo transparente. Con `hover` el fondo pasa a `--bg-secondary`
 (sin elevación).
 
-### 5.12 Página 404 (`pages/404.astro`)
+### 5.13 Página 404 (`pages/404.astro`)
 
 Columna de 680px, centrada en vertical (`min-h-58vh`), mismo lenguaje que
 el Hero sin animación de entrada. De arriba abajo: `.boxhead` `// | 404`
@@ -541,52 +555,9 @@ el Hero sin animación de entrada. De arriba abajo: `.boxhead` `// | 404`
 (oculto bajo 600px); h1 en Pixelify con la escala del Hero
 (`clamp(26px, 3.5vw, 42px)`, mayúsculas); cuerpo serif 18px `tx-secondary`;
 `.rule-dots`; `Button` `primary` `lg` (60px, 5 celdas) a ancho de columna
-→ `/[lang]/`; `Link` a Blog. El idioma sale de la URL; el switcher de
-idioma queda deshabilitado (`altLangHref={null}`).
-
-### 5.13 Detalles globales
-
-Selección: tinta invertida (§6.2). Foco: el anillo único de §5.11.
-Scrollbar: `scrollbar-color` en `html`, pulgar a ink 55% sobre paper y
-pista `--bg`, en ambos modos. La transición entre páginas sigue siendo
-el crossfade de `transitions.css`; header y footer quedan estáticos.
-
-### 5.14 Página de Project (`[projectsSlug]/[slug].astro`)
-
-Columna de 680px como Services (`px-8 pt-16 pb-24`; `px-5 pt-10 pb-16`
-bajo 600px). Mismo esqueleto para los tres tipos; cambia el cierre.
-
-- **Volver:** `Link` (`.link`) a Proyectos, arriba.
-- **Cabecera:** `.boxhead` `// | TIPO (.box-fill) | año`; h1 Plex Serif
-  `clamp(36px, 5vw, 52px)` 600; lede = descripción en italic 22px
-  `tx-secondary` (20px en mobile). Topics como `.link` precedidos por `//`
-  y separados por `·`. Acciones con `Button` `md` (48px): demo `primary`,
-  repo `outline`. Se conservan los `transition:name` de título, año,
-  descripción y cover que comparte con `ProjectCard`.
-- **Cover:** `figure` con caja `1px var(--ink)`; arriba una `.dith-bar` de
-  24px (2 celdas, rampa de 12 px) con `//host` del demo (o el slug), y la
-  imagen a ancho completo con su proporción natural. Las imágenes del body
-  llevan el mismo marco (no hay galería en el contenido todavía).
-- **Body (MDX):** serif 18px, párrafos a 24px. Cada h2 se renderiza con
-  `ProjectSectionHeading.astro`: `.dith-bar` de 48px como los títulos de
-  Services, número `//01…` por contador CSS (oculto a lectores de
-  pantalla) y título Pixelify `clamp(15px, 4.4vw, 19px)` en una línea. Lo
-  que sigue a cada h2 cuelga de un borde izquierdo `1px var(--ink)` con
-  20px de sangría (16px en mobile). Así el caso de Client work (problema,
-  qué construí, resultado) se lee en tres bloques; un body sin h2 es prosa
-  normal.
-- **Cierre por tipo:**
-  - _Client work_: `.rule-dots`, h2 § "¿Quieres uno como este?", una línea
-    `tx-secondary`, `Button` `primary` `md` a `/#contact` y un `.checker`
-    a la derecha (oculto bajo 600px).
-  - _Solution_: panel de tinta sólida. El interior intercambia `--ink` y
-    `--paper` (re-scope de tokens vía `--ink-x`/`--paper-x`, no es una
-    primitiva nueva), así el `Button` `primary` `lg` (60px), su `.dith` y
-    el anillo de foco se dibujan en papel sobre tinta. Título Pixelify,
-    label `//SOLUCIÓN`. El enlace lleva `?subject=Solución: <título>` y
-    `ContactForm` lo precarga (también tras navegar con ClientRouter).
-  - _Side project_: nada a la venta. `.rule-dots`, se repiten demo y repo
-    y un `.link` de vuelta a la derecha.
+→ `/[lang]/`; `Link` a Blog. El servidor toma el idioma de la URL
+solicitada y devuelve el estado HTTP 404. El selector de idioma queda
+deshabilitado (`altLangHref={null}`).
 
 ---
 
@@ -625,7 +596,8 @@ transition: background-color 0.25s, color 0.25s, border-color 0.25s,
             text-decoration-color 0.2s;
 ```
 
-Aplicada en `body` y descendientes para evitar el "flash" al togglear.
+Se aplica en los elementos base de layout y en enlaces, botones y campos.
+Las primitivas interactivas definen su propia transición.
 
 ### 6.5 Anti-FOUC
 
@@ -640,19 +612,18 @@ artículos queden tapados por el header: 96px en escritorio (header 81px),
 128px bajo `lg` (header 109px, el nav baja a su propia fila) y 168px bajo
 380px (el nav puede envolver, hasta 156px).
 
+### 6.7 Scrollbar y navegación
+
+`scrollbar-color` usa tinta al 55% sobre papel para el pulgar de la
+página. Los bloques de código usan tinta al 60% sobre papel para el
+pulgar sobre el fondo de código. `transitions.css` define el fundido y las transiciones de
+elementos compartidos entre páginas. Header y Footer permanecen fijos
+durante el fundido. El modo de movimiento reducido desactiva las
+animaciones de navegación.
+
 ---
 
-## 7. Lo que se omite del prototipo
-
-- **Página de tag (`tag.html`):** todavía no existe ruta `/tags/[slug]/`
-  en el proyecto. El sistema visual está documentado y los componentes
-  base son los mismos (h2 §, post rows, project rows); cuando se cree la
-  ruta, no debería requerir CSS nuevo.
-- **Hero CTAs:** el prototipo no los tiene; los del topbar bastan.
-
----
-
-## 8. Cómo evolucionar este doc
+## 7. Cómo evolucionar este doc
 
 - **Cambio de token:** edita el valor en `global.css` y la tabla en §1.
 - **Componente nuevo:** documéntalo en §5 con su grid y tokens antes de
