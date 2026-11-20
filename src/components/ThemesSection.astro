@@ -1,7 +1,10 @@
 ---
+import { getCollection } from "astro:content";
 import type { Lang } from "@/i18n/ui";
-import { useTranslations } from "@/i18n/utils";
-import { tagSlugs, tagLabels, tagPath } from "@/i18n/tags";
+import { filterByLang, useTranslations } from "@/i18n/utils";
+import { tagSlugs, tagLabels, tagPath, countByTopic } from "@/i18n/tags";
+import { isPublished } from "@/lib/content";
+import SectionHead from "@/components/SectionHead.astro";
 
 interface Props {
   lang: Lang;
@@ -9,30 +12,84 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+const pad = (n: number) => String(n).padStart(2, "0");
+
+const counts = countByTopic(
+  [
+    ...filterByLang(await getCollection("blog"), lang),
+    ...filterByLang(await getCollection("portfolio"), lang),
+  ].filter(isPublished),
+);
 ---
 
-<section class="mb-12">
-  <h2
-    class="mb-5 font-serif text-[32px] leading-[1.2] font-semibold tracking-[-0.012em] text-foreground before:mr-3 before:font-normal before:text-primary before:not-italic before:opacity-85 before:content-['§']"
+<section id="topics">
+  <SectionHead aside={pad(tagSlugs.length)}>{t("topics.title")}</SectionHead>
+  <p class="mt-5 mb-6 text-lg leading-[1.7] text-pretty text-tx-secondary">
+    {t("topics.intro")}
+  </p>
+  <ul
+    class="m-0 grid list-none grid-cols-2 border-t border-l border-ink p-0 max-[600px]:grid-cols-1"
   >
-    {t("topics.title")}
-  </h2>
-  <p class="m-0 mb-6 text-lg text-foreground">{t("topics.intro")}</p>
-  <p class="m-0 font-mono text-sm leading-loose text-tx-secondary">
     {
       tagSlugs.map((slug, i) => (
-        <>
+        <li class="flex border-r border-b border-ink">
           <a
             href={tagPath(lang, slug)}
-            class="text-foreground underline decoration-foreground/25 hover:text-primary hover:decoration-primary"
+            class="topic flex min-h-(--control-h) flex-1 items-center gap-3 px-3.5 py-2 font-mono text-xs tracking-[0.08em] text-foreground uppercase no-underline"
           >
-            {tagLabels[slug][lang]}
+            <span class="num" aria-hidden="true">
+              //{pad(i + 1)}
+            </span>
+            <span class="flex-1 leading-[1.4]">{tagLabels[slug][lang]}</span>
+            <span class="num">{pad(counts[slug])}</span>
           </a>
-          {i < tagSlugs.length - 1 && (
-            <span class="mx-2 text-tx-muted select-none">·</span>
-          )}
-        </>
+        </li>
       ))
     }
-  </p>
+    {
+      tagSlugs.length % 2 === 1 && (
+        <li
+          class="flex items-start border-r border-b border-ink max-[600px]:hidden"
+          aria-hidden="true"
+        >
+          <span class="dith h-(--control-h)" />
+        </li>
+      )
+    }
+  </ul>
 </section>
+
+<style>
+  /* A Topic cell is a boxed control: hover inverts it like .ctl, and so
+     does a press, so touch gets the same answer. No scale: it would pull
+     the cell off the shared grid lines. */
+  .topic {
+    transition:
+      background-color var(--dur-hover) ease-out,
+      color var(--dur-hover) ease-out;
+  }
+  .num {
+    color: var(--tx-muted);
+    transition: color var(--dur-hover) ease-out;
+  }
+  .topic:active {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .topic:active .num {
+    color: inherit;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .topic:hover {
+      background: var(--ink);
+      color: var(--paper);
+    }
+    .topic:hover .num {
+      color: inherit;
+    }
+  }
+  .topic:focus-visible {
+    outline-offset: -5px;
+    position: relative;
+  }
+</style>
