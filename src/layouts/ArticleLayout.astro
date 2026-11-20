@@ -4,6 +4,8 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import type { Lang } from "@/i18n/ui";
 import { useTranslations } from "@/i18n/utils";
 import { tagLabels, tagPath } from "@/i18n/tags";
+import Button from "@/components/starwind/Button.astro";
+import Link from "@/components/Link.astro";
 
 interface Props {
   post: CollectionEntry<"blog">;
@@ -21,13 +23,13 @@ const dateLabel = new Intl.DateTimeFormat(locale, {
   year: "numeric",
   month: "long",
   day: "numeric",
+  timeZone: "UTC",
 }).format(post.data.publishedAt);
 
 const words = post.body?.trim().split(/\s+/).length ?? 0;
 const minutes = Math.max(1, Math.round(words / 200));
 const readingLabel = `${minutes} ${t("blog.readingTime")}`;
 
-const initial = "E";
 const bylineAuthor = `${t("article.byline.prefix")} Elias Ablan`;
 const bylineCity = "Caracas";
 const tags = post.data.tags ?? [];
@@ -41,77 +43,108 @@ const tags = post.data.tags ?? [];
   <article
     class="mx-auto max-w-170 px-8 pt-16 pb-24 max-[600px]:px-5 max-[600px]:pt-10 max-[600px]:pb-16"
   >
-    <p
-      class="m-0 mb-6 font-mono text-xs leading-[1.4] tracking-[0.08em] text-tx-secondary uppercase"
-    >
-      {
-        tags[0] && (
-          <>
+    <header>
+      <div
+        class:list={[
+          "boxhead font-mono text-[11px] leading-[1.4] tracking-[0.08em] uppercase",
+          tags[0] ? "grid-cols-[auto_1fr_auto]" : "grid-cols-[auto_1fr]",
+        ]}
+      >
+        <span aria-hidden="true">//</span>
+        {
+          tags[0] && (
             <a
               href={tagPath(lang, tags[0])}
-              class="text-inherit no-underline hover:text-primary"
+              class="box-fill font-bold text-paper no-underline decoration-dotted underline-offset-4 hover:underline focus-visible:-outline-offset-4 focus-visible:outline-paper"
             >
               {tagLabels[tags[0]][lang]}
             </a>
-            <span class="mx-2 opacity-50">·</span>
-          </>
-        )
-      }
-      <span>{readingLabel}</span>
-      <span class="mx-2 opacity-50">·</span>
-      <time datetime={post.data.publishedAt.toISOString()}>{dateLabel}</time>
-    </p>
+          )
+        }
+        <span class="text-tx-secondary">{readingLabel}</span>
+      </div>
 
-    <h1
-      class="m-0 mb-6 font-serif text-[clamp(36px,5vw,52px)] leading-[1.08] font-semibold tracking-[-0.018em] text-balance text-foreground"
-      transition:name={`post-${key}-title`}
-    >
-      {post.data.title}
-    </h1>
-
-    <p
-      class="m-0 mb-8 border-b border-rule pb-8 text-[22px] leading-[1.4] font-normal text-pretty text-tx-secondary italic"
-    >
-      <span transition:name={`post-${key}-description`}
-        >{post.data.description}</span
+      <h1
+        class="mt-9 mb-0 font-serif text-[clamp(32px,5vw,52px)] leading-[1.08] font-semibold tracking-[-0.018em] text-balance text-foreground"
+        transition:name={`post-${key}-title`}
       >
-    </p>
+        {post.data.title}
+      </h1>
 
-    <div class="mb-12 flex items-center gap-3">
-      <span
-        class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary font-serif text-sm font-semibold text-primary-foreground italic"
-        aria-hidden="true">{initial}</span
+      <p
+        class="m-0 mt-6 text-[22px] leading-[1.4] font-normal text-pretty text-tx-secondary italic max-[600px]:text-[19px]"
       >
-      <span class="font-mono text-xs tracking-[0.04em] text-tx-secondary">
-        {bylineAuthor}
-        <span class="mx-1.5 opacity-50">·</span>
-        {bylineCity}
-      </span>
-    </div>
+        <span transition:name={`post-${key}-description`}
+          >{post.data.description}</span
+        >
+      </p>
 
-    <div class="article-body">
+      <div class="rule-dots mt-8" aria-hidden="true"></div>
+
+      <div
+        class="mt-6 flex items-center gap-3 font-mono text-[11px] leading-[18px] tracking-[0.08em] uppercase"
+      >
+        <span
+          class="grid size-[calc(var(--cell)*3)] flex-none place-items-center bg-ink font-pixel text-[13px] font-bold tracking-normal text-paper"
+          aria-hidden="true">EA</span
+        >
+        <span class="flex flex-col">
+          <span class="text-foreground">
+            {bylineAuthor}
+            <span class="mx-1 text-tx-muted" aria-hidden="true">·</span>
+            {bylineCity}
+          </span>
+          <time
+            class="text-tx-secondary"
+            datetime={post.data.publishedAt.toISOString()}>{dateLabel}</time
+          >
+        </span>
+      </div>
+    </header>
+
+    <div class="article-body mt-12">
       <Content />
     </div>
 
-    {
-      tags.length > 0 && (
-        <div class="mt-12 flex flex-wrap items-center justify-between gap-6 border-t border-rule pt-8">
-          <div class="inline-flex flex-wrap gap-1.5">
-            {tags.map((tg) => (
-              <a
-                class="rounded-full border border-rule bg-muted px-2.5 py-0.75 font-mono text-xs tracking-[0.02em] text-tx-secondary no-underline hover:border-primary hover:text-primary"
-                href={tagPath(lang, tg)}
-              >
-                {tagLabels[tg][lang]}
-              </a>
-            ))}
-          </div>
-        </div>
-      )
-    }
+    <footer class="mt-16">
+      <div class="flex items-center gap-3">
+        <span
+          class="dith-bar h-[calc(var(--cell)*2)] pl-3 font-mono text-[11px] font-bold tracking-[0.08em] uppercase [--dith-w:calc(var(--px)*12)]"
+        >
+          <span aria-hidden="true">//</span>{t("article.end")}
+          <span class="dith ml-2" aria-hidden="true"></span>
+        </span>
+        <span class="rule-dots flex-1" aria-hidden="true"></span>
+      </div>
 
-    <p class="mt-12 font-serif text-base">
-      <a href={`/${lang}/blog`}>{t("blog.back")}</a>
-    </p>
+      {
+        tags.length > 0 && (
+          <div class="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3">
+            <p
+              id="post-topics"
+              class="m-0 font-mono text-[11px] tracking-[0.12em] text-tx-muted uppercase"
+            >
+              {t("topics.title")}
+            </p>
+            <ul
+              class="m-0 flex list-none flex-wrap gap-2 p-0"
+              aria-labelledby="post-topics"
+            >
+              {tags.map((tg) => (
+                <li>
+                  <Button href={tagPath(lang, tg)} variant="outline" size="sm">
+                    {tagLabels[tg][lang]}
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
+
+      <Link href={`/${lang}/blog`} class="mt-12 inline-block">
+        {t("blog.back")}
+      </Link>
+    </footer>
   </article>
 </BaseLayout>
