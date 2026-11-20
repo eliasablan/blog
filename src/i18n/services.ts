@@ -127,7 +127,7 @@ export const services: Record<ServiceSlug, Service> = {
 };
 
 /** How a project works. Written to set scope up front (see anti-persona in .agents/product-marketing.md). */
-export const process: {
+export const processSteps: {
   title: Record<Lang, string>;
   body: Record<Lang, string>;
 }[] = [
