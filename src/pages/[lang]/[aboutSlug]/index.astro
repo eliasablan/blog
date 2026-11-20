@@ -30,23 +30,33 @@ const copy = {
   },
   intro: {
     es: [
-      "Soy **Elías Ablán**. Me gusta construir software y me da la misma curiosidad lo que corre por debajo: redes, contenedores, servidores, hardware. Todavía estoy aprendiendo mucho de eso. También me apasiona la IA.",
-      "Empecé escribiendo SuiteScript para NetSuite en Kavak y pasé al desarrollo web full-stack. Últimamente administro la infraestructura de TI de una empresa y construí su sitio web de ventas. Construyo, lanzo y mantengo el software de punta a punta, y los flujos de trabajo asistidos por IA me permiten hacerlo solo, al ritmo de un equipo.",
+      "Soy **Elías Ablán**, desarrollador full-stack en Caracas. Me gusta construir software y entender qué lo mantiene funcionando, desde la base de datos hasta la red y el servidor.",
+      "He trabajado en aplicaciones web y tiendas en línea en Vortex Robotics y en automatizaciones de NetSuite en Kavak. Hoy trabajo por mi cuenta. Entre mis proyectos recientes están el sitio de ventas y la infraestructura de TI de una empresa.",
     ],
     en: [
-      "I'm **Elías Ablán**. I like building software, and I'm just as curious about what runs underneath it: networks, containers, servers, hardware. I'm still learning a lot of that. I'm also very into AI.",
-      "I started by writing SuiteScript for NetSuite at Kavak, then moved to full-stack web development. Lately I've been running a company's IT infrastructure and building its sales website. I build, ship and run software end to end, and AI-assisted workflows let me do that on my own at the pace of a team.",
+      "I'm **Elías Ablán**, a full-stack developer in Caracas. I like building software and understanding what keeps it running, from the database to the network and server.",
+      "I've worked on web apps and online stores at Vortex Robotics and on NetSuite automations at Kavak. I now work independently. Recent work includes building a company's sales website and managing its IT infrastructure.",
     ],
   },
 } as const;
 
-// Dates are not in the repo yet: render a visible marker instead of a guess.
-const datesPending = { es: "[FECHAS PENDIENTES]", en: "[DATES TBD]" };
-
 const experience = [
+  {
+    title: {
+      es: "Desarrollo web full-stack",
+      en: "Full-stack web development",
+    },
+    org: { es: "Vortex Robotics", en: "Vortex Robotics" },
+    dates: { es: "ago. 2017–jul. 2018", en: "Aug 2017–Jul 2018" },
+    body: {
+      es: "Construí aplicaciones web y tiendas en línea con Django, CodeIgniter y WordPress. También diseñé y optimicé esquemas de bases de datos en MySQL y PostgreSQL.",
+      en: "I built web applications and online stores with Django, CodeIgniter, and WordPress. I also designed and optimized database schemas in MySQL and PostgreSQL.",
+    },
+  },
   {
     title: { es: "NetSuite · SuiteScript", en: "NetSuite · SuiteScript" },
     org: { es: "Kavak", en: "Kavak" },
+    dates: { es: "dic. 2018–dic. 2022", en: "Dec 2018–Dec 2022" },
     body: {
       es: "Cuatro años escribiendo SuiteScript para NetSuite.",
       en: "Four years writing SuiteScript for NetSuite.",
@@ -54,24 +64,14 @@ const experience = [
   },
   {
     title: {
-      es: "Desarrollo web full-stack",
-      en: "Full-stack web development",
+      es: "Desarrollo web independiente",
+      en: "Freelance web development",
     },
     org: null,
+    dates: { es: "desde dic. 2022", en: "Since Dec 2022" },
     body: {
-      es: "Sitios y aplicaciones web con Next.js, React, TypeScript y PostgreSQL.",
-      en: "Websites and web apps with Next.js, React, TypeScript and PostgreSQL.",
-    },
-  },
-  {
-    title: {
-      es: "Infraestructura de TI y sitio de ventas",
-      en: "IT infrastructure and sales website",
-    },
-    org: null,
-    body: {
-      es: "Administro la infraestructura de TI de una empresa y construí su sitio web de ventas.",
-      en: "Running a company's IT infrastructure and building its sales website.",
+      es: "Construyo sitios y aplicaciones web con Next.js, React, TypeScript y PostgreSQL. También administro la infraestructura de TI de una empresa y construí su sitio de ventas.",
+      en: "I build websites and web apps with Next.js, React, TypeScript, and PostgreSQL. I also manage a company's IT infrastructure and built its sales website.",
     },
   },
 ];
@@ -213,10 +213,8 @@ const boxhead =
         {
           experience.map((job) => (
             <li class="relative pb-8 pl-6 last:pb-0">
-              <p class="m-0 font-mono text-xs tracking-[0.06em] uppercase">
-                <span class="pending font-bold text-foreground">
-                  {datesPending[lang]}
-                </span>
+              <p class="m-0 font-mono text-xs font-bold tracking-[0.06em] text-foreground uppercase">
+                {job.dates[lang]}
               </p>
               <h3 class="mt-2 mb-0 font-serif text-[22px] leading-[1.3] font-semibold text-foreground">
                 {job.title[lang]}
@@ -359,10 +357,5 @@ const boxhead =
     width: 9px;
     height: 9px;
     background: var(--ink);
-  }
-  /* Visible gap marker: this date has not been provided yet. */
-  .pending {
-    padding: 2px 6px;
-    border: 1px dashed var(--ink);
   }
 </style>

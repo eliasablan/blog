@@ -21,9 +21,9 @@ export const ui = {
     "home.hero.eyebrow":
       "Desarrollador full-stack · sistemas e infraestructura",
     "home.hero.head":
-      "Construyo, lanzo y mantengo software web de punta a punta:",
+      "Construyo tu sitio o aplicación y me encargo de mantenerlo funcionando.",
     "home.hero.tail":
-      "código, servidores y flujos de trabajo asistidos por IA que permiten que una sola persona entregue como un equipo.",
+      "Soy Elías Ablán, desarrollador full-stack en Caracas. También trabajo con redes y servidores.",
     "home.hero.cta.contact": "Cuéntame sobre tu proyecto",
     "home.hero.cta.projects": "Ver los proyectos",
 
@@ -76,10 +76,6 @@ export const ui = {
     "services.proof.tanques.body":
       "Tanques Australianos: sitio de ventas para un fabricante de tanques de acero en Guacara. La empresa lo ha usado para vender varios productos.",
     "services.proof.tanques.cta": "Ver el caso",
-    "services.proof.placeholder.label": "Testimonio",
-    "services.proof.placeholder.tag": "Pendiente",
-    "services.proof.placeholder.body":
-      "Marcador de posición: aquí irá el testimonio de un cliente cuando lo tenga. Esto no es un testimonio real.",
     "services.closing":
       "¿Algo que no está en la lista? Pregúntame. Todo lo que ves en esta página lo aprendí en un proyecto real.",
     "services.cta.whatsapp": "O escríbeme por WhatsApp",
@@ -145,9 +141,9 @@ export const ui = {
       "Elías Ablán, full-stack developer in Caracas. I build, ship and run websites, web apps and servers for businesses.",
 
     "home.hero.eyebrow": "Full-stack developer · systems & infrastructure",
-    "home.hero.head": "I build, ship and run web software end to end:",
+    "home.hero.head": "I build your website or app and keep it running.",
     "home.hero.tail":
-      "code, servers and AI-assisted workflows that let one person deliver like a team.",
+      "I'm Elías Ablán, a full-stack developer in Caracas. I also work with networks and servers.",
     "home.hero.cta.contact": "Tell me about your project",
     "home.hero.cta.projects": "See the projects",
 
@@ -200,10 +196,6 @@ export const ui = {
     "services.proof.tanques.body":
       "Tanques Australianos: sales site for a steel tank manufacturer in Guacara. The company has used it to sell multiple products.",
     "services.proof.tanques.cta": "Read the case study",
-    "services.proof.placeholder.label": "Testimonial",
-    "services.proof.placeholder.tag": "Pending",
-    "services.proof.placeholder.body":
-      "Placeholder: a Client testimonial goes here once I have one. This is not a real quote.",
     "services.closing":
       "Something not listed? Ask. Everything on this page I learned on a real project.",
     "services.cta.whatsapp": "Or message me on WhatsApp",

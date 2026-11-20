@@ -22,8 +22,6 @@ const linkHref = {
 };
 const linkClass =
   "inline-block text-xs tracking-[0.08em] text-foreground uppercase decoration-current decoration-dotted underline-offset-[6px] [@media(hover:hover)_and_(pointer:fine)]:hover:decoration-solid";
-const headClass =
-  "boxhead font-mono text-xs font-bold tracking-[0.08em] uppercase";
 ---
 
 <BaseLayout
@@ -139,21 +137,6 @@ const headClass =
           {t("services.proof.tanques.cta")} →
         </a>
       </p>
-
-      <div class="mt-8">
-        <div class={`${headClass} grid-cols-[auto_1fr_auto]`}>
-          <span class="font-normal" aria-hidden="true">//</span>
-          <span class="font-normal"
-            >{t("services.proof.placeholder.label")}</span
-          >
-          <span class="box-fill">{t("services.proof.placeholder.tag")}</span>
-        </div>
-        <p
-          class="m-0 border border-t-0 border-ink px-3.5 py-4 text-lg leading-[1.6] text-pretty text-tx-secondary italic"
-        >
-          {t("services.proof.placeholder.body")}
-        </p>
-      </div>
     </section>
 
     <section class="mt-16">

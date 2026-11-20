@@ -83,11 +83,16 @@ test("copy follows the brand voice", () => {
   }
 });
 
-test("the missing testimonial is marked as a placeholder, not a quote", () => {
+test("the Services proof section has a client case and no testimonial placeholder", () => {
   for (const lang of langs) {
     assert.match(
-      ui[lang]["services.proof.placeholder.body"],
-      /placeholder|marcador/i,
+      ui[lang]["services.proof.tanques.body"],
+      /Tanques Australianos/,
+    );
+    assert.ok(
+      !uiKeys(lang).some((key) =>
+        key.startsWith("services.proof.placeholder."),
+      ),
     );
   }
 });
