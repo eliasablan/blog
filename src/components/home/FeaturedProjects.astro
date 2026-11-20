@@ -5,6 +5,7 @@ import { filterByLang, useTranslations } from "@/i18n/utils";
 import { isPublished, sortProjectsByRecent } from "@/lib/content";
 import { sectionPath } from "@/i18n/routes";
 import ProjectCard from "@/components/ProjectCard.astro";
+import Button from "@/components/starwind/Button.astro";
 
 interface Props {
   lang: Lang;
@@ -27,17 +28,19 @@ const projects = filterByLang(await getCollection("portfolio"), lang)
       <h2 class="mt-16 mb-5 font-serif text-[32px] leading-[1.2] font-semibold tracking-[-0.012em] text-foreground before:mr-3 before:font-normal before:text-primary before:not-italic before:opacity-85 before:content-['§']">
         {t("home.featured.projects.title")}
       </h2>
-      <div class="flex flex-col gap-8">
+      <ul class="m-0 flex list-none flex-col gap-4 p-0">
         {projects.map((project) => (
-          <ProjectCard project={project} lang={lang} />
+          <li>
+            <ProjectCard project={project} lang={lang} />
+          </li>
         ))}
-      </div>
-      <a
+      </ul>
+      <Button
         href={sectionPath(lang, "projects")}
-        class="mt-8 inline-block font-mono text-xs tracking-[0.08em] text-foreground uppercase decoration-current decoration-dotted underline-offset-[6px] hover:underline"
+        class="mt-4 ml-auto flex w-[calc(50%-8px)] max-[600px]:w-full"
       >
-        {t("home.featured.projects.cta")} →
-      </a>
+        {t("home.featured.projects.cta")}
+      </Button>
       <hr class="mt-16 h-px w-full border-0 bg-rule" />
     </section>
   )
