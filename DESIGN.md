@@ -205,10 +205,44 @@ h2.section::before {
 }
 ```
 
-### 5.5 Themes / Tag list
+### 5.5 Blog index, Temas y página de Tema
 
-Lista en línea (mono 14px, line-height 2) con separadores `·` muted entre
-tags. Links a `tag.html` (próximamente — por ahora `#`).
+**Shell** (Blog index y Tema): la columna de 680px de Services/About
+(`max-w-170 px-8 pt-16 pb-24`, `px-5 pt-10 pb-16` bajo 600px). Cada página
+y sección abre con `SectionHead.astro`: un `.boxhead` `// | LABEL
+(.box-fill) | aside`, mono 12px bold mayúsculas. El label es el heading
+(`h1`/`h2`, o `p` cuando el `h1` va debajo); `aside` es un conteo en dos
+cifras (`07`, `00`) o `©año`.
+
+**Blog index** (`blog/index.astro`): `SectionHead h1 Blog ©año` → intro en
+display Pixelify (`clamp(26px,3.5vw,42px)`, como el head de Services) →
+Temas → `SectionHead Artículos <n>` → lista de Posts (§5.7) o estado
+vacío.
+
+**Lista de Temas** (`ThemesSection.astro`, `#topics`): `SectionHead Temas
+07`, intro serif 18px `tx-secondary`, y un índice en rejilla de 2 columnas
+(1 bajo 600px) con líneas de tinta compartidas (`border-t/l` en la lista,
+`border-r/b` en cada celda). Cada celda es un enlace de alto mínimo 48px:
+`//01` muted · nombre del Tema (mono 12px mayúsculas, tracking 0.08em) ·
+conteo de Posts + Proyectos publicados en ese idioma (`countByTopic`, en
+`i18n/tags.ts`), `00` incluido. Hover (puntero fino) y `:active` (también
+táctil) invierten la celda como `.ctl`, en `--dur-hover`; sin escala, que
+la despegaría de las líneas compartidas. Con 7 Temas, la octava celda es
+decorativa: un `.dith` de 48px de alto (4 celdas) que arranca en la línea
+de la izquierda; se oculta en 1 columna.
+
+**Página de Tema** (`tags/[tag].astro`): existe para los 7 Temas aunque
+estén vacíos (la lista los enlaza todos). `SectionHead p Tema <total>` →
+`h1` con el nombre en display Pixelify → `SectionHead Artículos <n>` +
+lista de Posts → `SectionHead Proyectos <n>` + `ProjectCard`. Cada sección
+solo aparece si tiene algo; si no hay nada, estado vacío. Cierra con
+`.link` "← Volver al blog" a `/blog#topics`.
+
+**Estado vacío** (`EmptyState.astro`): caja `1px dotted var(--ink)`
+(punteado = aquí no hay nada aún), padding 24px (16px móvil), un
+`.checker` de 4×4 celdas y el mensaje en serif italic 18px `tx-secondary`.
+Lo usan el Blog index sin Posts y el Tema sin contenido. Home oculta
+Escritos cuando no hay Posts.
 
 ### 5.6 Project row (`ProjectCard.astro`)
 
@@ -223,15 +257,33 @@ Grid `60px 1fr auto`:
 
 Mobile (`<600px`): colapsa a una sola columna.
 
-### 5.7 Post row (`PostCard.astro`)
+### 5.7 Post row (`PostCard.astro` en `PostList.astro`)
 
-Grid `100px 1fr`:
+Una sola lista (`PostList`) para el Blog index, la página de Tema y
+Escritos en Home, así las filas son idénticas en las tres. Lista `ul` con
+regla inferior `1px dotted var(--ink)`; cada fila es un `article` con
+regla superior igual, padding `20px 14px` (los 14px alinean la fecha con
+el `//` del `SectionHead`) y grid `100px 1fr` (una columna bajo 600px):
 
-- Columna 1: fecha mono 12px muted (`2026 · May`), `padding-top: 5px`.
-- Columna 2: título serif 19px weight 600 con underline, hover accent.
-  Lede 16px `tx-secondary` `margin-top: 4px`.
+- Columna 1: fecha mono 12px mayúsculas `tx-muted` (`2026 · MAY`).
+- Columna 2: `h3` serif 19px/1.3 weight 600, balance; el título es el
+  único enlace de la fila y usa el subrayado de prosa (40% → 100%). Lede
+  16px `tx-secondary`, pretty. Debajo, los Temas del Post como chips.
+- Hover del título (puntero fino): toda la fila se tiñe a
+  `--bg-secondary` (`:has()`, `--dur-hover`). Solo color: una fila de
+  680px no escala.
+- Se conservan los `transition:name` de fecha, título y descripción para
+  el morph hacia el artículo.
 
-Mobile: una columna.
+**Chip de Tema** (scoped en `PostCard`): enlace a la página del Tema, alto
+24px (2 celdas), padding `0 8px`, caja `1px var(--ink)`, Space Mono 11px
+mayúsculas tracking 0.08em. Hover (puntero fino) invierte (tinta / papel)
+en `--dur-hover`; press `scale(var(--press-scale))` desde el centro (no
+está anclado a nada) en `--dur-press` `--ease-out`; con reduced motion se
+atenúa en vez de escalar (tokens de §5.11).
+
+Escritos en Home conserva su h2 § y cierra con un `.link` "Ver todos los
+artículos →".
 
 ### 5.8 Contact form (`ContactForm.astro`)
 
