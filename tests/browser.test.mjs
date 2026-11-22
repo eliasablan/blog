@@ -20,9 +20,9 @@ test("mobile About pages fit the viewport and name the language switcher", async
     viewport: { width: 375, height: 900 },
   });
   try {
-    for (const [path, target] of [
-      ["/es/sobre-mi/", "EN"],
-      ["/en/about/", "ES"],
+    for (const [path, target, label] of [
+      ["/es/sobre-mi/", "en", "Switch to English"],
+      ["/en/about/", "es", "Cambiar a español"],
     ]) {
       assert.equal((await page.goto(path)).status(), 200);
       await page.evaluate(() => document.fonts.ready);
@@ -30,13 +30,11 @@ test("mobile About pages fit the viewport and name the language switcher", async
         () => document.documentElement.scrollWidth - window.innerWidth,
       );
       assert(overflow <= 1, `${path} overflows by ${overflow}px`);
-      const switcher = page.getByRole("link", {
-        name: new RegExp(`^${target}\\b`),
-      });
-      assert.equal(
-        await switcher.getAttribute("hreflang"),
-        target.toLowerCase(),
-      );
+      const switcher = page.getByRole("link", { name: label, exact: true });
+      assert.equal(await switcher.getAttribute("lang"), target);
+      assert.equal(await switcher.getAttribute("hreflang"), target);
+      assert(await switcher.locator('svg[aria-hidden="true"]').isVisible());
+      assert.equal((await switcher.textContent()).trim(), "");
       await page.addScriptTag({ path: axePath });
       const violations = await page.evaluate(async () => {
         const result = await window.axe.run({

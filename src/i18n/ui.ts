@@ -123,7 +123,7 @@ export const ui = {
     "theme.dark": "Oscuro",
     "theme.system": "Sistema",
 
-    "lang.switch": "Cambiar idioma",
+    "lang.switch": "Cambiar a español",
     "lang.notAvailable": "No traducido aún",
 
     "footer.rights": "Todos los derechos reservados.",
@@ -244,7 +244,7 @@ export const ui = {
     "theme.dark": "Dark",
     "theme.system": "System",
 
-    "lang.switch": "Switch language",
+    "lang.switch": "Switch to English",
     "lang.notAvailable": "Not translated yet",
 
     "footer.rights": "All rights reserved.",

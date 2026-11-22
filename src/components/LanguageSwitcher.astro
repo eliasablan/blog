@@ -1,4 +1,5 @@
 ---
+import IconLanguage from "@tabler/icons/outline/language.svg";
 import type { Lang } from "@/i18n/ui";
 import { useTranslations, altLangUrl } from "@/i18n/utils";
 
@@ -14,6 +15,7 @@ const { lang, altUrl, available = true } = Astro.props;
 const t = useTranslations(lang);
 const target: Lang = lang === "es" ? "en" : "es";
 const href = altUrl ?? altLangUrl(Astro.url, target);
+const label = useTranslations(target)("lang.switch");
 ---
 
 {
@@ -21,14 +23,16 @@ const href = altUrl ?? altLangUrl(Astro.url, target);
     <a
       href={href}
       class="ctl"
-      aria-label={`${target.toUpperCase()} · ${t("lang.switch")}`}
+      aria-label={label}
+      title={label}
+      lang={target}
       hreflang={target}
     >
-      {target}
+      <IconLanguage class="block size-4" aria-hidden="true" />
     </a>
   ) : (
     <span class="ctl" aria-disabled="true" title={t("lang.notAvailable")}>
-      {target}
+      <IconLanguage class="block size-4" aria-hidden="true" />
     </span>
   )
 }
