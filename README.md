@@ -22,7 +22,8 @@ domain in `wrangler.jsonc` lets Cloudflare manage its DNS record and certificate
 ## Local checks
 
 Run `pnpm format:check`, `pnpm astro check`, and `pnpm test` for formatting,
-type diagnostics, and unit tests.
+type diagnostics, and unit tests. Run `pnpm astro check` and `pnpm build`
+sequentially because both can bind the same Cloudflare inspector port.
 
 For browser checks, build the Worker and start it locally with Wrangler:
 
@@ -39,9 +40,6 @@ Chromium checks:
 curl --fail http://127.0.0.1:4518/en/ -o /dev/null
 pnpm test:browser
 ```
-
-See [Agent handoff and worktree cleanup](docs/agents/handoff.md) when resuming
-work from another coding session or retiring its branches.
 
 ```sh
 pnpm create astro@latest -- --template minimal
