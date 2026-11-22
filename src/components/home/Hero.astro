@@ -17,10 +17,10 @@ const scope = {
   label: { es: "Alcance", en: "Scope" },
   code: { es: "Código", en: "Code" },
   servers: { es: "Servidores", en: "Servers" },
+  ai: { es: "IA", en: "AI" },
   networks: { es: "Redes", en: "Networks" },
-  hosting: { es: "Hosting", en: "Hosting" },
 };
-const scopeItems = [scope.code, scope.servers, scope.networks, scope.hosting];
+const scopeItems = [scope.code, scope.ai, scope.servers, scope.networks];
 ---
 
 <section class="hero">
@@ -98,7 +98,7 @@ const scopeItems = [scope.code, scope.servers, scope.networks, scope.hosting];
   .hero {
     display: grid;
     grid-template-columns: minmax(0, 1fr) min(100%, 640px) minmax(0, 1fr);
-    padding-bottom: 120px;
+    padding-bottom: 60px;
   }
   .stair {
     --u: clamp(14px, 2vw, 24px);
