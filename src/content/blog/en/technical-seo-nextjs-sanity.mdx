@@ -1,0 +1,39 @@
+---
+title: "Setting up technical SEO for a small business site with Next.js and Sanity"
+description: "What I built to make a manufacturer's website easy to find: editable SEO fields, a sitemap, performance fixes and analytics."
+translationKey: "technical-seo-nextjs-sanity"
+publishedAt: 2026-11-04
+tags: ["web-development"]
+---
+
+I built a sales website for a Venezuelan steel tank manufacturer, [tanquesaustralianos.net](https://tanquesaustralianos.net). The company has since used it to sell multiple products. I didn't measure the old site's search traffic before I started, so I can't give you before-and-after numbers. This post covers only what I built.
+
+## SEO fields the client can edit
+
+I didn't want search titles hardcoded in React, because the people who know what customers search for aren't me. So there is a reusable `seo` object in Sanity with a title, a description and a social share image.
+
+The fields warn the editor when a title goes past 70 characters or a description past 160, since Google may cut them off. Each page (home, catalog, gallery, technical sheet, contact) has its own SEO object in a settings document.
+
+On the Next.js side, every page's `generateMetadata` reads that object and falls back to a sensible default title if the field is empty. The share image is declared as 1200 by 630 pixels so links look right on WhatsApp, Facebook and LinkedIn.
+
+## Sitemap and robots
+
+Both are plain Next.js route files. The sitemap lists the five public routes with the home page at the highest priority. The robots file allows everything except `/api/` and points to the sitemap.
+
+It's about 40 lines in total. For a five-page site, that's all it needs, and there's a comment in the code about where to generate entries dynamically if gallery projects ever get their own pages.
+
+## Fixing what the audit flagged
+
+After the SEO setup, I ran Unlighthouse across the whole site and fixed what it reported. That pass touched the gallery images, the hero and the home page.
+
+I also worked on the largest contentful paint of the hero: loading the first image with high fetch priority and rendering the hero statically, so it doesn't wait for hydration. Those two changes are cheap and they matter most on slow mobile connections.
+
+## Analytics
+
+I set up Umami (self-hosted analytics) and also embedded it in the Sanity Studio. It's the tool I'd use to answer the question this post can't: how much traffic and how many quote requests the site brings.
+
+## What I can't tell you
+
+I can't tell you which change helped most. I changed several things at once and had no baseline. If I did this again, I'd record the search impressions and rankings for the main keywords before touching anything.
+
+{/* NEED: any numbers you can get from Umami or Search Console now (visits, quote requests, top queries). NEED: the main keywords you targeted, if you want to list them. NEED: confirm the quote form goes by email (the repo sends email with Resend since March). */}

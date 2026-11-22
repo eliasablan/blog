@@ -1,0 +1,62 @@
+---
+title: "From CloudPanel to Dokploy: how I deploy to a VPS now"
+description: "My path through Hostinger, Dockge and CloudPanel to Dokploy with Traefik, and the compose file that runs one of my apps."
+translationKey: "cloudpanel-to-dokploy"
+publishedAt: 2026-11-04
+tags: ["self-hosting"]
+---
+
+I've gone through three ways of running apps on a VPS. This is the path, and the setup I use today.
+
+## Where I started
+
+My first server was on Hostinger. I ran containers with Dockge, a simple web interface for Docker Compose stacks, and used CloudPanel to manage Nginx as a reverse proxy in front of them.
+
+That setup works. Each app is a compose file, and Nginx sends each domain to the right port.
+
+## Where I am now
+
+I now deploy with Dokploy, which uses Traefik as its reverse proxy. I also run servers on Hetzner. Traefik discovers containers through Docker labels, so the routing lives next to the app in the same compose file instead of in a separate Nginx config.
+
+{/* NEED: your real reasons for moving from CloudPanel/Dockge to Dokploy (what annoyed you, what you wanted). Do not publish a made-up reason. */}
+
+## What the compose file looks like
+
+This is the backend service from my chat app's production compose file, trimmed:
+
+```yaml
+backend:
+  build:
+    context: .
+    dockerfile: backend/Dockerfile
+  labels:
+    - traefik.enable=true
+    - traefik.docker.network=dokploy-network
+    - traefik.http.routers.hono-chat-backend.rule=Host(`${APP_DOMAIN}`) && (PathPrefix(`/api`) || PathPrefix(`/ws`))
+    - traefik.http.routers.hono-chat-backend.entrypoints=websecure
+    - traefik.http.routers.hono-chat-backend.tls=true
+    - traefik.http.routers.hono-chat-backend.tls.certresolver=letsencrypt
+    - traefik.http.routers.hono-chat-backend.priority=100
+    - traefik.http.services.hono-chat-backend.loadbalancer.server.port=8787
+  ports:
+    - 127.0.0.1:${BACKEND_PORT:-8787}:8787
+  networks:
+    - hono-chat
+    - dokploy-network
+```
+
+A few things in there are worth knowing:
+
+- **One domain, two services.** The frontend and the backend share a domain. The backend router only matches paths that start with `/api` or `/ws`, and a higher priority makes it win over the frontend's catch-all route.
+- **Certificates are automatic.** The `letsencrypt` resolver handles HTTPS.
+- **Ports bind to localhost.** The published ports are on `127.0.0.1`, so the only public way in is through Traefik. The database admin tool is bound the same way.
+- **Two networks.** The backend joins a private network for the database and the shared Dokploy network for routing.
+- **The database waits.** Postgres has a health check, and the backend starts only once it passes.
+
+## The bugs I hit
+
+Getting this to work took several commits in one day: building images locally on the VPS instead of pulling them, setting the right platform for the server's architecture, and routing the backend paths correctly. Each fix is small, but I lost time on every one.
+
+## What I'd keep from the old setup
+
+{/* NEED: anything CloudPanel or Dockge did better. NEED: how you deploy now (git push, Dokploy webhook, manual), and whether CI/CD is involved. */}

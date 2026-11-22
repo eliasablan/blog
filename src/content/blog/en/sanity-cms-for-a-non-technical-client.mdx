@@ -1,0 +1,35 @@
+---
+title: "Using Sanity as a CMS for a client who isn't technical"
+description: "How I moved a manufacturer's product catalog from a spreadsheet into Sanity, with an editable table, PDF export and instant updates."
+translationKey: "sanity-cms-for-a-non-technical-client"
+publishedAt: 2026-11-04
+tags: ["web-development"]
+---
+
+My client sells steel water tanks. Every tank model has a diameter, number of rings, height, capacity and sheet gauge. Before I got involved, that catalog lived in a Google Sheet. For the website I moved it into Sanity, and most of the work was making it comfortable for someone who doesn't want to think about a CMS.
+
+## From spreadsheet to singleton
+
+The catalog is now one Sanity document (a singleton) holding every tank. The site reads it at build and revalidation time, and the Google Sheets dependency is gone.
+
+Other things are singletons too: the global contact details (phone, WhatsApp, email, city) and the home page content. I also moved texts that were hardcoded in the frontend into Sanity, so the client can change a headline without asking me.
+
+## An editor that feels like a spreadsheet
+
+People who maintain a catalog in a spreadsheet expect a table. So I built one inside the Studio, with drag-and-drop row ordering, inline editing and multiple selection. Adding, editing and deleting a tank is quick. I also reordered the Studio sidebar and gave sections clearer icons so the client sees the things they use first.
+
+## The PDF catalog
+
+Customers ask for a PDF of the catalog. It's generated from the same data, with colored rows and a table header, and a direct link in the Studio redirects straight to the file. There's one source of truth, so the PDF and the website can't disagree.
+
+## Updating the site when content changes
+
+I use tag-based revalidation. A Sanity webhook calls a route in the Next.js app, which checks the webhook signature and revalidates the cached data by tag. Content updates show up quickly without a full rebuild, and I set a 24-hour default expiry as a safety net.
+
+A bug I fixed along the way: the PDF wasn't refreshing when the catalog changed, because its route wasn't tied to the right tag. If you cache data, make sure every path that reads it shares the tag you revalidate.
+
+## The manual
+
+I wrote a short manual for the client and made a PDF of it. A CMS is only easy if the person knows where to click, and a one-time walkthrough beats an hour of questions later.
+
+{/* NEED: what the client said or how they use it in practice. NEED: how long the migration took. */}

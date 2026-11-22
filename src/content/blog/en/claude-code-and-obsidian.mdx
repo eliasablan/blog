@@ -1,0 +1,40 @@
+---
+title: "How I let Claude Code work inside my Obsidian vault"
+description: "My Obsidian vault has an AGENTS.md that tells coding agents how to read, write and navigate it. Here is how it's set up."
+translationKey: "claude-code-and-obsidian"
+publishedAt: 2026-11-04
+tags: ["ai", "thinking-tools"]
+---
+
+My notes live in an Obsidian vault. It's based on the LYT and ACE approach from Nick Milo and adapted to how I work, and it syncs to a server. Because it's just Markdown files, a coding agent can read and edit it like any codebase. The question was how to let it do that without making a mess.
+
+## An AGENTS.md at the root
+
+The vault's root has an `AGENTS.md`, and `CLAUDE.md` is a symlink to it, so Claude Code and other agents read the same instructions. I use the same pattern in my code repos.
+
+The file does four things.
+
+**It sets the reading order.** Before doing anything, the agent must read the vault's glossary, the folder structure, a note describing the system, how navigation works, and the list of active maps. Context comes first, so the agent doesn't guess what a word means in my vault.
+
+**It describes the layout.** There's an inbox for unclassified captures, a folder for durable knowledge, one for time-based notes, one for work and responsibilities, and one for the system itself. It also says a Map is a navigation page, not a folder.
+
+**It gives writing rules.** A few that matter most:
+
+- Never touch the app's config or the system folder unless I ask.
+- If the right destination isn't clear, put the note in the inbox.
+- Use wikilinks for internal links.
+- Preserve existing frontmatter and don't invent dates, statuses or personal data.
+- Search for an existing note before creating a new one.
+- After editing, check the destination, frontmatter, links and that the note can be found.
+
+**It explains how to rebuild a project's context.** When I name a project, the agent finds its note, reads it fully, follows its links up to the area and map, checks related notes and tasks, and tells me which notes it used and where it's unsure. That turns "what was I doing with X?" into a single question.
+
+## Why a glossary matters
+
+The vault has its own definitions for terms like Map, Dot and Effort, and it lists words to avoid. Without that, an agent will happily file everything into folders and call a note a "document". The glossary keeps it inside my system.
+
+## What I keep out
+
+The agent doesn't get the sensitive parts. Some notes are for personal finance and identity, and I only point the agent to those when a question needs them. Rule of thumb: if you wouldn't paste it into a chat, don't let an agent read it by default.
+
+{/* NEED: what you actually do with it day to day (capture, daily review, project status, search). NEED: which MCP servers or CLI tools connect Claude to the vault, if any; the AGENTS.md mentions an Obsidian CLI and headless tools on the VPS. NEED: one example of a mistake it made that made you add a rule. */}

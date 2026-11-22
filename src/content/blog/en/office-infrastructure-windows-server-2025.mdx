@@ -1,0 +1,47 @@
+---
+title: "Rebuilding a small office network on Windows Server 2025"
+description: "The decisions behind replacing an office's Windows Server 2012 domain: a new forest, separate system and data, and no rollback."
+translationKey: "office-infrastructure-windows-server-2025"
+publishedAt: 2026-11-04
+tags: ["networks"]
+---
+
+This year I took over the IT infrastructure of a manufacturing company in Venezuela. The main server was running Windows Server 2012 R2, the domain had services that no longer worked properly, and nobody could say with confidence who had access to what. I replaced it with a new server running Windows Server 2025.
+
+I'm writing down the decisions that mattered, because I recorded each one as a short ADR (architecture decision record) while I made it. That habit turned out to be the most useful thing in the whole project.
+
+## Windows Server 2025, not 2022
+
+For the new server I picked Windows Server 2025 Standard with the desktop experience. It's the current long-term servicing release, with support published until 2034. Nothing I needed (Active Directory, DNS, file shares) forced me to stay on 2022, so I took the version with the longest runway. The rule I wrote down: go back to 2022 only if a dependency or a license proves it's required.
+
+## A new forest instead of migrating the old domain
+
+This was the biggest decision. The old domain had degraded services and a pile of identities and permissions that nobody could confirm were still valid. I could have joined the new server to it and migrated everything. Instead I created a clean forest and recreated only the objects the owner approved.
+
+The cost is real: every computer has to be joined again and every folder of data has to be reviewed by hand. The benefit is that I don't inherit years of debt I can't see. I chose the slow path on purpose.
+
+## Separating system and data
+
+The server's internal disk is split into one partition for Windows and services and another for the company's data. Separate partitions make permissions, shadow copies, backups and restores simpler to reason about.
+
+I wrote down the limit too: both partitions live on the same physical disk, so this does not protect against that disk failing. That is what backups are for, and it's why the backup policy matters more than the partitioning.
+
+## Retiring the old server
+
+For a while I kept the old server powered off as a rollback. Later I decided to remove that option: take it out of the rack, out of the network, and reuse its hardware.
+
+A rollback you never test is a comfort, not a plan. Removing it means recovery now depends entirely on the new server's backups, so I treat restore testing as unfinished until I've proven each scenario, and the decision record says so explicitly. It doesn't claim a full bare-metal recovery has been tested, because it hasn't been yet.
+
+## What else is around the server
+
+- **Monitoring:** a separate small Linux machine runs Zabbix, so the network and the server are watched from outside the Windows domain.
+- **Remote access:** I reach the office over WireGuard. Nothing like RDP is exposed to the internet.
+- **Documentation:** the whole project lives in one repository with a current-status file, a backlog with closing criteria for each task, runbooks split into emergency and routine, and the ADRs. Anyone who opens it can tell what is true now, what is pending and why.
+
+I left out the details that would help an attacker: addresses, hostnames, account names and open weaknesses. The decisions and their reasons are the part worth sharing.
+
+## What I'd tell someone starting the same job
+
+Write the decision down the day you make it, including what it costs you. Six months later you won't remember why you chose a new forest, and neither will the person who inherits it.
+
+{/* NEED: roughly how many computers and people the office has, if you want to include scale. NEED: what was hardest or most surprising during the work. Do not add anything about the client's internal state. */}

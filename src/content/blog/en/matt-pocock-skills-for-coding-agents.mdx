@@ -1,0 +1,36 @@
+---
+title: "The coding-agent skills I use, from Matt Pocock's collection"
+description: "A tour of the agent skills I've installed from mattpocock/skills, what each one does, and how they shape my repos."
+translationKey: "matt-pocock-skills-for-coding-agents"
+publishedAt: 2026-11-04
+tags: ["ai", "thinking-tools"]
+---
+
+A skill is a folder with a markdown file that tells a coding agent how to do one kind of task. I've installed a set from [Matt Pocock's skills repository](https://github.com/mattpocock/skills) in my projects, including this blog. This is a tour of what's in my setup.
+
+## The ones I have installed
+
+- **grill-me.** The agent interviews you relentlessly about a plan or design until the weak spots show.
+- **grill-with-docs.** The same interview, but it writes documents as it goes: a glossary of the project's terms and ADRs for the decisions.
+- **tdd.** Test-driven development with a reference for what makes a test worth keeping: test behavior through public interfaces, not implementation.
+- **prototype.** Build throwaway code to answer one question, such as whether a state model feels right or what a screen should look like.
+- **improve-codebase-architecture.** Scans a codebase for shallow modules that could be deeper, presents them as a visual HTML report, and then grills you on the one you pick.
+- **triage.** Moves issues through a small state machine of labels and writes briefs an agent can work from.
+- **handoff.** Compacts the current conversation into a document so a fresh agent can continue.
+- **setup-matt-pocock-skills.** Configures the rest for your repository.
+
+## What the setup left in my repos
+
+The setup skill asked how I track issues and which labels I use, then wrote small config files. In this blog that means a `docs/agents` folder: issues live in GitHub Issues, triage uses a fixed set of labels, and the domain language goes in one glossary file with ADRs next to it. Every agent that opens the repo reads those files first.
+
+My intranet project has the same shape: a context file with the project's vocabulary and a folder of ADRs.
+
+## Why I like them
+
+Agents are good at doing, and bad at knowing what you meant. These skills push the thinking to the front. The grilling comes before the code. The glossary stops the agent from using three names for one concept. The ADRs stop it from reopening a decision I already made.
+
+## What I'd tell you before you try them
+
+Read the skill files before you install them. They are short, and they're instructions your agent will follow, so you should agree with them.
+
+{/* NEED: which skills you actually use most and in what order (for example grill-with-docs before a feature, tdd while building). NEED: one real example of a decision the grilling changed. NEED: confirm whether the intranet context file and ADRs came from grill-with-docs. */}

@@ -1,0 +1,58 @@
+---
+title: "Building a real-time chat with Hono, WebSockets and Postgres"
+description: "How my chat app works: typed WebSocket events, rooms in memory, messages in Postgres, and the limits I know about."
+translationKey: "hono-chat-websocket-rooms"
+publishedAt: 2026-11-04
+tags: ["web-development"]
+---
+
+[Hono Chat](https://chat.eliasablan.dev) is a small chat where every room has its own URL. Anyone with the link can join. I built it to learn how WebSockets fit together with a normal HTTP API and a database. The frontend is Next.js; the backend is Hono running on Bun, with Postgres and Drizzle.
+
+This post walks through how the backend works, and then the things it doesn't do yet.
+
+## Two kinds of traffic
+
+Rooms and users go through plain HTTP routes. Listing rooms, creating one, loading its message history: all normal requests with Zod validation.
+
+Live messages go through one WebSocket endpoint. The client sends three kinds of events (`join-room`, `leave-room`, `send-message`) and the server answers with `room-joined`, `room-left`, `message-created` or an `error`.
+
+## Typed events with Zod
+
+Every event is a Zod schema in a discriminated union on the `type` field. The server parses each incoming message before doing anything with it, and builds each outgoing message through the matching schema too.
+
+```ts
+export const clientToServerEvent = z.discriminatedUnion("type", [
+  z.object({ type: z.literal("join-room"), roomId: z.uuid() }),
+  z.object({ type: z.literal("leave-room"), roomId: z.uuid() }),
+  z.object({
+    type: z.literal("send-message"),
+    roomId: z.uuid(),
+    authorId: z.uuid(),
+    content: z.string(),
+  }),
+]);
+```
+
+A malformed message is logged and ignored. The contracts live in one folder, so the frontend and the backend agree on the shape of every event.
+
+## Rooms live in memory
+
+The server keeps a `Map` from room id to the set of open sockets. Joining adds a socket to the set. Closing or erroring removes it. When a set is empty, the room entry is deleted.
+
+Broadcasting loops over the sockets in a room, skips and removes any that are no longer open, and sends the JSON payload to the rest. The same map gives the home page its live "active connections" count for each room.
+
+## Save first, then broadcast
+
+When a client sends a message, the server inserts it into Postgres, loads the author, and only then broadcasts `message-created` to the room. Everyone sees what was actually saved, and if the insert fails the sender gets an error event instead of a message that exists only on screen.
+
+The schema is three tables: users, rooms and messages. A room remembers who created it, and only the creator can delete it.
+
+## What it doesn't do
+
+- **No real authentication.** The client sends its own `authorId` with each message, so anyone could pretend to be another user. For a demo it's fine; for anything real it isn't.
+- **One server process only.** Rooms live in one process's memory. With a second instance, people in the same room could connect to different servers and not see each other's messages. The fix is a pub/sub layer such as Redis or Postgres notifications, and I haven't built it.
+- **No reconnection logic worth the name.** {/* NEED: confirm what the frontend does when a socket drops. */}
+
+I like this project because it's small enough to read in one sitting, and every limit above is a concrete next step.
+
+{/* NEED: anything you learned or got stuck on while building it. NEED: whether the frontend uses optimistic updates. */}

@@ -1,0 +1,42 @@
+---
+title: "My zsh setup, managed with GNU Stow"
+description: "How I keep my shell, editor and tmux config in one dotfiles repo, and a lighter zsh config for Linux servers."
+translationKey: "zsh-dotfiles-with-stow"
+publishedAt: 2026-11-04
+tags: ["automation", "self-hosting"]
+---
+
+My terminal config lives in a dotfiles repository. I install it with GNU Stow, which creates symlinks from the repo into my home folder. The repo has one folder per tool: `zsh`, `nvim`, `tmux`, `ai`, and a separate `vps-zsh` for servers. A `Brewfile` lists everything I install with Homebrew.
+
+## Why Stow
+
+Stow does one job: it links files. There's no template language and no custom installer. To install a package I run Stow on its folder, and to update I pull and run it again with `--restow`, which also removes links that no longer exist. If a real file is in the way, Stow stops instead of overwriting it.
+
+## What's in my zshrc
+
+**Plugins with Zinit.** I use Zinit with turbo mode, so autosuggestions, syntax highlighting, extra completions and history search load one second after the prompt appears. The shell is usable immediately.
+
+**Faster completions.** The completion cache lives in its own folder and the dump file is compiled.
+
+**A prompt that follows the system theme.** I use Oh My Posh. A small hook runs before each prompt, reads whether macOS is in dark or light mode, and sets a variable the theme uses. When I switch the system theme, the prompt changes with the next command, with no restart.
+
+**Lazy-loaded Node.** NVM is slow to start, so `nvm`, `node`, `npm` and `npx` are tiny functions. The first time I call any of them, they remove themselves, load NVM and run the real command.
+
+**Small fixes.** I use emacs-style key bindings so Option+Delete works as expected. I also turn off flow control so Ctrl+S is free for tools that use it.
+
+## A smaller config for servers
+
+On a VPS I don't want the whole setup. The `vps-zsh` package only needs zsh itself, plus git if you want the repository segment in the prompt. It installs the same way, with a dry run first:
+
+```sh
+stow --target="$HOME" --simulate --verbose --restow vps-zsh
+stow --target="$HOME" --restow vps-zsh
+```
+
+The `--simulate --verbose` run shows what would happen without changing anything. Anything specific to one server goes in `~/.zshrc.local`, which the config loads if it exists and which never goes into the repo.
+
+## Secrets stay out
+
+API keys and tokens live in an untracked local file that my shell loads at startup. The repo only holds config I'm happy to publish.
+
+{/* NEED: your terminal and editor (Ghostty, iTerm, Neovim plugin approach?) if you want to mention them. NEED: link to the dotfiles repo if it is public. NEED: favorite aliases or tools from the Brewfile (fzf, eza, lazygit, btop...) that you actually use daily. */}
