@@ -1,17 +1,17 @@
 # Elías Ablán — personal site
 
-Personal website and portfolio that introduces Elías as a full-stack developer who builds, ships and runs web software, primarily to win clients, secondarily to land a job.
+Personal website and portfolio for Elías Ablán, a full-stack developer. Employers and clients can see his experience and projects and get in touch. Readers can explore his technical writing.
 
 ## Language
 
 ### Audiences
 
 **Client**:
-A person or business that hires Elías to build, host or maintain their software. The primary audience of the site.
+A person or business that hires Elías to build, host or maintain their software.
 _Avoid_: Customer, lead
 
 **Employer**:
-A company or recruiter evaluating Elías for a job in development, IT or AI. The secondary audience.
+A company or recruiter evaluating Elías for a job in development, IT or AI.
 _Avoid_: Recruiter, hiring manager
 
 **Reader**:
