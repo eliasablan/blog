@@ -25,6 +25,18 @@ jobs:
       - run: pnpm astro check
       - run: pnpm test
       - run: pnpm exec playwright install --with-deps --only-shell chromium
+      - name: Project covers against the Astro dev server
+        run: |
+          dev_log="$RUNNER_TEMP/blog-dev.log"
+          dev_url="http://127.0.0.1:4321"
+          pnpm dev --host 127.0.0.1 --port 4321 > "$dev_log" 2>&1 &
+          dev_pid=$!
+          trap 'kill "$dev_pid" 2>/dev/null || true' EXIT
+          if ! curl --fail --silent --show-error --retry 20 --retry-connrefused --retry-delay 1 "$dev_url/en/" -o /dev/null ||
+             ! BROWSER_TEST_URL="$dev_url" node --test --test-name-pattern='^project covers' tests/browser.test.mjs; then
+            cat "$dev_log"
+            exit 1
+          fi
       - run: pnpm build
       - name: Browser checks against the local Worker
         run: |

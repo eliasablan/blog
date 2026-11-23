@@ -12,7 +12,9 @@ export default defineConfig({
   output: "static",
   adapter: cloudflare({
     imageService: "compile",
-    prerenderEnvironment: "node",
+    // The dev image endpoint uses the Cloudflare Images binding.
+    prerenderEnvironment:
+      process.env.NODE_ENV === "development" ? "workerd" : "node",
   }),
   i18n: {
     locales: ["es", "en"],

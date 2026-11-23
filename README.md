@@ -25,6 +25,11 @@ Run `pnpm format:check`, `pnpm astro check`, and `pnpm test` for formatting,
 type diagnostics, and unit tests. Run `pnpm astro check` and `pnpm build`
 sequentially because both can bind the same Cloudflare inspector port.
 
+Before sharing a local portfolio URL, open a project from the listing on the
+same server and port you will share. Scroll to its cover and confirm it loads.
+If it fails, check the image request in the browser's Network panel and the
+server log. The page can return HTTP 200 while the image request fails.
+
 For browser checks, build the Worker and start it locally with Wrangler:
 
 ```sh

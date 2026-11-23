@@ -95,6 +95,26 @@ test("a keyboard-focused Topic keeps a visible outline under the pointer", async
   }
 });
 
+test("project covers load when opening a project from either language's listing", async () => {
+  const page = await browser.newPage({ baseURL });
+  try {
+    for (const path of ["/en/projects", "/es/proyectos"]) {
+      assert.equal((await page.goto(path)).status(), 200);
+      const project = page.locator(`main a[href^="${path}/"]`).first();
+      const href = await project.getAttribute("href");
+      await project.click();
+      await page.waitForURL(new URL(href, baseURL).href);
+
+      const cover = page.locator("article figure img").first();
+      await cover.scrollIntoViewIfNeeded();
+      await cover.evaluate((image) => image.decode());
+      assert(await cover.evaluate((image) => image.naturalWidth > 0), href);
+    }
+  } finally {
+    await page.close();
+  }
+});
+
 test("missing pages return a localized HTTP 404", async () => {
   const page = await browser.newPage({ baseURL });
   try {
