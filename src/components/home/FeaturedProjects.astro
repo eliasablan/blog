@@ -15,9 +15,7 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 
 const projects = filterByLang(await getCollection("portfolio"), lang)
-  .filter(
-    (p) => isPublished(p) && p.data.featured && p.data.kind !== "side-project",
-  )
+  .filter((p) => isPublished(p) && p.data.featured)
   .sort(sortProjectsByRecent)
   .slice(0, 5);
 ---

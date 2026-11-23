@@ -19,23 +19,22 @@ const copy = {
     en: "About — Elías Ablán",
   },
   description: {
-    es: "Desarrollador full-stack en Caracas. Cuatro años con NetSuite en Kavak, desarrollo web y la infraestructura de TI de una empresa. Remoto primero, abierto a mudarme.",
-    en: "Full-stack developer in Caracas. Four years of NetSuite at Kavak, web development and a company's IT infrastructure. Remote first, open to relocation.",
+    es: "Trayectoria de Elías Ablán, desarrollador full-stack en Caracas. Experiencia en desarrollo web, NetSuite e infraestructura de TI.",
+    en: "Work history of Elías Ablán, a full-stack developer in Caracas with experience in web development, NetSuite, and IT infrastructure.",
   },
   eyebrow: { es: "Sobre mí", en: "About" },
   place: { es: "Caracas, Venezuela", en: "Caracas, Venezuela" },
-  heading: {
-    es: "Desarrollador full-stack en Caracas.",
-    en: "Full-stack developer in Caracas.",
-  },
+  heading: { es: "Elías Ablán", en: "Elías Ablán" },
   intro: {
     es: [
-      "Soy **Elías Ablán**, desarrollador full-stack en Caracas. Me gusta construir software y entender qué lo mantiene funcionando, desde la base de datos hasta la red y el servidor.",
-      "He trabajado en aplicaciones web y tiendas en línea en Vortex Robotics y en automatizaciones de NetSuite en Kavak. Hoy trabajo por mi cuenta. Entre mis proyectos recientes están el sitio de ventas y la infraestructura de TI de una empresa.",
+      "Empecé haciendo páginas en WordPress con un amigo. De aquel primer sitio recuerdo que logramos publicarlo, aunque hoy no sabría decir cómo configuramos el dominio. Vortex Robotics fue la primera empresa que me contrató como desarrollador web.",
+      "Mi segundo empleo fue en Kavak, donde trabajé cuatro años como desarrollador de NetSuite. Fue la etapa en la que más crecí como desarrollador. Ahí aprendí a trabajar en equipo sobre software que ya se usaba en producción.",
+      "Después de Kavak empecé a trabajar por mi cuenta. Al desplegar mis propios proyectos, fui aprendiendo a administrar servidores Linux, usar Docker y configurar DNS. También me metí más en redes y en los protocolos que intervienen cuando una aplicación se comunica con otros sistemas.",
     ],
     en: [
-      "I'm **Elías Ablán**, a full-stack developer in Caracas. I like building software and understanding what keeps it running, from the database to the network and server.",
-      "I've worked on web apps and online stores at Vortex Robotics and on NetSuite automations at Kavak. I now work independently. Recent work includes building a company's sales website and managing its IT infrastructure.",
+      "I started out building WordPress sites with a friend. I remember getting our first site online, though I couldn’t tell you now how we set up the domain. Vortex Robotics was the first company to hire me as a web developer.",
+      "Kavak was my second employer. I spent four years there as a NetSuite developer, and it’s where I grew the most as a developer. I learned how a team ships changes to software people already rely on.",
+      "After Kavak, I started working independently. Deploying my own projects got me into running Linux servers, using Docker, and configuring DNS. I also went deeper into networking and the protocols applications use to communicate with other systems.",
     ],
   },
 } as const;
@@ -54,12 +53,12 @@ const experience = [
     },
   },
   {
-    title: { es: "NetSuite · SuiteScript", en: "NetSuite · SuiteScript" },
+    title: { es: "Desarrollador de NetSuite", en: "NetSuite Developer" },
     org: { es: "Kavak", en: "Kavak" },
     dates: { es: "dic. 2018–dic. 2022", en: "Dec 2018–Dec 2022" },
     body: {
-      es: "Cuatro años escribiendo SuiteScript para NetSuite.",
-      en: "Four years writing SuiteScript for NetSuite.",
+      es: "Creé y mantuve scripts User Event, Client, Scheduled, Portlet y RESTlet con SuiteScript. Integré NetSuite con otros sistemas y administré roles y permisos. También coordiné el trabajo del equipo de desarrollo y revisé código.",
+      en: "I built and maintained User Event, Client, Scheduled, Portlet, and RESTlet scripts in SuiteScript. I integrated NetSuite with other systems and managed roles and permissions. I also coordinated the development team’s work and reviewed code.",
     },
   },
   {
@@ -70,8 +69,8 @@ const experience = [
     org: null,
     dates: { es: "desde dic. 2022", en: "Since Dec 2022" },
     body: {
-      es: "Construyo sitios y aplicaciones web con Next.js, React, TypeScript y PostgreSQL. También administro la infraestructura de TI de una empresa y construí su sitio de ventas.",
-      en: "I build websites and web apps with Next.js, React, TypeScript, and PostgreSQL. I also manage a company's IT infrastructure and built its sales website.",
+      es: "Para un fabricante de tanques construí un catálogo editable y un formulario de cotización. Para esa misma empresa renové la red de oficina con Windows Server y configuré el acceso remoto por VPN. Mi proyecto más reciente es Autosfront, una demo para negocios de carros a consignación en Caracas.",
+      en: "I built an editable catalog and quote request form for a tank manufacturer. For the same company, I rebuilt the office network with Windows Server and set up remote access over a VPN. My latest project is Autosfront, a demo for used-car consignment businesses in Caracas.",
     },
   },
 ];
@@ -162,10 +161,6 @@ const labels = {
   cv: { es: "Descargar CV (PDF)", en: "Download CV (PDF)" },
 };
 
-// "**bold**" in the intro copy: split on it instead of pulling in a parser.
-const renderBold = (text: string) =>
-  text.split(/\*\*(.+?)\*\*/g).map((part, i) => ({ part, bold: i % 2 === 1 }));
-
 const boxhead =
   "boxhead mt-14 mb-6 grid-cols-[auto_1fr] font-mono text-xs font-bold tracking-[0.08em] uppercase";
 ---
@@ -189,15 +184,7 @@ const boxhead =
     </h1>
 
     <div class="flex flex-col gap-6 text-lg leading-[1.7] text-foreground">
-      {
-        copy.intro[lang].map((paragraph) => (
-          <p class="m-0">
-            {renderBold(paragraph).map(({ part, bold }) =>
-              bold ? <strong class="font-semibold">{part}</strong> : part,
-            )}
-          </p>
-        ))
-      }
+      {copy.intro[lang].map((paragraph) => <p class="m-0">{paragraph}</p>)}
     </div>
 
     <div class="rule-dots mt-12" aria-hidden="true"></div>

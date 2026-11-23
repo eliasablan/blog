@@ -120,8 +120,8 @@ export const services: Record<ServiceSlug, Service> = {
       en: ["NetSuite and SuiteScript", "Integrations", "Automations"],
     },
     proof: {
-      es: "Cuatro años escribiendo SuiteScript en Kavak.",
-      en: "Four years writing SuiteScript at Kavak.",
+      es: "Cuatro años como desarrollador de NetSuite en Kavak.",
+      en: "Four years as a NetSuite developer at Kavak.",
     },
   },
 };

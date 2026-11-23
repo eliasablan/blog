@@ -13,14 +13,6 @@ const t = useTranslations(lang);
 // Stair silhouette: width of each row in units; a dithered cap hangs off
 // its right edge.
 const stairs = [3, 3, 3, 5, 5, 7, 7, 7, 9, 9, 6, 6, 4, 4, 3, 3];
-const scope = {
-  label: { es: "Alcance", en: "Scope" },
-  code: { es: "Código", en: "Code" },
-  servers: { es: "Servidores", en: "Servers" },
-  ai: { es: "IA", en: "AI" },
-  networks: { es: "Redes", en: "Networks" },
-};
-const scopeItems = [scope.code, scope.ai, scope.servers, scope.networks];
 ---
 
 <section class="hero">
@@ -45,29 +37,18 @@ const scopeItems = [scope.code, scope.ai, scope.servers, scope.networks];
       <p class="box-fill m-0 leading-[1.25]">{t("home.hero.eyebrow")}</p>
     </div>
 
-    <h1 class="rise mt-9 mb-0 font-normal" style="--i:1">
-      <span
-        class="block font-pixel text-[clamp(26px,3.5vw,42px)] leading-[1.12] font-bold tracking-[0.01em] text-balance"
-        >{t("home.hero.head")}</span
-      >{" "}
-      <span
-        class="mt-4.5 block max-w-[34em] text-[12.5px] leading-[1.65] tracking-[0.05em] text-tx-muted"
-        >{t("home.hero.tail")}</span
-      >
+    <h1
+      class="rise mt-9 mb-0 font-pixel text-[clamp(26px,3.5vw,42px)] leading-[1.12] font-bold tracking-[0.01em] text-balance"
+      style="--i:1"
+    >
+      {t("home.hero.head")}
     </h1>
-
-    <div
-      class="rise mt-10 flex items-start justify-between gap-6 text-xs tracking-[0.06em]"
+    <p
+      class="rise mt-4.5 mb-0 max-w-[34em] text-base leading-[1.65] text-tx-secondary normal-case"
       style="--i:2"
     >
-      <ul class="m-0 list-none p-0 leading-[1.7]">
-        <li class="text-tx-muted" aria-hidden="true">
-          //{scope.label[lang]}
-        </li>
-        {scopeItems.map((s) => <li>{s[lang]}</li>)}
-      </ul>
-      <div class="checker" aria-hidden="true"></div>
-    </div>
+      {t("home.hero.tail")}
+    </p>
 
     <div class="rule-dots rise mt-7" style="--i:3" aria-hidden="true"></div>
     <p class="rise mt-2.5 mb-0 text-xs tracking-[0.06em]" style="--i:3">

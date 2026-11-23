@@ -20,16 +20,15 @@ export const ui = {
 
     "home.hero.eyebrow":
       "Desarrollador full-stack · sistemas e infraestructura",
-    "home.hero.head":
-      "Construyo tu sitio o aplicación y me encargo de mantenerlo funcionando.",
+    "home.hero.head": "Hola, soy Elías Ablán.",
     "home.hero.tail":
-      "Soy Elías Ablán, desarrollador full-stack en Caracas. También trabajo con redes y servidores.",
-    "home.hero.cta.contact": "Cuéntame sobre tu proyecto",
+      "Soy desarrollador full-stack en Caracas. Aquí comparto los proyectos web que he construido y escribo sobre las decisiones técnicas que tomé al hacerlos.",
+    "home.hero.cta.contact": "Escríbeme",
     "home.hero.cta.projects": "Ver los proyectos",
 
     "home.services.title": "Servicios",
     "home.services.intro":
-      "Una sola persona para el código, los servidores y la red.",
+      "Trabajo en desarrollo web, hosting, infraestructura y sistemas de negocio.",
     "home.services.cta": "Ver todos los servicios",
     "home.about.cta": "Más sobre mí",
     "home.featured.posts.title": "Escritos",
@@ -72,12 +71,9 @@ export const ui = {
     "services.process.title": "Cómo funciona un proyecto",
     "services.process.note":
       "Los cambios fuera del alcance acordado se cotizan aparte. Funciona mejor cuando ya sabes qué necesitas o puedes describir el problema que quieres resolver.",
-    "services.proof.title": "Trabajo real",
-    "services.proof.tanques.body":
-      "Tanques Australianos: sitio de ventas para un fabricante de tanques de acero en Guacara. La empresa lo ha usado para vender varios productos.",
-    "services.proof.tanques.cta": "Ver el caso",
     "services.closing":
-      "¿Algo que no está en la lista? Pregúntame. Todo lo que ves en esta página lo aprendí en un proyecto real.",
+      "Cuéntame qué necesita tu negocio para que podamos definir el alcance del trabajo.",
+    "services.cta.contact": "Cuéntame sobre tu proyecto",
     "services.cta.whatsapp": "O escríbeme por WhatsApp",
 
     "topics.title": "Temas",
@@ -141,15 +137,15 @@ export const ui = {
       "Elías Ablán, full-stack developer in Caracas. I build, ship and run websites, web apps and servers for businesses.",
 
     "home.hero.eyebrow": "Full-stack developer · systems & infrastructure",
-    "home.hero.head": "I build your website or app and keep it running.",
+    "home.hero.head": "Hi, I’m Elías Ablán.",
     "home.hero.tail":
-      "I'm Elías Ablán, a full-stack developer in Caracas. I also work with networks and servers.",
-    "home.hero.cta.contact": "Tell me about your project",
+      "I’m a full-stack developer based in Caracas. Here you’ll find web projects I’ve built and notes on the technical decisions behind them.",
+    "home.hero.cta.contact": "Get in touch",
     "home.hero.cta.projects": "See the projects",
 
     "home.services.title": "Services",
     "home.services.intro":
-      "One person for the code, the servers and the network.",
+      "I work on web development, hosting, infrastructure, and business systems.",
     "home.services.cta": "See all services",
     "home.about.cta": "More about me",
     "home.featured.posts.title": "Writing",
@@ -192,12 +188,9 @@ export const ui = {
     "services.process.title": "How a project works",
     "services.process.note":
       "Changes outside the agreed scope are quoted separately. This works best when you already know what you need or can describe the problem you want solved.",
-    "services.proof.title": "Real work",
-    "services.proof.tanques.body":
-      "Tanques Australianos: sales site for a steel tank manufacturer in Guacara. The company has used it to sell multiple products.",
-    "services.proof.tanques.cta": "Read the case study",
     "services.closing":
-      "Something not listed? Ask. Everything on this page I learned on a real project.",
+      "Tell me what your business needs so we can define the scope of the work.",
+    "services.cta.contact": "Tell me about your project",
     "services.cta.whatsapp": "Or message me on WhatsApp",
 
     "topics.title": "Topics",

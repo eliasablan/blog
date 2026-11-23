@@ -57,13 +57,6 @@ test("page copy exists with the same keys in both languages", () => {
   assert.deepEqual(uiKeys("es").sort(), uiKeys("en").sort());
 });
 
-test("closing line matches the spec", () => {
-  assert.equal(
-    ui.en["services.closing"],
-    "Something not listed? Ask. Everything on this page I learned on a real project.",
-  );
-});
-
 test("no prices are published", () => {
   const price =
     /[$€]|\b(usd|eur|bs\.?|bolívares|dólares|dollars)\b|\d+\s?(usd|\$|bs)/i;
@@ -83,16 +76,10 @@ test("copy follows the brand voice", () => {
   }
 });
 
-test("the Services proof section has a client case and no testimonial placeholder", () => {
-  for (const lang of langs) {
-    assert.match(
-      ui[lang]["services.proof.tanques.body"],
-      /Tanques Australianos/,
-    );
-    assert.ok(
-      !uiKeys(lang).some((key) =>
-        key.startsWith("services.proof.placeholder."),
-      ),
-    );
-  }
+test("Tanques Australianos is linked from the website service", () => {
+  assert.equal(services.websites.link?.to, "tanques");
+  assert.equal(
+    serviceSlugs.filter((slug) => services[slug].link?.to === "tanques").length,
+    1,
+  );
 });
