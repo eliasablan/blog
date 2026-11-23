@@ -1,6 +1,6 @@
 ---
 title: "Skybound PvE"
-description: "Juego arcade de combate aéreo en el navegador, adaptado desde un Battle Royale multijugador hacia una experiencia PvE de supervivencia."
+description: "Juego de vuelo para el navegador en el que enfrentas oleadas de enemigos e intentas superar tu puntuación."
 translationKey: "skybound-pve"
 kind: "side-project"
 year: 2026
@@ -10,10 +10,9 @@ coverAlt: "Gameplay de Skybound PvE con un biplano sobrevolando una isla"
 demo: "https://planes-pve.vercel.app/"
 repo: "https://github.com/eliasablan/planes-pve"
 tags: ["web-development", "ai"]
-featured: true
-draft: true
+featured: false
 ---
 
-Skybound PvE es un spin-off arcade de combate aéreo construido con Next.js, React Three Fiber, Three.js, Rapier y Zustand. El proyecto nació como una versión Battle Royale multijugador con autenticación, salas en tiempo real y persistencia en Supabase, y luego fue convertido en una experiencia PvE enfocada en oleadas, supervivencia, score local y entrada inmediata al juego.
+Partí de un prototipo multijugador y conservé los controles de vuelo y la isla en 3D para hacer un arcade de un solo jugador. Puedes empezar una partida en el navegador y ver cuánto resistes frente a sucesivas oleadas. Las mejores puntuaciones se guardan en el navegador.
 
-La versión actual prioriza un tracer bullet jugable: despegar rápido, combatir enemigos controlados por el sistema, sobrevivir oleadas cada vez más agresivas y guardar puntuaciones locales sin requerir login. El proceso quedó documentado con contexto de dominio y ADRs para mantener separadas las decisiones del PvP original y del nuevo loop arcade.
+El juego usa Three.js y React Three Fiber para la escena, Rapier para la física y Zustand para el estado. También escribí en inglés sobre [cómo usé Gemini y Codex para construirlo](/en/blog/vibecoding-skybound-pve).

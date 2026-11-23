@@ -1,18 +1,17 @@
 ---
 title: "Hono Chat"
-description: "Chat en tiempo real con salas por URL, WebSockets y PostgreSQL."
+description: "Chat en tiempo real con enlaces para compartir salas e historial de mensajes en PostgreSQL."
 translationKey: "hono-chat"
 kind: "side-project"
 year: 2026
 cover: ../../../assets/portfolio/hono-chat.jpeg
 coverAlt: "Pantalla de salas de Hono Chat"
-demo: "https://chat.eliasablan.dev/"
+demo: "https://chat.eablan.dev/"
 repo: "https://github.com/eliasablan/hono-chat"
 tags: ["web-development"]
 featured: true
-draft: true
 ---
 
-Hono Chat es una app de mensajería en tiempo real con salas basadas en URL. Cada sala mantiene conversaciones persistentes y permite entrar sin fricción desde un enlace.
+Construí Hono Chat para aprender a combinar WebSockets con una API HTTP. Cada sala tiene su propia URL. Quien recibe ese enlace puede entrar a la conversación.
 
-El frontend usa Next.js, React y TypeScript. El backend está construido con Hono, WebSockets para mensajes bidireccionales y PostgreSQL para persistencia.
+Next.js renderiza la interfaz. El backend con Hono recibe y distribuye los mensajes por WebSockets, y PostgreSQL guarda el historial para que siga disponible al recargar.

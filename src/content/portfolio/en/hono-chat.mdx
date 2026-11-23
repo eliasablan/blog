@@ -1,18 +1,17 @@
 ---
 title: "Hono Chat"
-description: "Real-time chat with URL-based rooms, WebSockets and PostgreSQL."
+description: "A real-time chat app with shareable room links and message history in PostgreSQL."
 translationKey: "hono-chat"
 kind: "side-project"
 year: 2026
 cover: ../../../assets/portfolio/hono-chat.jpeg
 coverAlt: "Hono Chat rooms screen"
-demo: "https://chat.eliasablan.dev/"
+demo: "https://chat.eablan.dev/"
 repo: "https://github.com/eliasablan/hono-chat"
 tags: ["web-development"]
 featured: true
-draft: true
 ---
 
-Hono Chat is a real-time messaging app with URL-based rooms. Each room keeps conversations persistent and lets people join with little friction from a shared link.
+I built Hono Chat to see how WebSockets fit alongside an HTTP API. Each room has its own URL. Sharing that URL gives someone a way into the conversation.
 
-The frontend uses Next.js, React and TypeScript. The backend is built with Hono, WebSockets for bidirectional messaging and PostgreSQL for persistence.
+Next.js renders the interface. A Hono backend handles live messages over WebSockets, and PostgreSQL stores the message history so it survives a reload.
